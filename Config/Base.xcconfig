@@ -1,0 +1,8 @@
+// Base build settings shared by every configuration.
+// Non-secret only. Real keys belong in Secrets.xcconfig (git-ignored).
+
+// Custom URL scheme used for OAuth fallback + Revolut checkout return.
+APP_URL_SCHEME = visapilot
+
+// Universal Link host (must match apple-app-site-association on the web domain).
+APP_UNIVERSAL_LINK_HOST = visapilot.app

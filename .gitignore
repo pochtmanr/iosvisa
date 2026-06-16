@@ -1,0 +1,18 @@
+# Secrets (real keys) — only the .example is committed
+Config/Secrets.xcconfig
+
+# XcodeGen output — regenerate with `xcodegen generate`
+*.xcodeproj
+
+# Xcode / SPM
+.DS_Store
+xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+.build/
+*.swiftpm
+build/
+
+# Fastlane / misc
+fastlane/report.xml
+fastlane/Preview.html
