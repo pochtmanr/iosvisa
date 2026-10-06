@@ -90,7 +90,11 @@ ios/
 
 ## Milestones
 
-Implemented incrementally (see `../../.claude/plans/` for the full plan):
+> **Status: FROZEN (since 2026-10-04).** The web platform has moved to the data-platform
+> direction (see `../web/docs/HISTORY.md`). Keep the app building; don't develop features
+> without explicit owner instruction.
+
+Implemented incrementally:
 
 - **M0 — Foundation** ✅ design system, Supabase client, session wiring, app
   shell, deep-link router, build + tests green.
@@ -140,6 +144,19 @@ Implemented incrementally (see `../../.claude/plans/` for the full plan):
 - **M5 — Payments** — Revolut hand-off + billing.
 - **M6 — Messaging + PDF** — Realtime thread + PDFKit viewer.
 - **M7 — Polish + ship** — states, a11y, TestFlight.
+
+### Backend work still open for M3–M7 (none of it has landed in `../web` yet)
+
+1. **Bearer-token auth.** Add `getUserFromRequest(req)` to `web/src/lib/auth/` so it accepts
+   `Authorization: Bearer <jwt>` before falling back to cookies. Wire it into
+   `api/applications/[id]/package`, `api/applications/[id]/checklist` and `api/documents/[id]`.
+2. **`POST /api/orders`** returns `{ checkout_url, order_id }`, reusing the existing
+   Revolut order logic in `web/src/lib/payments/`, with redirect
+   `visapilot://checkout/return?order={id}`.
+3. **Supabase Auth config.** Enable Apple (bundle ID `com.visapilot.app`). Add the iOS
+   Google client ID. Allow-list the redirects `visapilot://auth/callback` and the universal link.
+
+The original milestone prompts (M1–M7 + backend) are in git history (`git log -- prompts`).
 
 ## Design system
 
