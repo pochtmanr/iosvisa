@@ -1,0 +1,1674 @@
+{
+ "country": {
+  "iso2": "DE",
+  "iso3": "DEU",
+  "iso_numeric": "276",
+  "name": "Germany",
+  "region": "Europe",
+  "flag_emoji": "🇩🇪",
+  "is_passport": true,
+  "slug": "germany",
+  "coverage_tier": "deep",
+  "translations": {
+   "ru": {
+    "name": "Германия"
+   }
+  }
+ },
+ "groups": [
+  {
+   "group": "visitor",
+   "routes": [
+    {
+     "visaType": {
+      "code": "tourist",
+      "type_group": "visitor",
+      "name": "Tourist Visa",
+      "description": "Short-stay entry for tourism and leisure, including eVisas and travel authorisations.",
+      "sort_order": 100,
+      "translations": {
+       "ru": {
+        "name": "Туристическая виза",
+        "description": "Краткосрочный въезд для туризма и отдыха, включая электронные визы и разрешения на поездку."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "18629751-a3c4-46f3-ae63-7248525558b7",
+      "code": "schengen-etias",
+      "destination_iso2": null,
+      "zone_code": "schengen",
+      "name": "ETIAS travel authorisation",
+      "category": "tourist",
+      "entry_type": "eta",
+      "application_mode": "ours",
+      "default_eligibility": "eligible",
+      "max_stay_days": 90,
+      "validity_days": 1095,
+      "processing_time_days": 4,
+      "gov_fee_cents": 700,
+      "service_fee_cents": 1900,
+      "currency": "EUR",
+      "summary": "Electronic travel authorisation for visa-exempt nationals (e.g. US, UK, Canada, Japan). Valid 3 years for short stays of up to 90 days in any 180-day period. We apply on your behalf end-to-end. Fees illustrative.",
+      "more_info_url": "https://travel-europe.europa.eu/etias_en",
+      "sort_order": 0,
+      "is_active": true,
+      "created_at": "2026-05-30T20:55:23.72354+00:00",
+      "visa_type_code": "tourist",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": null,
+      "last_verified_at": null,
+      "confidence": null,
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": "assisted",
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "ours",
+      "effective_gov_fee_cents": 700,
+      "effective_service_fee_cents": 1900,
+      "effective_processing_time_days": 4,
+      "documents": []
+     },
+     "passportStatus": {
+      "passport_iso2": "UA",
+      "status": "visa_free",
+      "days_allowed": 90
+     }
+    },
+    {
+     "visaType": {
+      "code": "tourist",
+      "type_group": "visitor",
+      "name": "Tourist Visa",
+      "description": "Short-stay entry for tourism and leisure, including eVisas and travel authorisations.",
+      "sort_order": 100,
+      "translations": {
+       "ru": {
+        "name": "Туристическая виза",
+        "description": "Краткосрочный въезд для туризма и отдыха, включая электронные визы и разрешения на поездку."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+      "code": "schengen-c-tourist",
+      "destination_iso2": null,
+      "zone_code": "schengen",
+      "name": "Schengen short-stay visa (Type C) -- tourism",
+      "category": "tourist",
+      "entry_type": "consular",
+      "application_mode": "assisted",
+      "default_eligibility": "eligible",
+      "max_stay_days": 90,
+      "validity_days": 180,
+      "processing_time_days": 15,
+      "gov_fee_cents": 9000,
+      "service_fee_cents": 4900,
+      "currency": "EUR",
+      "summary": "Short-stay visa for tourism: up to 90 days within any 180-day period. We prepare your forms and documents; you attend the consulate/VFS appointment to submit biometrics. Government fee EUR 90 (illustrative).",
+      "more_info_url": "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy_en",
+      "sort_order": 1,
+      "is_active": true,
+      "created_at": "2026-05-30T20:55:23.72354+00:00",
+      "visa_type_code": "tourist",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": null,
+      "last_verified_at": null,
+      "confidence": null,
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "assisted",
+      "effective_gov_fee_cents": 9000,
+      "effective_service_fee_cents": 4900,
+      "effective_processing_time_days": 15,
+      "documents": [
+       {
+        "id": "1db2cf78-5049-4f90-8f3d-a6cd82df90f8",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Completed application form",
+        "description": "Signed Schengen short-stay visa application form.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "8c907e7d-4925-4ea8-a28b-92cafac8a094",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Passport",
+        "description": "Valid for at least 3 months beyond your intended departure, with 2 blank pages.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "96a4853e-8840-4120-8924-d4558117d689",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Passport photo",
+        "description": "One recent biometric photo meeting Schengen specifications.",
+        "required": true,
+        "sort_order": 3,
+        "kind": "photo",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "e7f0fee2-887d-474c-afcf-1e8d37206c12",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Travel medical insurance",
+        "description": "Minimum EUR 30,000 coverage, valid across the Schengen Area for the trip.",
+        "required": true,
+        "sort_order": 4,
+        "kind": "travel_insurance",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "68e271c8-6d8e-422a-be42-c04b6c30d74d",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Proof of accommodation",
+        "description": "Hotel bookings or a host invitation covering your full stay.",
+        "required": true,
+        "sort_order": 5,
+        "kind": "proof_of_accommodation",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "b9a0ea3e-57fb-49a4-a187-f662ddc99faa",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Return / onward ticket",
+        "description": "Round-trip flight reservation or proof of onward travel.",
+        "required": true,
+        "sort_order": 6,
+        "kind": "flight_reservation",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "9cd0c26c-eb1e-490d-b9e8-498810535d21",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Proof of sufficient funds",
+        "description": "Recent bank statements or equivalent showing you can cover the trip.",
+        "required": true,
+        "sort_order": 7,
+        "kind": "proof_of_funds",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "bf39beec-0305-4b04-969e-dd75ace3a619",
+        "product_id": "faaa9126-5dea-48a5-95d3-9c8a615bf24f",
+        "label": "Travel itinerary",
+        "description": "Day-by-day plan of your trip (optional but recommended).",
+        "required": false,
+        "sort_order": 8,
+        "kind": "flight_reservation",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     },
+     "passportStatus": {
+      "passport_iso2": "UA",
+      "status": "visa_free",
+      "days_allowed": 90
+     }
+    },
+    {
+     "visaType": {
+      "code": "transit",
+      "type_group": "visitor",
+      "name": "Transit Visa",
+      "description": "Pass through a country or its airports en route to another destination.",
+      "sort_order": 110,
+      "translations": {
+       "ru": {
+        "name": "Транзитная виза",
+        "description": "Проезд через страну или её аэропорты по пути в другую страну назначения."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "26b409ba-ceed-4b79-b10d-fb966a01a01f",
+      "code": "schengen-a-transit",
+      "destination_iso2": null,
+      "zone_code": "schengen",
+      "name": "Airport transit visa (Type A)",
+      "category": "transit",
+      "entry_type": "consular",
+      "application_mode": "assisted",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": 180,
+      "processing_time_days": 15,
+      "gov_fee_cents": 9000,
+      "service_fee_cents": 3900,
+      "currency": "EUR",
+      "summary": "Required by some nationalities to pass through the international transit area of a Schengen airport without entering. Whether you need one depends on your nationality. Government fee EUR 90 (illustrative).",
+      "more_info_url": "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy_en",
+      "sort_order": 3,
+      "is_active": true,
+      "created_at": "2026-05-30T20:55:23.72354+00:00",
+      "visa_type_code": "transit",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": null,
+      "last_verified_at": null,
+      "confidence": null,
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "assisted",
+      "effective_gov_fee_cents": 9000,
+      "effective_service_fee_cents": 3900,
+      "effective_processing_time_days": 15,
+      "documents": []
+     },
+     "passportStatus": {
+      "passport_iso2": "UA",
+      "status": "visa_free",
+      "days_allowed": 90
+     }
+    },
+    {
+     "visaType": {
+      "code": "business_visit",
+      "type_group": "visitor",
+      "name": "Business Visitor Visa",
+      "description": "Short trips for meetings, negotiations, conferences and trade fairs — without local employment.",
+      "sort_order": 120,
+      "translations": {
+       "ru": {
+        "name": "Деловая виза (бизнес-визит)",
+        "description": "Краткосрочные поездки для встреч, переговоров, конференций и выставок — без трудоустройства в стране."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "3f64b2b9-7929-4475-b8f2-f2c9d7a30b94",
+      "code": "schengen-c-business",
+      "destination_iso2": null,
+      "zone_code": "schengen",
+      "name": "Schengen short-stay visa (Type C) -- business",
+      "category": "business",
+      "entry_type": "consular",
+      "application_mode": "assisted",
+      "default_eligibility": "eligible",
+      "max_stay_days": 90,
+      "validity_days": 180,
+      "processing_time_days": 15,
+      "gov_fee_cents": 9000,
+      "service_fee_cents": 4900,
+      "currency": "EUR",
+      "summary": "Short-stay visa for business trips (meetings, conferences, negotiations): up to 90 days within any 180-day period. We prepare forms and documents; you submit at the consulate/VFS. Government fee EUR 90 (illustrative).",
+      "more_info_url": "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy_en",
+      "sort_order": 2,
+      "is_active": true,
+      "created_at": "2026-05-30T20:55:23.72354+00:00",
+      "visa_type_code": "business_visit",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": null,
+      "last_verified_at": null,
+      "confidence": null,
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "assisted",
+      "effective_gov_fee_cents": 9000,
+      "effective_service_fee_cents": 4900,
+      "effective_processing_time_days": 15,
+      "documents": []
+     },
+     "passportStatus": {
+      "passport_iso2": "UA",
+      "status": "visa_free",
+      "days_allowed": 90
+     }
+    },
+    {
+     "visaType": {
+      "code": "medical",
+      "type_group": "visitor",
+      "name": "Medical Treatment Visa",
+      "description": "Entry for medical treatment, surgery or rehabilitation at local clinics.",
+      "sort_order": 130,
+      "translations": {
+       "ru": {
+        "name": "Виза для лечения",
+        "description": "Въезд для лечения, операции или реабилитации в местных клиниках."
+       }
+      }
+     },
+     "tier": "unknown",
+     "passportStatus": {
+      "passport_iso2": "UA",
+      "status": "visa_free",
+      "days_allowed": 90
+     }
+    },
+    {
+     "visaType": {
+      "code": "pilgrimage",
+      "type_group": "visitor",
+      "name": "Pilgrimage Visa",
+      "description": "Entry for religious pilgrimage, such as Hajj and Umrah.",
+      "sort_order": 140,
+      "translations": {
+       "ru": {
+        "name": "Виза для паломничества",
+        "description": "Въезд для религиозного паломничества, например хаджа и умры."
+       }
+      }
+     },
+     "tier": "unknown",
+     "passportStatus": {
+      "passport_iso2": "UA",
+      "status": "visa_free",
+      "days_allowed": 90
+     }
+    }
+   ]
+  },
+  {
+   "group": "study",
+   "routes": [
+    {
+     "visaType": {
+      "code": "student",
+      "type_group": "study",
+      "name": "Student Visa",
+      "description": "Full-time study at a university, college or school, usually tied to an admission letter.",
+      "sort_order": 200,
+      "translations": {
+       "ru": {
+        "name": "Студенческая виза",
+        "description": "Очное обучение в университете, колледже или школе, обычно на основании письма о зачислении."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "878d75e0-f976-4377-a7b2-06abfdbd95dc",
+      "code": "schengen-d-study",
+      "destination_iso2": null,
+      "zone_code": "schengen",
+      "name": "National long-stay visa (Type D) -- study",
+      "category": "study",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": null,
+      "processing_time_days": null,
+      "gov_fee_cents": null,
+      "service_fee_cents": 20000,
+      "currency": "EUR",
+      "summary": "For stays over 90 days to study. Issued under national rules -- apply at the consulate of your destination country. We guide you; submission is in person. Fees and processing times vary by country.",
+      "more_info_url": "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy_en",
+      "sort_order": 4,
+      "is_active": true,
+      "created_at": "2026-05-30T20:55:23.72354+00:00",
+      "visa_type_code": "student",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": null,
+      "last_verified_at": null,
+      "confidence": null,
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": null,
+      "effective_service_fee_cents": 20000,
+      "effective_processing_time_days": null,
+      "documents": []
+     }
+    },
+    {
+     "visaType": {
+      "code": "student",
+      "type_group": "study",
+      "name": "Student Visa",
+      "description": "Full-time study at a university, college or school, usually tied to an admission letter.",
+      "sort_order": 200,
+      "translations": {
+       "ru": {
+        "name": "Студенческая виза",
+        "description": "Очное обучение в университете, колледже или школе, обычно на основании письма о зачислении."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "2222bfcd-35f4-4444-af03-6f94307ae3d4",
+      "code": "de-student",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Student Visa",
+      "category": "study",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": 730,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 20000,
+      "currency": "EUR",
+      "summary": "For admission to a German university or preparatory course (Studienkolleg). Financial proof of EUR 11,904/year (EUR 992/month, unchanged for 2026), usually via blocked account; students may work 140 full days (or 280 half days) per year. Residence permit issued for 1-2 years and extendable; graduates get an 18-month job-search permit and can reach a settlement permit 2 years after graduation in qualified work.",
+      "more_info_url": "https://www.make-it-in-germany.com/en/visa-residence/types/studying",
+      "sort_order": 200,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "student",
+      "min_income_cents": 99200,
+      "min_investment_cents": null,
+      "attributes": {
+       "rights_meta": {
+        "confidence": "high",
+        "source_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Studium/studium-node.html",
+        "verified_at": "2026-06-11"
+       },
+       "work_rights": {
+        "note": "140 full or 280 half days/year",
+        "allowed": true,
+        "hours_per_week": null
+       },
+       "study_rights": {
+        "note": "Primary purpose; enrolment required",
+        "allowed": true
+       },
+       "family_inclusion": {
+        "note": "Conditional: must prove finances & housing",
+        "spouse": true,
+        "allowed": true,
+        "children": true
+       },
+       "path_to_residency": {
+        "note": "Via post-study job permit, then PR",
+        "years": null,
+        "allowed": true,
+        "available": true,
+        "years_to_pr": null
+       }
+      },
+      "source_url": "https://www.make-it-in-germany.com/en/visa-residence/types/studying",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "medium",
+      "verified_by": null,
+      "verification_notes": "Recent: Work allowance raised from 120 to 140 full days per year as of March 2024.",
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 20000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "9c0a3a64-51e2-4289-8c7f-eacdaa06680b",
+        "product_id": "2222bfcd-35f4-4444-af03-6f94307ae3d4",
+        "label": "Valid passport",
+        "description": "Passport valid for the intended stay.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "259b9756-0771-41cb-9b4f-fe53825e18cc",
+        "product_id": "2222bfcd-35f4-4444-af03-6f94307ae3d4",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "remote_work",
+   "routes": [
+    {
+     "visaType": {
+      "code": "freelancer",
+      "type_group": "remote_work",
+      "name": "Freelancer Visa",
+      "description": "Residence for independent professionals serving local or foreign clients, like the German Freiberufler permit.",
+      "sort_order": 310,
+      "translations": {
+       "ru": {
+        "name": "Виза для фрилансера",
+        "description": "Вид на жительство для независимых специалистов, работающих с местными или иностранными клиентами, например немецкое разрешение Freiberufler."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "56b5f77e-0a06-4813-9f2e-fbc7206d245f",
+      "code": "de-freelancer",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Freelance Residence Permit (Freiberufler)",
+      "category": "work",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": 1095,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 25000,
+      "currency": "EUR",
+      "summary": "For liberal professions (Freiberufler) such as IT consultants, doctors, lawyers, artists, journalists and designers; Germany has no dedicated digital nomad visa, so this is the closest route. Applicants must show they can finance the activity and their living costs (no fixed statutory income threshold), hold any required professional licence, and applicants over 45 need adequate pension provisions. Initial permit up to 3 years (residence permit fee up to EUR 100, national visa EUR 75); settlement permit possible after 5 years.",
+      "more_info_url": "https://www.make-it-in-germany.com/en/working-in-germany/setting-up-business/visa/freelance",
+      "sort_order": 310,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "freelancer",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {
+       "rights_meta": {
+        "confidence": "high",
+        "source_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Arbeit/SelbstaendigeTaetigkeit/selbstaendigetaetigkeit-node.html",
+        "verified_at": "2026-06-11"
+       },
+       "work_rights": {
+        "note": "Freelance, permit-tied",
+        "allowed": true,
+        "hours_per_week": null
+       },
+       "study_rights": {
+        "note": "Permit is for freelance work",
+        "allowed": false
+       },
+       "family_inclusion": {
+        "note": "Spouse may work; children included",
+        "spouse": true,
+        "allowed": true,
+        "children": true
+       },
+       "path_to_residency": {
+        "note": "PR after ~5 yrs",
+        "years": 5,
+        "allowed": true,
+        "available": true,
+        "years_to_pr": 5
+       }
+      },
+      "source_url": "https://www.make-it-in-germany.com/en/working-in-germany/setting-up-business/visa/freelance",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "high",
+      "verified_by": null,
+      "verification_notes": "Recent: Nationwide digital consular application portal rolled out for German national visas (2025-2026).",
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 25000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "0ff92551-0965-49f1-a4ff-3787ff0fc8bb",
+        "product_id": "56b5f77e-0a06-4813-9f2e-fbc7206d245f",
+        "label": "Valid passport",
+        "description": "Passport valid for the intended stay.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "5a8b0235-cb36-4dbc-bc9b-92583db7f389",
+        "product_id": "56b5f77e-0a06-4813-9f2e-fbc7206d245f",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "self_employment",
+      "type_group": "remote_work",
+      "name": "Self-Employment Visa",
+      "description": "Run your own business or sole proprietorship in the country.",
+      "sort_order": 320,
+      "translations": {
+       "ru": {
+        "name": "Виза для самозанятых",
+        "description": "Ведение собственного бизнеса или индивидуального предпринимательства в стране."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "6a8835dd-a1f1-448b-aaf8-ccf4c1e3af47",
+      "code": "de-self-employment",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Self-Employment Residence Permit",
+      "category": "work",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": 1095,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 25000,
+      "currency": "EUR",
+      "summary": "For founders of a commercial business (Gewerbe) in Germany. The business must serve an economic interest or regional need, be expected to have a positive economic impact, and be financed by own capital or a loan commitment; the local chamber of commerce (IHK) assesses the business plan. No statutory minimum investment since 2012 (in practice substantial capital strengthens the case); permit up to 3 years, settlement permit possible after 3 years if the business succeeds.",
+      "more_info_url": "https://www.make-it-in-germany.com/fileadmin/1_Rebrush_2022/a_Fachkraefte/PDF-Dateien/3_Visum_u_Aufenthalt/Visagrafik_EN/Visum_Selbststaendigkeit_EN.pdf",
+      "sort_order": 320,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "self_employment",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {
+       "rights_meta": {
+        "confidence": "high",
+        "source_url": "https://www.make-it-in-germany.com/en/working-in-germany/setting-up-business/visa/self-employed",
+        "verified_at": "2026-06-11"
+       },
+       "work_rights": {
+        "note": "Self-employed, permit-tied",
+        "allowed": true,
+        "hours_per_week": null
+       },
+       "study_rights": {
+        "note": "Purpose is business, not study",
+        "allowed": false
+       },
+       "family_inclusion": {
+        "note": "Spouse may work; children may join",
+        "spouse": true,
+        "allowed": true,
+        "children": true
+       },
+       "path_to_residency": {
+        "note": "PR after 3 yrs if business succeeds",
+        "years": 3,
+        "allowed": true,
+        "available": true,
+        "years_to_pr": 3
+       }
+      },
+      "source_url": "https://www.make-it-in-germany.com/fileadmin/1_Rebrush_2022/a_Fachkraefte/PDF-Dateien/3_Visum_u_Aufenthalt/Visagrafik_EN/Visum_Selbststaendigkeit_EN.pdf",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "medium",
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 25000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "dee1188e-a283-437f-963b-4a642642b5ea",
+        "product_id": "6a8835dd-a1f1-448b-aaf8-ccf4c1e3af47",
+        "label": "Valid passport",
+        "description": "Passport valid for the intended stay.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "f7922311-ec67-47d3-ad84-8cba4eeffbc1",
+        "product_id": "6a8835dd-a1f1-448b-aaf8-ccf4c1e3af47",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "digital_nomad",
+      "type_group": "remote_work",
+      "name": "Digital Nomad Visa",
+      "description": "Live in the country while working remotely for foreign employers or clients; usually has a minimum income requirement.",
+      "sort_order": 300,
+      "translations": {
+       "ru": {
+        "name": "Виза цифрового кочевника",
+        "description": "Проживание в стране при удалённой работе на иностранных работодателей или клиентов; обычно требуется подтверждение минимального дохода."
+       }
+      }
+     },
+     "tier": "availability",
+     "availability": {
+      "destination_iso2": "DE",
+      "visa_type_code": "digital_nomad",
+      "status": "unavailable",
+      "program_name": "Digital nomad visa",
+      "summary": "Germany has never offered a dedicated digital nomad visa (as of June 2026); the freelance permit under Section 21(5) AufenthG is the closest available route and generally expects German/local clients.",
+      "more_info_url": "https://www.make-it-in-germany.com/en/working-in-germany/setting-up-business/visa/freelance",
+      "source_url": "https://www.make-it-in-germany.com/en/working-in-germany/setting-up-business/visa/freelance",
+      "last_verified_at": "2026-06-10T19:06:16.391867+00:00",
+      "confidence": "medium",
+      "translations": {
+       "ru": {
+        "summary": "Отдельной визы цифрового кочевника в Германии не было (на июнь 2026); ближайший маршрут — разрешение для фриланса по Section 21(5) AufenthG, которое в целом предполагает немецких или местных клиентов.",
+        "program_name": "Виза цифрового кочевника"
+       }
+      }
+     }
+    },
+    {
+     "visaType": {
+      "code": "startup_entrepreneur",
+      "type_group": "remote_work",
+      "name": "Startup / Entrepreneur Visa",
+      "description": "Residence for founders building an innovative company, often requiring an approved business plan or incubator.",
+      "sort_order": 330,
+      "translations": {
+       "ru": {
+        "name": "Виза для стартапа / предпринимателя",
+        "description": "Вид на жительство для основателей, создающих инновационную компанию; часто требуется одобренный бизнес-план или поддержка инкубатора."
+       }
+      }
+     },
+     "tier": "unknown"
+    }
+   ]
+  },
+  {
+   "group": "investment",
+   "routes": [
+    {
+     "visaType": {
+      "code": "golden_visa",
+      "type_group": "investment",
+      "name": "Golden Visa (Residence by Investment)",
+      "description": "Residence granted for qualifying investments in funds, business or government bonds.",
+      "sort_order": 400,
+      "translations": {
+       "ru": {
+        "name": "Золотая виза (ВНЖ за инвестиции)",
+        "description": "Вид на жительство за соответствующие требованиям инвестиции в фонды, бизнес или государственные облигации."
+       }
+      }
+     },
+     "tier": "unknown"
+    },
+    {
+     "visaType": {
+      "code": "residence_by_property",
+      "type_group": "investment",
+      "name": "Residence by Real Estate",
+      "description": "Residence tied specifically to purchasing property above a threshold value.",
+      "sort_order": 410,
+      "translations": {
+       "ru": {
+        "name": "ВНЖ за покупку недвижимости",
+        "description": "Вид на жительство, связанный с покупкой недвижимости выше пороговой стоимости."
+       }
+      }
+     },
+     "tier": "unknown"
+    }
+   ]
+  },
+  {
+   "group": "lifestyle",
+   "routes": [
+    {
+     "visaType": {
+      "code": "working_holiday",
+      "type_group": "lifestyle",
+      "name": "Working Holiday Visa",
+      "description": "Youth mobility schemes combining travel with casual work, typically for ages 18–30/35.",
+      "sort_order": 510,
+      "translations": {
+       "ru": {
+        "name": "Виза Work & Holiday (рабочий отпуск)",
+        "description": "Программы молодёжной мобильности, сочетающие путешествие с временной работой, обычно для лиц 18–30/35 лет."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "bd40029f-ea34-43ce-b562-5f63bfd5f7d0",
+      "code": "de-working-holiday",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Working Holiday Visa",
+      "category": "work",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": 365,
+      "validity_days": 365,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 20000,
+      "currency": "EUR",
+      "summary": "For young people aged 18-30 (South Koreans up to 34, Canadians up to 35 under Youth Mobility) from partner countries: Argentina, Australia, Brazil, Chile, Hong Kong, Israel, Japan, South Korea, New Zealand, Taiwan, Uruguay, plus the Canada Youth Mobility agreement. Allows a stay of up to 12 months with holiday jobs permitted to fund the trip; proof of funds and health insurance required. Australians, Israelis, Japanese and New Zealanders may apply at any German mission or after arrival in Germany.",
+      "more_info_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/06-workingholiday-606672",
+      "sort_order": 510,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "working_holiday",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {
+       "rights_meta": {
+        "confidence": "high",
+        "source_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/06-workingholiday-606672",
+        "verified_at": "2026-06-11"
+       },
+       "work_rights": {
+        "note": "Work to fund stay; ~6 mo/employer",
+        "allowed": true,
+        "hours_per_week": null
+       },
+       "study_rights": {
+        "note": "Short courses only; not main purpose",
+        "allowed": true
+       },
+       "family_inclusion": {
+        "note": "Not included",
+        "spouse": false,
+        "allowed": false,
+        "children": false
+       },
+       "path_to_residency": {
+        "note": "No PR path; 12 mo max, one-time",
+        "years": null,
+        "allowed": false,
+        "available": false,
+        "years_to_pr": null
+       }
+      },
+      "source_url": "https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/06-workingholiday-606672",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "high",
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 20000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "4d01029d-f917-4737-8c88-16066a1644ea",
+        "product_id": "bd40029f-ea34-43ce-b562-5f63bfd5f7d0",
+        "label": "Valid passport",
+        "description": "Passport of a partner-country national, valid for the stay.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "89ec5be5-b5f2-48df-bfef-3838f3177ef8",
+        "product_id": "bd40029f-ea34-43ce-b562-5f63bfd5f7d0",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "retirement",
+      "type_group": "lifestyle",
+      "name": "Retirement Visa",
+      "description": "Residence for retirees with a qualifying pension or passive income, often age-restricted.",
+      "sort_order": 500,
+      "translations": {
+       "ru": {
+        "name": "Виза для пенсионеров",
+        "description": "Вид на жительство для пенсионеров с соответствующей требованиям пенсией или пассивным доходом, часто с возрастным ограничением."
+       }
+      }
+     },
+     "tier": "unknown"
+    }
+   ]
+  },
+  {
+   "group": "family_origin",
+   "routes": [
+    {
+     "visaType": {
+      "code": "family_reunification",
+      "type_group": "family_origin",
+      "name": "Family Reunification Visa",
+      "description": "Join a family member who is a citizen or legal resident of the country.",
+      "sort_order": 600,
+      "translations": {
+       "ru": {
+        "name": "Виза для воссоединения семьи",
+        "description": "Переезд к члену семьи, являющемуся гражданином или законным резидентом страны."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "3ef0fab0-4da2-44be-a922-017d89c975bc",
+      "code": "de-family-reunification",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Family Reunification Visa",
+      "category": "family",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": null,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 25000,
+      "currency": "EUR",
+      "summary": "For spouses and minor children joining a non-EU national holding a German residence title. The sponsor must have adequate housing and secure livelihood without public benefits; spouses must generally prove basic German (A1) and both be 18+, with exemptions for spouses of EU Blue Card, skilled-worker and researcher permit holders. The permit's validity follows the sponsor's title and allows full work access; minors over 16 joining alone face additional integration requirements.",
+      "more_info_url": "https://welcome.hamburg.com/entry-and-residence/residence-permit/family-reunification-17518",
+      "sort_order": 600,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "family_reunification",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": "https://welcome.hamburg.com/entry-and-residence/residence-permit/family-reunification-17518",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "medium",
+      "verified_by": null,
+      "verification_notes": "Recent: A1 exemption applies broadly to families of skilled workers/Blue Card holders under the 2023-2024 Skilled Immigration Act reforms.",
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 25000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "9a3c3765-4231-4fef-a3c6-2b0edc8d0348",
+        "product_id": "3ef0fab0-4da2-44be-a922-017d89c975bc",
+        "label": "Valid passport",
+        "description": "Passport of the joining family member.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "ea9f017d-3343-4389-919e-9ad68a4d26c1",
+        "product_id": "3ef0fab0-4da2-44be-a922-017d89c975bc",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "spouse_partner",
+      "type_group": "family_origin",
+      "name": "Spouse / Partner Visa",
+      "description": "Residence through marriage or registered partnership with a citizen or resident.",
+      "sort_order": 610,
+      "translations": {
+       "ru": {
+        "name": "Виза для супруга / партнёра",
+        "description": "Вид на жительство на основании брака или зарегистрированного партнёрства с гражданином или резидентом."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "f69eef08-1e8c-4d28-9881-447431cbe6a0",
+      "code": "de-spouse-of-german",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Spouse of a German Citizen Visa",
+      "category": "family",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": 1095,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 25000,
+      "currency": "EUR",
+      "summary": "For spouses and registered same-sex partners of German citizens habitually resident in Germany; both partners must be 18+ and the foreign spouse generally needs basic German (A1), with hardship exceptions. Unlike reunification with foreigners, securing a livelihood is generally not a precondition. The residence permit (usually 3 years) allows full work access; settlement permit possible after 3 years and naturalisation typically after 3 years of marriage and residence.",
+      "more_info_url": "https://service.berlin.de/dienstleistung/328191/standort/121885/en/",
+      "sort_order": 610,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "spouse_partner",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {},
+      "source_url": "https://service.berlin.de/dienstleistung/328191/standort/121885/en/",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "medium",
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 25000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "a5cbf334-497e-4354-abc2-63848c97494f",
+        "product_id": "f69eef08-1e8c-4d28-9881-447431cbe6a0",
+        "label": "Valid passport",
+        "description": "Passport of the foreign spouse.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "327b8a20-0bda-4aca-ac21-557d6d50e02e",
+        "product_id": "f69eef08-1e8c-4d28-9881-447431cbe6a0",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "dependent_relative",
+      "type_group": "family_origin",
+      "name": "Dependent Relative Visa",
+      "description": "Residence for dependent children, parents or other qualifying relatives.",
+      "sort_order": 620,
+      "translations": {
+       "ru": {
+        "name": "Виза для родственника-иждивенца",
+        "description": "Вид на жительство для детей, родителей или иных родственников, находящихся на иждивении."
+       }
+      }
+     },
+     "tier": "unknown"
+    }
+   ]
+  },
+  {
+   "group": "special",
+   "routes": [
+    {
+     "visaType": {
+      "code": "talent",
+      "type_group": "special",
+      "name": "Talent / Highly Skilled Visa",
+      "description": "Routes for individuals with exceptional achievement in science, arts, sports or tech, like O-1 or Global Talent.",
+      "sort_order": 700,
+      "translations": {
+       "ru": {
+        "name": "Виза для талантов / высококвалифицированных специалистов",
+        "description": "Программы для людей с выдающимися достижениями в науке, искусстве, спорте или технологиях, например O-1 или Global Talent."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "c00614d3-6024-41c0-8d7e-01c97fa87db1",
+      "code": "de-researcher",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Researcher Visa",
+      "category": "work",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": 365,
+      "processing_time_days": null,
+      "gov_fee_cents": 7500,
+      "service_fee_cents": 25000,
+      "currency": "EUR",
+      "summary": "For researchers with a doctorate or doctoral-entry degree who conclude a hosting agreement or contract with a recognised German research institution; the institution commits to cover living and return costs unless publicly funded. Issued for at least 1 year (or project length), allows teaching alongside research and EU short-term research mobility; family members get work access and no language requirement. Settlement permit possible after 4 years (or faster via Blue Card routes).",
+      "more_info_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Arbeit/Wissenschaftler/wissenschaftler-node.html",
+      "sort_order": 700,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "talent",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {
+       "rights_meta": {
+        "confidence": "high",
+        "source_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Arbeit/Wissenschaftler/wissenschaftler-node.html",
+        "verified_at": "2026-06-11"
+       },
+       "work_rights": {
+        "note": "Full-time research, host-tied",
+        "allowed": true,
+        "hours_per_week": null
+       },
+       "study_rights": {
+        "note": "Research is the purpose",
+        "allowed": true
+       },
+       "family_inclusion": {
+        "note": "Family may join; spouse may work",
+        "spouse": true,
+        "allowed": true,
+        "children": true
+       },
+       "path_to_residency": {
+        "note": "PR after 3 yrs",
+        "years": 3,
+        "allowed": true,
+        "available": true,
+        "years_to_pr": 3
+       }
+      },
+      "source_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Arbeit/Wissenschaftler/wissenschaftler-node.html",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "medium",
+      "verified_by": null,
+      "verification_notes": null,
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 7500,
+      "effective_service_fee_cents": 25000,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "99fadfd4-39b8-40e2-be6a-e2b52891ebeb",
+        "product_id": "c00614d3-6024-41c0-8d7e-01c97fa87db1",
+        "label": "Valid passport",
+        "description": "Passport valid for the intended stay.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "21940e17-73f5-491e-b4fa-de0b4142dcef",
+        "product_id": "c00614d3-6024-41c0-8d7e-01c97fa87db1",
+        "label": "National visa application form",
+        "description": "Completed long-stay (Type D) visa application.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "permanent_residence",
+      "type_group": "special",
+      "name": "Permanent Residence",
+      "description": "Indefinite right to live in the country, usually after qualifying years of residence.",
+      "sort_order": 760,
+      "translations": {
+       "ru": {
+        "name": "Постоянный вид на жительство",
+        "description": "Бессрочное право проживания в стране, обычно после установленного срока проживания."
+       }
+      }
+     },
+     "tier": "product",
+     "product": {
+      "id": "4e03a12a-f199-466e-b3e9-05a4caf14aab",
+      "code": "de-settlement-permit",
+      "destination_iso2": "DE",
+      "zone_code": null,
+      "name": "Germany Settlement Permit (Niederlassungserlaubnis)",
+      "category": "other",
+      "entry_type": "consular",
+      "application_mode": "external",
+      "default_eligibility": "eligible",
+      "max_stay_days": null,
+      "validity_days": null,
+      "processing_time_days": null,
+      "gov_fee_cents": 11300,
+      "service_fee_cents": null,
+      "currency": "EUR",
+      "summary": "Permanent residence after holding a residence permit for 5 years with secured livelihood, 60 months of pension contributions, adequate German (B1 for the general route) and housing. Faster tracks: skilled workers after 3 years, German university graduates after 2 years, EU Blue Card holders after 27 months (21 with B1), spouses of Germans after 3 years. Fee EUR 113 (EUR 124 self-employed, EUR 147 highly qualified); the parallel EU long-term residence permit (Section 9a) adds intra-EU mobility.",
+      "more_info_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Migrathek/Niederlassen/niederlassen-node.html",
+      "sort_order": 760,
+      "is_active": true,
+      "created_at": "2026-06-10T15:16:46.989331+00:00",
+      "visa_type_code": "permanent_residence",
+      "min_income_cents": null,
+      "min_investment_cents": null,
+      "attributes": {
+       "pricing": "quote"
+      },
+      "source_url": "https://www.bamf.de/EN/Themen/MigrationAufenthalt/ZuwandererDrittstaaten/Migrathek/Niederlassen/niederlassen-node.html",
+      "last_verified_at": "2026-06-10T15:16:46.989331+00:00",
+      "confidence": "medium",
+      "verified_by": null,
+      "verification_notes": "Recent: Skilled-worker qualifying period reduced from 4 to 3 years by the 2023 Skilled Immigration Act.",
+      "assist_override": null,
+      "translations": {},
+      "gov_fee_is_indicative": false,
+      "difficulty": null,
+      "difficulty_reasons": [],
+      "eligibility": "eligible",
+      "eligibility_assessed": false,
+      "eligibility_notes": null,
+      "effective_application_mode": "external",
+      "effective_gov_fee_cents": 11300,
+      "effective_service_fee_cents": null,
+      "effective_processing_time_days": null,
+      "documents": [
+       {
+        "id": "812a5869-8ccf-4277-a264-ca1f93dad834",
+        "product_id": "4e03a12a-f199-466e-b3e9-05a4caf14aab",
+        "label": "Valid passport and current residence permit",
+        "description": "Proof of 5 years' (or reduced period) lawful residence.",
+        "required": true,
+        "sort_order": 1,
+        "kind": "passport_scan",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {}
+       },
+       {
+        "id": "1fad2a18-6972-4d44-8ac7-8bf76f7f93ec",
+        "product_id": "4e03a12a-f199-466e-b3e9-05a4caf14aab",
+        "label": "Application form",
+        "description": "Settlement permit application at the local foreigners authority.",
+        "required": true,
+        "sort_order": 2,
+        "kind": "application_form",
+        "how_to_obtain": null,
+        "issuing_authority": null,
+        "obtain_url": null,
+        "typical_cost": null,
+        "typical_time": null,
+        "translations": {
+         "ru": {
+          "label": "Анкета-заявление",
+          "description": "Заявление на разрешение на постоянное проживание в местном ведомстве по делам иностранцев."
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "visaType": {
+      "code": "religious_worker",
+      "type_group": "special",
+      "name": "Religious Worker Visa",
+      "description": "Residence for clergy, missionaries and religious order members.",
+      "sort_order": 710,
+      "translations": {
+       "ru": {
+        "name": "Виза для религиозных работников",
+        "description": "Вид на жительство для духовенства, миссионеров и членов религиозных орденов."
+       }
+      }
+     },
+     "tier": "unknown"
+    },
+    {
+     "visaType": {
+      "code": "humanitarian",
+      "type_group": "special",
+      "name": "Humanitarian / Asylum Route",
+      "description": "Protection-based statuses: asylum, refugee resettlement and humanitarian permits.",
+      "sort_order": 720,
+      "translations": {
+       "ru": {
+        "name": "Гуманитарный путь / убежище",
+        "description": "Статусы, основанные на защите: убежище, переселение беженцев и гуманитарные разрешения."
+       }
+      }
+     },
+     "tier": "unknown"
+    }
+   ]
+  }
+ ],
+ "passports": [
+  "UA"
+ ],
+ "productEligibility": {
+  "18629751-a3c4-46f3-ae63-7248525558b7": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "faaa9126-5dea-48a5-95d3-9c8a615bf24f": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "26b409ba-ceed-4b79-b10d-fb966a01a01f": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "3f64b2b9-7929-4475-b8f2-f2c9d7a30b94": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "878d75e0-f976-4377-a7b2-06abfdbd95dc": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "2222bfcd-35f4-4444-af03-6f94307ae3d4": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "56b5f77e-0a06-4813-9f2e-fbc7206d245f": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "6a8835dd-a1f1-448b-aaf8-ccf4c1e3af47": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "bd40029f-ea34-43ce-b562-5f63bfd5f7d0": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "3ef0fab0-4da2-44be-a922-017d89c975bc": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "f69eef08-1e8c-4d28-9881-447431cbe6a0": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "c00614d3-6024-41c0-8d7e-01c97fa87db1": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ],
+  "4e03a12a-f199-466e-b3e9-05a4caf14aab": [
+   {
+    "passport_iso2": "UA",
+    "eligibility": "eligible",
+    "notes": null,
+    "source": "default"
+   }
+  ]
+ },
+ "visitorStatuses": [
+  {
+   "passport_iso2": "UA",
+   "status": "visa_free",
+   "days_allowed": 90
+  }
+ ]
+}
