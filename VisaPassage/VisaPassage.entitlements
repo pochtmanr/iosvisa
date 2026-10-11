@@ -8,12 +8,12 @@
 		<string>Default</string>
 	</array>
 
-	<!-- Universal Links: OAuth callback, magic links, Revolut return.
+	<!-- Universal Links: visapassage.com pages open in the app (AASA lands in IOS-06).
 	     Host must serve /.well-known/apple-app-site-association. -->
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:visapilot.app</string>
-		<string>webcredentials:visapilot.app</string>
+		<string>applinks:visapassage.com</string>
+		<string>webcredentials:visapassage.com</string>
 	</array>
 </dict>
 </plist>

@@ -127,7 +127,7 @@ struct ResolvedVisaProduct: Identifiable, Sendable, Hashable {
 
     var id: UUID { product.id }
 
-    /// Whether VisaPilot submits this online (green) versus a manual/consular
+    /// Whether VisaPassage submits this online (green) versus a manual/consular
     /// route the traveller lodges themselves (blue).
     enum Channel { case online, manual }
     var channel: Channel { effectiveApplicationMode == .ours ? .online : .manual }

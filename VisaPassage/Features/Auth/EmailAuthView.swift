@@ -49,7 +49,7 @@ struct EmailAuthView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
-            Eyebrow(text: "VisaPilot")
+            Eyebrow(text: "VisaPassage")
             Text("Continue with email")
                 .typography(.h2)
                 .foregroundStyle(Theme.ink)

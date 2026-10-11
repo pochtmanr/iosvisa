@@ -39,7 +39,7 @@ private struct LaunchView: View {
         ZStack {
             Theme.bg.ignoresSafeArea()
             VStack(spacing: Spacing.lg) {
-                Text("VisaPilot").typography(.h2).foregroundStyle(Theme.ink)
+                Text("VisaPassage").typography(.h2).foregroundStyle(Theme.ink)
                 ProgressView().tint(Theme.inkSoft)
             }
         }

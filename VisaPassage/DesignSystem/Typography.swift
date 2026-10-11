@@ -81,7 +81,7 @@ enum Typography {
 }
 
 extension View {
-    /// Apply a VisaPilot type role (font + tracking + line spacing) in one call.
+    /// Apply a VisaPassage type role (font + tracking + line spacing) in one call.
     func typography(_ role: Typography.Role) -> some View {
         self
             .font(Typography.font(role))

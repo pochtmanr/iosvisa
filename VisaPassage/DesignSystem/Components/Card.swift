@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Signature VisaPilot card: paper surface, 1px hairline border, 24px radius,
+/// Signature VisaPassage card: paper surface, 1px hairline border, 24px radius,
 /// no rest shadow. Compose content inside.
 struct Card<Content: View>: View {
     var padding: CGFloat = Spacing.xl

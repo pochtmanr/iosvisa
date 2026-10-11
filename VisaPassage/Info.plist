@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>VisaPilot</string>
+	<string>VisaPassage</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -28,14 +28,14 @@
 	<string>$(GOOGLE_IOS_CLIENT_ID)</string>
 
 	<!-- URL schemes. First: the app's own scheme (Supabase auth-callback deep
-	     link, magic links, password reset, Revolut checkout return). Second: the
+	     link, magic links, password reset, universal-link fallbacks). Second: the
 	     reversed Google iOS client ID, which the GoogleSignIn SDK uses to receive
 	     the consent-screen redirect. -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.visapilot.app</string>
+			<string>com.visapassage.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(APP_URL_SCHEME)</string>

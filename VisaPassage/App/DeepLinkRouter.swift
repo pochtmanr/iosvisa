@@ -44,7 +44,7 @@ final class DeepLinkRouter {
             if let id { return .application(id: id) }
         }
 
-        // Discovery deep link: visapilot://visa-checker?passports=US,CA&to=DE
+        // Discovery deep link: visapassage://visa-checker?passports=US,CA&to=DE
         // (host or path may carry "visa-checker", or just the query params).
         let items = components?.queryItems ?? []
         let passportsRaw = items.first { $0.name == "passports" }?.value

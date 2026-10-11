@@ -74,7 +74,7 @@ struct AuthSheet: View {
     }
 
     private var termsFooter: some View {
-        Text("By continuing, you agree to VisaPilot's Terms of Use.")
+        Text("By continuing, you agree to VisaPassage's Terms of Use.")
             .typography(.xs)
             .foregroundStyle(Theme.textSoft)
             .multilineTextAlignment(.center)

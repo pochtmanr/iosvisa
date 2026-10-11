@@ -11,8 +11,8 @@ final class AuthM1Tests: XCTestCase {
     func testSHA256KnownVector() {
         // Cross-checked against `shasum -a 256`.
         XCTAssertEqual(
-            Nonce.sha256("visapilot-nonce"),
-            "a9757437e7e64e4c7813affb0f5d6de58dd9bf47b65924809f03e31a9ca48a3f"
+            Nonce.sha256("visapassage-nonce"),
+            "eebf7a3567873f8302f924e15473a81b335f5cc2e03d675a65639ea73d19de07"
         )
     }
 

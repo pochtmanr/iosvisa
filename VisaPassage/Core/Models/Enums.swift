@@ -55,7 +55,7 @@ enum EntryType: String, Codable, Sendable {
     }
 }
 
-/// How VisaPilot handles a product: full service, prepare-only, or guidance.
+/// How VisaPassage handles a product: full service, prepare-only, or guidance.
 enum ApplicationMode: String, Codable, Sendable {
     case ours
     case assisted

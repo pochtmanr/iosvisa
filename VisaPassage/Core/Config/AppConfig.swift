@@ -22,11 +22,11 @@ enum AppConfig {
     static var hasGoogleSignIn: Bool { !googleIOSClientID.isEmpty }
 
     /// Custom URL scheme + universal-link host for deep links.
-    static let urlScheme = "visapilot"
-    static let universalLinkHost = "visapilot.app"
+    static let urlScheme = "visapassage"
+    static let universalLinkHost = "visapassage.com"
 
     /// Base URL of the Next.js web app, used for the few server-only API routes
-    /// (PDF package, checklist, document download, order creation).
+    /// (the anonymous `/api/*` JSON routes).
     static let webBaseURL = URL(string: "https://\(universalLinkHost)")!
 
     private static func infoString(_ key: String) -> String {

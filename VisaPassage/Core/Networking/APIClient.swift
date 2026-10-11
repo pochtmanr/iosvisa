@@ -32,7 +32,7 @@ struct APIClient {
     func getJSON<T: Decodable>(_ path: String, query: [URLQueryItem] = [], as type: T.Type) async throws -> T {
         let data = try await getData(path, query: query)
         do {
-            return try JSONDecoder.visaPilot.decode(T.self, from: data)
+            return try JSONDecoder.visaPassage.decode(T.self, from: data)
         } catch {
             throw APIError.decoding(error)
         }
@@ -53,11 +53,11 @@ struct APIClient {
         var request = URLRequest(url: baseURL.appendingPathComponent(path))
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONEncoder.visaPilot.encode(body)
+        request.httpBody = try JSONEncoder.visaPassage.encode(body)
         try await attachAuth(&request)
         let data = try await send(request)
         do {
-            return try JSONDecoder.visaPilot.decode(T.self, from: data)
+            return try JSONDecoder.visaPassage.decode(T.self, from: data)
         } catch {
             throw APIError.decoding(error)
         }
@@ -83,7 +83,7 @@ struct APIClient {
 extension JSONDecoder {
     /// Shared decoder. Postgres timestamps come back as ISO-8601 with fractional
     /// seconds; we try both with and without.
-    static let visaPilot: JSONDecoder = {
+    static let visaPassage: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()
@@ -99,7 +99,7 @@ extension JSONDecoder {
 }
 
 extension JSONEncoder {
-    static let visaPilot: JSONEncoder = {
+    static let visaPassage: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         return encoder

@@ -9,7 +9,7 @@ struct AuthService {
     private var auth: AuthClient { client.auth }
 
     /// Deep-link target for magic links, OAuth, and password reset returns.
-    static let callbackURL = URL(string: "visapilot://auth/callback")!
+    static let callbackURL = URL(string: "visapassage://auth/callback")!
 
     // MARK: Native social (id-token) sign-in
 
@@ -41,7 +41,7 @@ struct AuthService {
         _ = try await auth.signIn(email: email, password: password)
     }
 
-    /// Send a one-time magic link that returns to `visapilot://auth/callback`.
+    /// Send a one-time magic link that returns to `visapassage://auth/callback`.
     func sendMagicLink(email: String) async throws {
         try await auth.signInWithOTP(
             email: email, redirectTo: Self.callbackURL, shouldCreateUser: true

@@ -40,7 +40,7 @@ struct WelcomeView: View {
 
     private var introOverlay: some View {
         VStack(spacing: Spacing.xl) {
-            Text("VisaPilot")
+            Text("VisaPassage")
                 .typography(.title)
                 .foregroundStyle(Theme.textSoft)
 
