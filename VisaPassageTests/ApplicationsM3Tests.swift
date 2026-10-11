@@ -1,5 +1,5 @@
 import XCTest
-@testable import VisaPilot
+@testable import VisaPassage
 
 /// Pure-logic M3 tests: the readiness gate + step states, the vault→
 /// `applicant_details` prefill mapping, profile completeness, status→bucket

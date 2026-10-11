@@ -2,7 +2,7 @@ import SwiftUI
 import GoogleSignIn
 
 @main
-struct VisaPilotApp: App {
+struct VisaPassageApp: App {
     @State private var auth = AuthStore()
     @State private var router = DeepLinkRouter()
     @State private var countries = CountryStore()

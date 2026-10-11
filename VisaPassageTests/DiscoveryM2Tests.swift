@@ -1,5 +1,5 @@
 import XCTest
-@testable import VisaPilot
+@testable import VisaPassage
 
 /// Pure-logic M2 tests: the multi-passport best-status reducer, the eligibility
 /// fold, the TopoJSON decoder, and the Equal Earth projection. All headless —

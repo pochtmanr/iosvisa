@@ -1,5 +1,5 @@
 import XCTest
-@testable import VisaPilot
+@testable import VisaPassage
 
 /// Pure-logic tests that don't need a running app or backend — safe to run in
 /// headless CI (the OAuth/RLS paths need a device, per the plan's verification).

@@ -1,5 +1,5 @@
 import XCTest
-@testable import VisaPilot
+@testable import VisaPassage
 
 /// Pure-logic M1 tests: nonce hashing, the onboarding gate, and date round-trips.
 /// Headless-safe — the OAuth/RLS/network paths are verified on a device per the
