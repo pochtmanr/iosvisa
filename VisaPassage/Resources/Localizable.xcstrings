@@ -1,6 +1,86 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ for %@ passport holders: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ (паспорт: %2$@): %3$@"
+          }
+        }
+      }
+    },
+    "%@ has %@ across work, study, residence and other purposes. Eligibility varies by route and nationality — see the full %@ visa guide for details.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ для работы, учёбы, проживания и других целей. Право на каждый зависит от маршрута и гражданства — подробности в полном визовом гиде: %3$@."
+          }
+        }
+      }
+    },
+    "%@ is planned": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ — планируется"
+          }
+        }
+      }
+    },
+    "%@ passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Паспорт: %@"
+          }
+        }
+      }
+    },
+    "%@ per visit under the %@ arrangement, as of our last verification. Longer stays or other purposes use a dedicated visa route.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ за поездку в режиме «%2$@» — по данным нашей последней проверки. Для более долгого пребывания или других целей используется отдельный визовый маршрут."
+          }
+        }
+      }
+    },
+    "%@ planned": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ — планируется"
+          }
+        }
+      }
+    },
+    "%@ visa requirements": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: визовые требования"
+          }
+        }
+      }
+    },
+    "%@ → %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ → %2$@"
+          }
+        }
+      }
+    },
     "%lld days": {
       "localizations": {
         "en": {
@@ -53,12 +133,260 @@
         }
       }
     },
+    "%lld documents in our checklist for this route.": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld document in our checklist for this route."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld documents in our checklist for this route."
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld документ в нашем перечне для этого маршрута."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld документа в нашем перечне для этого маршрута."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld документов в нашем перечне для этого маршрута."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld документа в нашем перечне для этого маршрута."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld routes": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld route"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld routes"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld маршрут"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld маршрута"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld маршрутов"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld маршрута"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld verified routes": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld verified route"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld verified routes"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенный маршрут"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенных маршрута"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенных маршрутов"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенного маршрута"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld verified routes across visit, study, work, investment, family and more.": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld verified route across visit, study, work, investment, family and more."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld verified routes across visit, study, work, investment, family and more."
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенный маршрут по визитам, учёбе, работе, инвестициям, семье и другим целям."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенных маршрута по визитам, учёбе, работе, инвестициям, семье и другим целям."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенных маршрутов по визитам, учёбе, работе, инвестициям, семье и другим целям."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld проверенного маршрута по визитам, учёбе, работе, инвестициям, семье и другим целям."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "+%lld more in the full guide": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ещё %lld — в полном гиде"
+          }
+        }
+      }
+    },
     "14 Nov": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "14 нояб."
+          }
+        }
+      }
+    },
+    "90/180-day rule": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Правило 90/180"
+          }
+        }
+      }
+    },
+    "A biometric passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Биометрический паспорт"
+          }
+        }
+      }
+    },
+    "A travel authorisation is planned for this zone. It is not required today, and our data holds no confirmed start date.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для этой зоны планируется электронное разрешение на въезд. Сейчас оно не требуется, а подтверждённой даты запуска в наших данных нет."
           }
         }
       }
@@ -83,6 +411,16 @@
         }
       }
     },
+    "Add a passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить паспорт"
+          }
+        }
+      }
+    },
     "Add a passport to begin": {
       "localizations": {
         "ru": {
@@ -103,6 +441,16 @@
         }
       }
     },
+    "Add up to two. The first one is your primary passport.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Можно добавить два. Первый — ваш основной паспорт."
+          }
+        }
+      }
+    },
     "Africa": {
       "localizations": {
         "ru": {
@@ -113,12 +461,42 @@
         }
       }
     },
+    "All": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все"
+          }
+        }
+      }
+    },
+    "All countries": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все страны"
+          }
+        }
+      }
+    },
     "Americas": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Америка"
+          }
+        }
+      }
+    },
+    "Answers for the border check": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ответы на пограничном контроле"
           }
         }
       }
@@ -153,12 +531,42 @@
         }
       }
     },
+    "Apply at a consulate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подача в консульстве"
+          }
+        }
+      }
+    },
+    "Apply online": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подача онлайн"
+          }
+        }
+      }
+    },
     "Appointment": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Запись на приём"
+          }
+        }
+      }
+    },
+    "Arranged before travel through the embassy, consulate or its visa centre. Book an appointment and bring the documents below.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оформляется до поездки через посольство, консульство или визовый центр. Запишитесь на приём и возьмите документы из списка ниже."
           }
         }
       }
@@ -173,12 +581,62 @@
         }
       }
     },
+    "at the border.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "к границе."
+          }
+        }
+      }
+    },
+    "Available": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступно"
+          }
+        }
+      }
+    },
     "Bank statements": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Выписки из банка"
+          }
+        }
+      }
+    },
+    "Before you go": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перед поездкой"
+          }
+        }
+      }
+    },
+    "Beyond short stays": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не только короткие поездки"
+          }
+        }
+      }
+    },
+    "Biometric passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Биометрический паспорт"
           }
         }
       }
@@ -213,12 +671,32 @@
         }
       }
     },
+    "Can citizens of %@ work or study in %@?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Могут ли граждане страны %1$@ работать или учиться в стране %2$@?"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Отмена"
+          }
+        }
+      }
+    },
+    "Change passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сменить паспорт"
           }
         }
       }
@@ -233,6 +711,16 @@
         }
       }
     },
+    "Check your connection and try again.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте подключение и попробуйте ещё раз."
+          }
+        }
+      }
+    },
     "Check your email to confirm your account, then sign in.": {
       "localizations": {
         "ru": {
@@ -243,12 +731,42 @@
         }
       }
     },
+    "Checking entry requirements": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяем условия въезда"
+          }
+        }
+      }
+    },
     "Choose passport": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Выберите паспорт"
+          }
+        }
+      }
+    },
+    "Citizens of %@ can typically obtain a visa on arrival in %@ for stays of %@. Conditions apply — review the official requirements before travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Граждане страны %1$@ обычно могут получить визу по прибытии в страну %2$@ на срок %3$@. Действуют условия — перед поездкой ознакомьтесь с официальными требованиями."
+          }
+        }
+      }
+    },
+    "Citizens of %@ can typically obtain a visa on arrival in %@. Conditions apply — review the official requirements before travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Граждане страны %1$@ обычно могут получить визу по прибытии в страну %2$@. Действуют условия — перед поездкой ознакомьтесь с официальными требованиями."
           }
         }
       }
@@ -293,6 +811,16 @@
         }
       }
     },
+    "Common questions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Частые вопросы"
+          }
+        }
+      }
+    },
     "Compare what each of your passports needs for any destination: visa-free days, visa type, fees and processing time.": {
       "localizations": {
         "ru": {
@@ -319,6 +847,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Продолжить"
+          }
+        }
+      }
+    },
+    "Continue with Apple": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить с Apple"
           }
         }
       }
@@ -353,6 +891,36 @@
         }
       }
     },
+    "Couldn't delete your account. Check your connection and try again.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось удалить аккаунт. Проверьте подключение и попробуйте ещё раз."
+          }
+        }
+      }
+    },
+    "Couldn't load countries": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить страны"
+          }
+        }
+      }
+    },
+    "Couldn't load destinations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить направления"
+          }
+        }
+      }
+    },
     "Couldn't load routes for this destination.": {
       "localizations": {
         "ru": {
@@ -363,12 +931,42 @@
         }
       }
     },
+    "Couldn't load rule changes.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить изменения правил."
+          }
+        }
+      }
+    },
     "Couldn't load the map. Pull to retry.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось загрузить карту. Потяните вниз, чтобы повторить."
+          }
+        }
+      }
+    },
+    "Couldn't load the ranking. Pull to refresh later.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить рейтинг. Потяните вниз, чтобы повторить."
+          }
+        }
+      }
+    },
+    "Couldn't load this page. Check your connection and try again.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить страницу. Проверьте подключение и попробуйте ещё раз."
           }
         }
       }
@@ -393,12 +991,122 @@
         }
       }
     },
+    "Data correction": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исправление данных"
+          }
+        }
+      }
+    },
+    "Delete account": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить аккаунт"
+          }
+        }
+      }
+    },
+    "Delete your account": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удаление аккаунта"
+          }
+        }
+      }
+    },
+    "Destination": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Направление"
+          }
+        }
+      }
+    },
+    "Do citizens of %@ need a visa to visit %@?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нужна ли гражданам страны %1$@ виза для поездки в страну %2$@?"
+          }
+        }
+      }
+    },
+    "Document checklist": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Список документов"
+          }
+        }
+      }
+    },
+    "Document checklist (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Список документов (%lld)"
+          }
+        }
+      }
+    },
+    "Documents": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документы"
+          }
+        }
+      }
+    },
+    "Documents for the %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документы: %@"
+          }
+        }
+      }
+    },
     "Done": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Готово"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменить"
+          }
+        }
+      }
+    },
+    "Edit passports": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменить паспорта"
           }
         }
       }
@@ -443,6 +1151,16 @@
         }
       }
     },
+    "Entry to %@ is currently not permitted for citizens of %@, as of our last verification.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Въезд в страну %1$@ для граждан страны %2$@ сейчас не разрешён — по данным нашей последней проверки."
+          }
+        }
+      }
+    },
     "ETA": {
       "localizations": {
         "ru": {
@@ -453,12 +1171,52 @@
         }
       }
     },
+    "eTA": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "eTA"
+          }
+        }
+      }
+    },
+    "eTA required": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется eTA"
+          }
+        }
+      }
+    },
     "Europe": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Европа"
+          }
+        }
+      }
+    },
+    "Every way into %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все способы попасть в страну %@"
+          }
+        }
+      }
+    },
+    "Every way into %@.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все способы попасть в страну %@."
           }
         }
       }
@@ -503,12 +1261,42 @@
         }
       }
     },
+    "Family & Origin": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Семья и происхождение"
+          }
+        }
+      }
+    },
+    "Family can join": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Семья может приехать"
+          }
+        }
+      }
+    },
     "Fee": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Сбор"
+          }
+        }
+      }
+    },
+    "Fee change": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменение сбора"
           }
         }
       }
@@ -543,12 +1331,42 @@
         }
       }
     },
+    "for citizens of %@.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "для граждан страны %@."
+          }
+        }
+      }
+    },
     "Forgot password?": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Забыли пароль?"
+          }
+        }
+      }
+    },
+    "From our visa matrix · not yet re-checked against an official source": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Из нашей визовой матрицы · ещё не перепроверено по официальному источнику"
+          }
+        }
+      }
+    },
+    "General Schengen entry conditions: officers may ask about the purpose of your trip, where you will stay and how you will cover your costs.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Общие условия въезда в Шенгенскую зону: пограничники могут спросить о цели поездки, месте проживания и о том, как вы покроете расходы."
           }
         }
       }
@@ -593,6 +1411,16 @@
         }
       }
     },
+    "Government fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Госпошлина"
+          }
+        }
+      }
+    },
     "Guidance only — eligibility is indicative. Official authority decisions always prevail.": {
       "localizations": {
         "ru": {
@@ -613,12 +1441,112 @@
         }
       }
     },
+    "High confidence": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Высокая достоверность"
+          }
+        }
+      }
+    },
     "Home": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Главная"
+          }
+        }
+      }
+    },
+    "How current is this": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Насколько это актуально"
+          }
+        }
+      }
+    },
+    "How do citizens of %@ apply for the %@ eTA?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как гражданам страны %1$@ оформить eTA: %2$@?"
+          }
+        }
+      }
+    },
+    "How do citizens of %@ apply for the %@ eVisa?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как гражданам страны %1$@ оформить eVisa: %2$@?"
+          }
+        }
+      }
+    },
+    "How do citizens of %@ apply for the %@ visa?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как гражданам страны %1$@ оформить визу: %2$@?"
+          }
+        }
+      }
+    },
+    "How long can citizens of %@ stay in %@?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как долго граждане страны %1$@ могут находиться в стране %2$@?"
+          }
+        }
+      }
+    },
+    "How to apply": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как подать"
+          }
+        }
+      }
+    },
+    "How to get it": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как получить"
+          }
+        }
+      }
+    },
+    "How to get this document": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как получить этот документ"
+          }
+        }
+      }
+    },
+    "How we verify": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Как мы проверяем"
           }
         }
       }
@@ -643,12 +1571,42 @@
         }
       }
     },
+    "If applicable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "При необходимости"
+          }
+        }
+      }
+    },
     "If that address has an account, a reset link is on its way.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Если с этим адресом связан аккаунт, мы отправили на него ссылку для сброса пароля."
+          }
+        }
+      }
+    },
+    "in any 180 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в любые 180 дней"
+          }
+        }
+      }
+    },
+    "in any 180-day period": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в любые 180 дней"
           }
         }
       }
@@ -663,12 +1621,52 @@
         }
       }
     },
+    "Indicative — varies by nationality": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ориентировочно — зависит от гражданства"
+          }
+        }
+      }
+    },
     "Invalid email or password.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Неверный email или пароль."
+          }
+        }
+      }
+    },
+    "Invest & Capital": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Инвестиции и капитал"
+          }
+        }
+      }
+    },
+    "Issued at the border when you arrive. Conditions apply — review the official requirements before travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выдаётся на границе по прибытии. Действуют условия — перед поездкой ознакомьтесь с официальными требованиями."
+          }
+        }
+      }
+    },
+    "Issued by": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кем выдаётся"
           }
         }
       }
@@ -683,12 +1681,52 @@
         }
       }
     },
+    "Keep your documents, appointment and decision dates in one place, with reminders before each deadline.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документы, запись на приём и даты решения — в одном месте, с напоминаниями перед каждым сроком."
+          }
+        }
+      }
+    },
     "Language": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Язык"
+          }
+        }
+      }
+    },
+    "Last verified %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последняя проверка %@"
+          }
+        }
+      }
+    },
+    "Latest rule changes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последние изменения правил"
+          }
+        }
+      }
+    },
+    "List": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Список"
           }
         }
       }
@@ -703,12 +1741,42 @@
         }
       }
     },
+    "Long-stay routes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Долгосрочные маршруты"
+          }
+        }
+      }
+    },
+    "Low confidence": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Низкая достоверность"
+          }
+        }
+      }
+    },
     "Magic link": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Ссылка для входа"
+          }
+        }
+      }
+    },
+    "Make primary": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделать основным"
           }
         }
       }
@@ -753,12 +1821,72 @@
         }
       }
     },
+    "Medium confidence": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средняя достоверность"
+          }
+        }
+      }
+    },
+    "Min. income / month": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мин. доход / мес."
+          }
+        }
+      }
+    },
+    "Min. investment": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мин. инвестиции"
+          }
+        }
+      }
+    },
     "Missing": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Нет"
+            "value": "Не хватает"
+          }
+        }
+      }
+    },
+    "Mobility": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мобильность"
+          }
+        }
+      }
+    },
+    "Mobility = visa-free + visa on arrival. Typical eligibility, not a promise of admission.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мобильность = без визы + виза по прибытии. Типичные условия, не обещание допуска."
+          }
+        }
+      }
+    },
+    "My passports": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мои паспорта"
           }
         }
       }
@@ -793,12 +1921,32 @@
         }
       }
     },
+    "New policy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новые правила"
+          }
+        }
+      }
+    },
     "No admission": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Въезд запрещён"
+          }
+        }
+      }
+    },
+    "No application": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без заявления"
           }
         }
       }
@@ -813,12 +1961,102 @@
         }
       }
     },
+    "No destinations match this filter.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет направлений с таким статусом."
+          }
+        }
+      }
+    },
+    "No destinations match your search.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По вашему запросу направлений нет."
+          }
+        }
+      }
+    },
+    "No document checklist for this visa in our data yet.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перечня документов для этой визы в наших данных пока нет."
+          }
+        }
+      }
+    },
+    "No guide for this document in our data yet.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гида по этому документу в наших данных пока нет."
+          }
+        }
+      }
+    },
+    "No official source on file yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Официальный источник пока не указан"
+          }
+        }
+      }
+    },
+    "No published changes yet. New entries appear here as our team verifies them.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока нет опубликованных изменений. Новые записи появятся здесь по мере проверки нашей командой."
+          }
+        }
+      }
+    },
+    "No short-stay data yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Данных о краткосрочном доступе пока нет"
+          }
+        }
+      }
+    },
     "No specific visa products are listed yet for this destination. The baseline regime above applies.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Для этой страны пока нет отдельных виз. Действует базовый режим, указанный выше."
+          }
+        }
+      }
+    },
+    "No stay limit in our data": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Срок пребывания в наших данных не указан"
+          }
+        }
+      }
+    },
+    "No verified routes yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока нет проверенных маршрутов"
           }
         }
       }
@@ -833,6 +2071,86 @@
         }
       }
     },
+    "No visa for a short stay": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для короткой поездки виза не нужна"
+          }
+        }
+      }
+    },
+    "No visa to apply for. Show your passport at the border.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подавать на визу не нужно. Предъявите паспорт на границе."
+          }
+        }
+      }
+    },
+    "No visa — but citizens of %@ typically need an electronic travel authorisation (eTA) for %@, applied for online before travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Виза не нужна — но гражданам страны %1$@ для поездки в страну %2$@ обычно требуется электронное разрешение на въезд (eTA), которое оформляют онлайн до поездки."
+          }
+        }
+      }
+    },
+    "No visa — but citizens of %@ typically need an electronic travel authorisation (eTA) for %@, applied for online before travel; stays of %@ are typically allowed.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Виза не нужна — но гражданам страны %1$@ для поездки в страну %2$@ обычно требуется электронное разрешение на въезд (eTA), которое оформляют онлайн до поездки; обычно разрешено пребывание %3$@."
+          }
+        }
+      }
+    },
+    "No — citizens of %@ can typically visit %@ visa-free for stays of %@. Longer stays or other purposes (work, study, residence) use a dedicated visa route.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет — гражданам страны %1$@ для поездки в страну %2$@ обычно не нужна виза: пребывание %3$@. Для более долгого пребывания или других целей (работа, учёба, проживание) используется отдельный визовый маршрут."
+          }
+        }
+      }
+    },
+    "No — citizens of %@ can typically visit %@ visa-free. Longer stays or other purposes (work, study, residence) use a dedicated visa route.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет — гражданам страны %1$@ для поездки в страну %2$@ обычно не нужна виза. Для более долгого пребывания или других целей (работа, учёба, проживание) используется отдельный визовый маршрут."
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет"
+          }
+        }
+      }
+    },
+    "None listed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не указаны"
+          }
+        }
+      }
+    },
     "Not eligible": {
       "localizations": {
         "ru": {
@@ -843,12 +2161,62 @@
         }
       }
     },
+    "Not in our data": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет в наших данных"
+          }
+        }
+      }
+    },
+    "Not needed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не требуется"
+          }
+        }
+      }
+    },
+    "Not now": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не сейчас"
+          }
+        }
+      }
+    },
+    "Not offered: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не предусмотрено: %@"
+          }
+        }
+      }
+    },
     "Not set": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Не указано"
+          }
+        }
+      }
+    },
+    "Not yet researched: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ещё не исследовано: %@"
           }
         }
       }
@@ -873,12 +2241,156 @@
         }
       }
     },
+    "of %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "из %lld"
+          }
+        }
+      }
+    },
+    "of %lld destinations": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "of %lld destination"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "of %lld destinations"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld направления"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld направлений"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld направлений"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld направления"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "of %lld passports": {
+      "localizations": {
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld паспорта"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld паспортов"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld паспортов"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "из %lld паспорта"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "of %lld passport"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "of %lld passports"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Official": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Служебные"
+          }
+        }
+      }
+    },
+    "Official information": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Официальная информация"
+          }
+        }
+      }
+    },
+    "Official page": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Официальная страница"
+          }
+        }
+      }
+    },
+    "On arrival": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По прибытии"
           }
         }
       }
@@ -903,6 +2415,16 @@
         }
       }
     },
+    "Opens the official application site": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откроет официальный сайт для подачи"
+          }
+        }
+      }
+    },
     "Other": {
       "localizations": {
         "ru": {
@@ -913,12 +2435,62 @@
         }
       }
     },
+    "Other short-stay visas": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Другие краткосрочные визы"
+          }
+        }
+      }
+    },
+    "Other ways into %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Другие способы попасть в страну %@"
+          }
+        }
+      }
+    },
+    "Our record for this corridor notes visa-free entry with a biometric (chip) passport.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В нашей записи по этому маршруту указан безвизовый въезд по биометрическому паспорту (с чипом)."
+          }
+        }
+      }
+    },
     "Page %lld of %lld": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Страница %1$lld из %2$lld"
+          }
+        }
+      }
+    },
+    "Passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Паспорт"
+          }
+        }
+      }
+    },
+    "passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "паспорт"
           }
         }
       }
@@ -953,12 +2525,42 @@
         }
       }
     },
+    "Path to residency": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Путь к ВНЖ"
+          }
+        }
+      }
+    },
+    "per visit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "за поездку"
+          }
+        }
+      }
+    },
     "Pick a destination and visa, and we'll set up its document checklist for you to work through at your own pace.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Выберите страну и визу — мы подготовим список документов, по которому вы пойдёте в своём темпе."
+          }
+        }
+      }
+    },
+    "Pick a destination, then tick documents off as you collect them.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите направление и отмечайте документы по мере сбора."
           }
         }
       }
@@ -973,12 +2575,52 @@
         }
       }
     },
+    "Pick your passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите свой паспорт"
+          }
+        }
+      }
+    },
+    "Pick your passport to see the routes into this country.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите паспорт, чтобы увидеть маршруты в эту страну."
+          }
+        }
+      }
+    },
+    "Popular routes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Популярные маршруты"
+          }
+        }
+      }
+    },
     "Preferences": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Предпочтения"
+          }
+        }
+      }
+    },
+    "Primary": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Основной"
           }
         }
       }
@@ -1003,12 +2645,164 @@
         }
       }
     },
+    "Processing typically takes %lld days.": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Processing typically takes %lld day."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Processing typically takes %lld days."
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Рассмотрение обычно занимает %lld день."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Рассмотрение обычно занимает %lld дня."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Рассмотрение обычно занимает %lld дней."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Рассмотрение обычно занимает %lld дня."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Questions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вопросы"
+          }
+        }
+      }
+    },
+    "Rank": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Место"
+          }
+        }
+      }
+    },
+    "Rank #%lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Место №%lld"
+          }
+        }
+      }
+    },
+    "Ranked #%lld by visa-free access": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Место №%lld по безвизовому доступу"
+          }
+        }
+      }
+    },
+    "Rate VisaPassage": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оценить VisaPassage"
+          }
+        }
+      }
+    },
     "Ready": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Готово"
+          }
+        }
+      }
+    },
+    "Relaxed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смягчение"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убрать"
+          }
+        }
+      }
+    },
+    "Required": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обязательно"
+          }
+        }
+      }
+    },
+    "Requirements can vary by nationality and change over time — last verified %@.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требования могут зависеть от гражданства и меняться со временем — последняя проверка %@."
+          }
+        }
+      }
+    },
+    "Requirements can vary by nationality and change over time.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требования могут зависеть от гражданства и меняться со временем."
           }
         }
       }
@@ -1023,12 +2817,114 @@
         }
       }
     },
+    "Residency after %lld years": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Residency after %lld year"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Residency after %lld years"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "ПМЖ через %lld год"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "ПМЖ через %lld года"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "ПМЖ через %lld лет"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "ПМЖ через %lld года"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Retire & Lifestyle": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пенсия и образ жизни"
+          }
+        }
+      }
+    },
+    "Route research for this country is in progress.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исследование маршрутов для этой страны продолжается."
+          }
+        }
+      }
+    },
+    "Rule change": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменение правил"
+          }
+        }
+      }
+    },
     "Russian passport": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Паспорт России"
+          }
+        }
+      }
+    },
+    "Saved on this device. Sign in to keep them in sync with the website.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранены на этом устройстве. Войдите, чтобы синхронизировать их с сайтом."
+          }
+        }
+      }
+    },
+    "Schengen area": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зона Шенген"
           }
         }
       }
@@ -1063,12 +2959,114 @@
         }
       }
     },
+    "Second": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Второй"
+          }
+        }
+      }
+    },
+    "See all": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смотреть все"
+          }
+        }
+      }
+    },
+    "See all %lld documents": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "See %lld document"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "See all %lld documents"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Открыть %lld документ"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Открыть все %lld документа"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Открыть все %lld документов"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Открыть все %lld документа"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "See details": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подробнее"
+          }
+        }
+      }
+    },
     "See every route, side by side.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Все маршруты рядом."
+          }
+        }
+      }
+    },
+    "See its rank, where you can go visa-free, and what each trip needs.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Узнайте его место в рейтинге, куда можно без визы и что нужно для каждой поездки."
+          }
+        }
+      }
+    },
+    "See where you can go": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Куда можно поехать"
           }
         }
       }
@@ -1113,6 +3111,16 @@
         }
       }
     },
+    "Service fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сервисный сбор"
+          }
+        }
+      }
+    },
     "Settings": {
       "localizations": {
         "ru": {
@@ -1123,12 +3131,52 @@
         }
       }
     },
+    "Share": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поделиться"
+          }
+        }
+      }
+    },
+    "Share VisaPassage": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рассказать о VisaPassage"
+          }
+        }
+      }
+    },
+    "Short-stay answer": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ответ для краткосрочной поездки"
+          }
+        }
+      }
+    },
     "Show sign-in options": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Показать способы входа"
+          }
+        }
+      }
+    },
+    "Show your passport at the border": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предъявите паспорт на границе"
           }
         }
       }
@@ -1173,12 +3221,52 @@
         }
       }
     },
+    "Source: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источник: %@"
+          }
+        }
+      }
+    },
+    "Sources": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Источники"
+          }
+        }
+      }
+    },
+    "Special Categories": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Особые категории"
+          }
+        }
+      }
+    },
+    "Spread the word": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расскажите друзьям"
+          }
+        }
+      }
+    },
     "Start tracking": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Начать"
+            "value": "Начать отслеживание"
           }
         }
       }
@@ -1189,6 +3277,56 @@
           "stringUnit": {
             "state": "translated",
             "value": "Учёба"
+          }
+        }
+      }
+    },
+    "Study & Training": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Учёба и стажировки"
+          }
+        }
+      }
+    },
+    "Study, work, family and more": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Учёба, работа, семья и другое"
+          }
+        }
+      }
+    },
+    "Submitted online on the official site before you travel. Check the official requirements for your nationality before you pay.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заявление подают онлайн на официальном сайте до поездки. Перед оплатой проверьте официальные требования для вашего гражданства."
+          }
+        }
+      }
+    },
+    "Suggested": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рекомендуемые"
+          }
+        }
+      }
+    },
+    "Synced with your account on visapassage.com.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Синхронизируются с вашим аккаунтом на visapassage.com."
           }
         }
       }
@@ -1213,12 +3351,72 @@
         }
       }
     },
+    "The full destination guide — all purposes, fees and documents.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полный гид по стране — все цели поездки, сборы и документы."
+          }
+        }
+      }
+    },
+    "The government fee is %@.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Госпошлина — %@."
+          }
+        }
+      }
+    },
     "the paperwork": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "без бумажной волокиты"
+          }
+        }
+      }
+    },
+    "This guide is available in English only for now.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока этот гид доступен только на английском."
+          }
+        }
+      }
+    },
+    "This permanently deletes your account, your saved passports and your visa trackers. It can't be undone.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Аккаунт, сохранённые паспорта и трекеры виз будут удалены навсегда. Отменить это нельзя."
+          }
+        }
+      }
+    },
+    "This short-stay answer comes from our visa matrix and has not yet been re-checked against an official source. Confirm with the embassy or the official portal before you travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Этот ответ для краткосрочной поездки взят из нашей визовой матрицы и ещё не перепроверен по официальному источнику. Перед поездкой уточните условия в посольстве или на официальном портале."
+          }
+        }
+      }
+    },
+    "Through the %@, submitted online or via the official channel before travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Через «%@» — заявление подают онлайн или по официальному каналу до поездки."
           }
         }
       }
@@ -1233,12 +3431,52 @@
         }
       }
     },
+    "Tightened": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ужесточение"
+          }
+        }
+      }
+    },
     "Tourism": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Туризм"
+          }
+        }
+      }
+    },
+    "Track a visa application": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отслеживать заявление на визу"
+          }
+        }
+      }
+    },
+    "Track on the web": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отслеживать на сайте"
+          }
+        }
+      }
+    },
+    "Track this visa": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отслеживать визу"
           }
         }
       }
@@ -1258,7 +3496,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Отслеживайте визы, а ваши паспорта будут совпадать с сайтом."
+            "value": "Отслеживайте визы и синхронизируйте паспорта с сайтом."
           }
         }
       }
@@ -1273,12 +3511,32 @@
         }
       }
     },
+    "Tracking is coming to the app": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Трекер скоро появится в приложении"
+          }
+        }
+      }
+    },
     "Transit": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Транзит"
+          }
+        }
+      }
+    },
+    "Travel corridor": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маршрут поездки"
           }
         }
       }
@@ -1293,12 +3551,112 @@
         }
       }
     },
+    "Try again": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторить"
+          }
+        }
+      }
+    },
+    "Two passports selected. Remove one to pick another.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрано два паспорта. Удалите один, чтобы выбрать другой."
+          }
+        }
+      }
+    },
+    "Type DELETE to confirm": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введите DELETE для подтверждения"
+          }
+        }
+      }
+    },
+    "typical": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "обычно"
+          }
+        }
+      }
+    },
+    "Typical cost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обычная стоимость"
+          }
+        }
+      }
+    },
+    "Typical eligibility from our visa data. No approval guarantees — official decisions prevail.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Типичные условия по нашим визовым данным. Никаких гарантий одобрения — решение принимают официальные органы."
+          }
+        }
+      }
+    },
+    "Typical time": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обычный срок"
+          }
+        }
+      }
+    },
     "United States · Tourism": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "США · Туризм"
+          }
+        }
+      }
+    },
+    "Until then, you can track this visa on visapassage.com with the same account.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "А пока эту визу можно отслеживать на visapassage.com под тем же аккаунтом."
+          }
+        }
+      }
+    },
+    "Unverified": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не проверено"
+          }
+        }
+      }
+    },
+    "Up to": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "До"
           }
         }
       }
@@ -1355,6 +3713,58 @@
         }
       }
     },
+    "up to %lld days": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "up to %lld day"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "up to %lld days"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "до %lld дня"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "до %lld дней"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "до %lld дней"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "до %lld дня"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Uploaded": {
       "localizations": {
         "ru": {
@@ -1371,6 +3781,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Войдите с паролем или получите одноразовую ссылку для входа на почту."
+          }
+        }
+      }
+    },
+    "Use the List view to browse destinations with VoiceOver.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтобы просматривать направления с VoiceOver, откройте «Список»."
+          }
+        }
+      }
+    },
+    "Valid for": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действует"
+          }
+        }
+      }
+    },
+    "Verified %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверено %@"
           }
         }
       }
@@ -1405,6 +3845,16 @@
         }
       }
     },
+    "visa": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "виза"
+          }
+        }
+      }
+    },
     "Visa on arrival": {
       "localizations": {
         "ru": {
@@ -1415,12 +3865,32 @@
         }
       }
     },
+    "Visa options for %@ passport holders travelling to %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Визы: %1$@ → %2$@"
+          }
+        }
+      }
+    },
     "Visa required": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Требуется виза"
+          }
+        }
+      }
+    },
+    "Visa rules for every passport, with sources.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Визовые правила для любого паспорта — со ссылками на источники."
           }
         }
       }
@@ -1445,6 +3915,50 @@
         }
       }
     },
+    "Visa-free days across the whole Schengen area count together: at most 90 days in any rolling 180-day period.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Безвизовые дни во всей Шенгенской зоне суммируются: не более 90 дней в любом скользящем периоде из 180 дней."
+          }
+        }
+      }
+    },
+    "Visa-free to %lld": {
+      "localizations": {
+        "ru": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Без визы в %lld страну"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Без визы в %lld страны"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Без визы в %lld стран"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Без визы в %lld страны"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Visa-free · 90 days": {
       "localizations": {
         "ru": {
@@ -1457,6 +3971,16 @@
     },
     "VisaPassage": {
       "shouldTranslate": false
+    },
+    "Visit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поездки"
+          }
+        }
+      }
     },
     "We couldn't create the account. Please try again.": {
       "localizations": {
@@ -1484,6 +4008,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось отправить ссылку для сброса пароля. Попробуйте ещё раз."
+          }
+        }
+      }
+    },
+    "We have no short-stay answer for this route yet. Check the official source before you travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ответа для краткосрочной поездки по этому маршруту у нас пока нет. Перед поездкой уточните условия по официальному источнику."
           }
         }
       }
@@ -1518,6 +4052,16 @@
         }
       }
     },
+    "What to have ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Что подготовить"
+          }
+        }
+      }
+    },
     "Where to next?": {
       "localizations": {
         "ru": {
@@ -1528,12 +4072,122 @@
         }
       }
     },
+    "Where to?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Куда?"
+          }
+        }
+      }
+    },
     "Work": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Работа"
+          }
+        }
+      }
+    },
+    "Work %lld h/wk": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работа %lld ч/нед"
+          }
+        }
+      }
+    },
+    "Work & Self-Employment": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работа и самозанятость"
+          }
+        }
+      }
+    },
+    "World map": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карта мира"
+          }
+        }
+      }
+    },
+    "Yes — citizens of %@ typically need a visa for %@, arranged before travel through a consular application.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Да — гражданам страны %1$@ для поездки в страну %2$@ обычно нужна виза, которую оформляют до поездки через консульство."
+          }
+        }
+      }
+    },
+    "Yes — citizens of %@ typically need an eVisa for %@, applied for online before travel.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Да — гражданам страны %1$@ для поездки в страну %2$@ обычно нужна электронная виза (eVisa), которую оформляют онлайн до поездки."
+          }
+        }
+      }
+    },
+    "Yes — citizens of %@ typically need an eVisa for %@, applied for online before travel; stays of %@ are typically allowed.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Да — гражданам страны %1$@ для поездки в страну %2$@ обычно нужна электронная виза (eVisa), которую оформляют онлайн до поездки; обычно разрешено пребывание %3$@."
+          }
+        }
+      }
+    },
+    "Your day count": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подсчёт дней"
+          }
+        }
+      }
+    },
+    "Your passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваш паспорт"
+          }
+        }
+      }
+    },
+    "Your passports": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваши паспорта"
+          }
+        }
+      }
+    },
+    "Your short-stay access": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваш краткосрочный доступ"
           }
         }
       }
