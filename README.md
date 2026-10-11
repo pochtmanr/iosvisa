@@ -66,8 +66,11 @@ If `xcode-select -p` points at Command Line Tools, prefix the command with
 
 Tests:
 - `VisaPassageTests`: pure logic, safe to run headless. It covers the cache, `pickTranslation`, the visa
-  status reducer and eligibility fold, TopoJSON decoding and projection, and the nonce.
-- `VisaPassageUITests`: guest launch on the tab shell, ru tab labels, and Explore's country catalog.
+  status reducer and eligibility fold, TopoJSON decoding and projection, the nonce, the passport preference
+  (max two, legacy-key migration), the dense passport rank, Explore's status grouping and filters, and the
+  rule-changes decoding.
+- `VisaPassageUITests`: guest launch on the tab shell, ru tab labels, Explore's country catalog, and the
+  first-launch welcome → passport picker → Home path.
 
 Opening single `.swift` files outside the generated project shows false "No such module 'Supabase'"
 errors. Always validate with `xcodebuild`.
@@ -87,10 +90,11 @@ ios/
       Localization/            # AppLocale + pickTranslation port
       Map/                     # TopoJSON decoder + Equal Earth projection
       Models/                  # Codable structs mirroring DB rows + enums
-      Networking/              # APIClient for the anonymous /api/* JSON routes
-      Repositories/            # PostgREST wrappers (countries, visas, profile)
+      Networking/              # APIClient for the web /api/* JSON routes
+      Preferences/             # PassportPreference (up to two passports, on device)
+      Repositories/            # PostgREST wrappers (countries, visas, cached requirements + ranking, profile)
       Supabase/                # shared SupabaseClient
-    Features/                  # Welcome, Home, Discovery (Explore), Destinations, MyVisas, Settings, Auth
+    Features/                  # Welcome (+ passport picker), Home, Explore, Destinations, MyVisas, Settings, Auth
     Resources/                 # Geist fonts, asset catalog, world atlas, Localizable.xcstrings
   VisaPassageTests/
   VisaPassageUITests/
@@ -106,6 +110,17 @@ the release.
 First launch shows a three-card welcome (`Features/Welcome/`) built from the landing's "How it works": the
 landing photos, and SwiftUI ports of the passport folder, passport covers, stamps and status chips. It is
 shown once (`welcome.completed` in `UserDefaults`; pass `-welcome.completed YES` to skip it in UI tests).
+The welcome ends in "Pick your passport" (also reached by Skip): up to two passports, the first primary,
+stored on the device under `passports.selected`. Home then shows that passport's rank, visa-free count and
+mobility score (the `passport_strength` view with the web's dense rank), popular routes, and the latest
+`policy_changes`. Explore colours the world map in the web hero map's palette, with status filter chips, a
+bottom panel on tap, and a list grouped by status. Requirements, the ranking and the changes go through
+`CatalogCache`, so Home and Explore work offline after the first load.
+
+Debug launch arguments for screenshots: `-welcome.debugPage 2`, `-welcome.debugPicker YES`,
+`-welcome.debugSignIn YES`, `-passports.selected UA`, `-debug.tab explore`, `-debug.exploreMode list`,
+`-debug.exploreFocus TR`.
+
 Sign-in everywhere is one floating card (`AuthSheet` via `.floatingSheet`, `DesignSystem/Components/FloatingSheet.swift`),
 inset from the screen edges with corners concentric to the display's.
 

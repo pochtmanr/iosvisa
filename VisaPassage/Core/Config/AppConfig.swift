@@ -29,6 +29,15 @@ enum AppConfig {
     /// (the anonymous `/api/*` JSON routes).
     static let webBaseURL = URL(string: "https://\(universalLinkHost)")!
 
+    /// The App Store app id (digits), set once the app is listed. The
+    /// "Rate VisaPassage" row stays hidden until then.
+    static let appStoreID: String? = nil
+
+    /// The App Store "write a review" page, when the app id is known.
+    static var appStoreReviewURL: URL? {
+        appStoreID.flatMap { URL(string: "https://apps.apple.com/app/id\($0)?action=write-review") }
+    }
+
     private static func infoString(_ key: String) -> String {
         guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String,
               !value.isEmpty else {

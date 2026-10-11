@@ -2,7 +2,8 @@ import SwiftUI
 
 /// The sign-in card, shown with `.floatingSheet` from the welcome flow, the My
 /// visas gate and Settings: the brand mark, a one-line value prop, Apple /
-/// Google, "Continue with Email" (opens the full email form) and a Terms
+/// Google, "Continue with Email" (opens the full email form) as three
+/// identical glass capsules, and a Terms
 /// footer. Closes itself once a session exists. All auth logic lives in the
 /// button components and `AuthStore`.
 struct AuthSheet: View {
@@ -16,11 +17,10 @@ struct AuthSheet: View {
 
             VStack(spacing: Spacing.md) {
                 AppleSignInButton()
-                    .frame(maxWidth: .infinity)
                 if AppConfig.hasGoogleSignIn {
                     GoogleSignInButton()
                 }
-                SecondaryButton(title: "Continue with Email", icon: "envelope") {
+                AuthProviderButton(title: "Continue with Email", systemImage: "envelope") {
                     showEmail = true
                 }
             }
@@ -82,8 +82,9 @@ struct AuthSheet: View {
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(Theme.inkMuted)
                     .frame(width: 32, height: 32)
-                    .background(Theme.surface2, in: Circle())
+                    .contentShape(Circle())
             }
+            .glassCircle()
             .buttonStyle(PressShrinkStyle())
             .accessibilityLabel(Text("Close"))
             .offset(x: Spacing.sm, y: -Spacing.sm)
@@ -93,6 +94,6 @@ struct AuthSheet: View {
 
 #Preview {
     Color.gray.ignoresSafeArea()
-        .floatingSheet(isPresented: .constant(true)) { AuthSheet() }
+        .floatingSheet(isPresented: .constant(true), surface: .glass) { AuthSheet() }
         .environment(AuthStore())
 }
