@@ -16,3 +16,6 @@ build/
 # Fastlane / misc
 fastlane/report.xml
 fastlane/Preview.html
+
+# Claude Code security-guidance lock dirs
+claude-security-guidance-*/
