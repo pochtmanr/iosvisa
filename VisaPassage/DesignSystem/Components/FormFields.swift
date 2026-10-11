@@ -65,7 +65,7 @@ struct OptionMenuRow: View {
     let label: String
     @Binding var selection: String
     let options: [String]
-    var placeholder: String = "Select"
+    var placeholder: String = String(localized: "Select")
     /// Optional display transform (defaults to capitalized).
     var displayName: (String) -> String = { $0.replacingOccurrences(of: "_", with: " ").capitalized }
 

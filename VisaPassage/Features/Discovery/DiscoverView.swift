@@ -12,8 +12,9 @@ struct DiscoverView: View {
     @State private var showPassportPicker = false
 
     enum Mode: String, CaseIterable, Identifiable {
-        case map = "Map", browse = "Browse"
-        var id: String { rawValue }
+        case map, browse
+        var id: Self { self }
+        var title: LocalizedStringKey { self == .map ? "Map" : "Browse" }
     }
 
     var body: some View {
@@ -25,7 +26,7 @@ struct DiscoverView: View {
                 content
             }
             .background(Theme.bg)
-            .navigationTitle("Discover")
+            .navigationTitle("Explore")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: String.self) { iso in
                 DestinationDetailView(destinationISO2: iso)
@@ -100,7 +101,7 @@ struct DiscoverView: View {
 
     private var modeToggle: some View {
         Picker("View", selection: $mode) {
-            ForEach(Mode.allCases) { Text($0.rawValue).tag($0) }
+            ForEach(Mode.allCases) { Text($0.title).tag($0) }
         }
         .pickerStyle(.segmented)
         .padding(.horizontal, Spacing.xl)
@@ -161,7 +162,7 @@ private struct PassportPickerSheet: View {
                 Button { selection.toggle(country.iso2) } label: {
                     HStack(spacing: Spacing.md) {
                         CountryFlag(iso2: country.iso2, size: 22)
-                        Text(country.name).typography(.body).foregroundStyle(Theme.ink)
+                        Text(country.displayName).typography(.body).foregroundStyle(Theme.ink)
                         Spacer()
                         if selection.selectedPassports.contains(country.iso2.uppercased()) {
                             Image(systemName: "checkmark")

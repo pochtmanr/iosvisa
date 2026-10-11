@@ -6,7 +6,7 @@ import SwiftUI
 struct CountryPicker: View {
     let label: String
     @Binding var iso2: String
-    var placeholder: String = "Select country"
+    var placeholder: String = String(localized: "Select country")
 
     @Environment(CountryStore.self) private var countries
     @State private var showing = false
@@ -66,7 +66,7 @@ struct CountryPicker: View {
                     } label: {
                         HStack(spacing: Spacing.md) {
                             CountryFlag(iso2: country.iso2, size: 22)
-                            Text(country.name)
+                            Text(country.displayName)
                                 .typography(.body)
                                 .foregroundStyle(Theme.ink)
                             Spacer()

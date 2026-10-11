@@ -210,7 +210,7 @@ struct WorldMapView: View {
 }
 
 private struct MapMessage: View {
-    let text: String
+    let text: LocalizedStringKey
     var body: some View {
         Text(text)
             .typography(.sm)

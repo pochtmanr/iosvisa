@@ -6,7 +6,7 @@ import SwiftUI
 struct DateField: View {
     let label: String
     @Binding var date: Date?
-    var placeholder: String = "Select date"
+    var placeholder: String = String(localized: "Select date")
     var fromYear: Int = 1900
     var toYear: Int = Calendar.current.component(.year, from: Date()) + 15
 

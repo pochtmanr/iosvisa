@@ -3,7 +3,7 @@ import SwiftUI
 /// Routes a traveller can take into one destination, resolved against their
 /// primary selected passport. Mirrors the web destination detail: a baseline
 /// regime chip, then resolved products grouped by purpose, each with eligibility,
-/// fees, processing, and an online-vs-consular indicator.
+/// fees, processing,.
 struct DestinationDetailView: View {
     let destinationISO2: String
 
@@ -37,7 +37,7 @@ struct DestinationDetailView: View {
             .padding(Spacing.xl)
         }
         .background(Theme.bg)
-        .navigationTitle(country?.name ?? destinationISO2)
+        .navigationTitle(country?.displayName ?? destinationISO2)
         .navigationBarTitleDisplayMode(.inline)
         .task(id: passport) { await load() }
     }
@@ -47,7 +47,7 @@ struct DestinationDetailView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             CountryFlag(iso2: country?.iso2 ?? destinationISO2, size: 44)
-            Text(country?.name ?? destinationISO2).typography(.h1)
+            Text(country?.displayName ?? destinationISO2).typography(.h1)
             if let baseline {
                 HStack(spacing: Spacing.sm) {
                     StatusBadge(text: baseline.status.label, hue: baseline.status.hue)
@@ -108,8 +108,7 @@ struct DestinationDetailView: View {
     }
 }
 
-/// One resolved route. Shows entry type, eligibility, fee, processing, the
-/// online/consular channel.
+/// One resolved route. Shows entry type, eligibility, fee and processing.
 private struct RouteCard: View {
     let resolved: ResolvedVisaProduct
 
@@ -132,13 +131,9 @@ private struct RouteCard: View {
                 HStack(spacing: Spacing.lg) {
                     if let fee = resolved.feeDisplay { metric("Fee", fee) }
                     if let proc = resolved.processingDisplay { metric("Processing", proc) }
-                    if let stay = product.maxStayDays { metric("Max stay", "\(stay) days") }
+                    if let stay = product.maxStayDays { metric("Max stay", String(localized: "\(stay) days")) }
                 }
 
-                HStack(spacing: Spacing.xs) {
-                    StatusDot(hue: resolved.channelHue, size: 8)
-                    Text(resolved.channelLabel).typography(.xs).foregroundStyle(Theme.textBody)
-                }
 
             }
         }
@@ -146,12 +141,12 @@ private struct RouteCard: View {
 
     private var entryLabel: String {
         switch product.entryType {
-        case .visaFree: return "Visa-free"
-        case .visaOnArrival: return "Visa on arrival"
-        case .evisa: return "eVisa"
-        case .eta: return "ETA"
-        case .consular: return "Consular visa"
-        case .unknown: return "Visa"
+        case .visaFree: return String(localized: "Visa-free")
+        case .visaOnArrival: return String(localized: "Visa on arrival")
+        case .evisa: return String(localized: "eVisa")
+        case .eta: return String(localized: "ETA")
+        case .consular: return String(localized: "Consular visa")
+        case .unknown: return String(localized: "Visa")
         }
     }
 
@@ -164,7 +159,7 @@ private struct RouteCard: View {
         }
     }
 
-    private func metric(_ label: String, _ value: String) -> some View {
+    private func metric(_ label: LocalizedStringKey, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label).typeRole(.eyebrow).textCase(.uppercase).foregroundStyle(Theme.textSoft)
             Text(value).typography(.sm).foregroundStyle(Theme.ink)

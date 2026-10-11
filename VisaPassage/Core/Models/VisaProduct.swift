@@ -85,15 +85,15 @@ enum VisaCategory: String, Codable, Sendable, CaseIterable {
     /// Section heading used when grouping routes by purpose.
     var groupLabel: String {
         switch self {
-        case .tourist: return "Tourism"
-        case .business: return "Business"
-        case .work: return "Work"
-        case .study: return "Study"
-        case .family: return "Family"
-        case .transit: return "Transit"
-        case .medical: return "Medical"
-        case .official: return "Official"
-        case .other: return "Other"
+        case .tourist: return String(localized: "Tourism")
+        case .business: return String(localized: "Business")
+        case .work: return String(localized: "Work")
+        case .study: return String(localized: "Study")
+        case .family: return String(localized: "Family")
+        case .transit: return String(localized: "Transit")
+        case .medical: return String(localized: "Medical")
+        case .official: return String(localized: "Official")
+        case .other: return String(localized: "Other")
         }
     }
 
@@ -127,15 +127,11 @@ struct ResolvedVisaProduct: Identifiable, Sendable, Hashable {
 
     var id: UUID { product.id }
 
-    /// Whether VisaPassage submits this online (green) versus a manual/consular
-    /// route the traveller lodges themselves (blue).
+    /// Marketplace-era split: `.ours` products were submitted online by the
+    /// service, everything else is lodged by the traveller. Not shown in the
+    /// UI any more (the marketplace is frozen); kept for the resolver tests.
     enum Channel { case online, manual }
     var channel: Channel { effectiveApplicationMode == .ours ? .online : .manual }
-
-    var channelLabel: String {
-        channel == .online ? "We submit online" : "Manual / consular"
-    }
-    var channelHue: StatusHue { channel == .online ? .green : .blue }
 
     /// "$210" style fee string combining gov + service fees, or nil when no fee.
     var feeDisplay: String? {
@@ -148,7 +144,7 @@ struct ResolvedVisaProduct: Identifiable, Sendable, Hashable {
 
     var processingDisplay: String? {
         guard let days = effectiveProcessingTimeDays, days > 0 else { return nil }
-        return days == 1 ? "~1 day" : "~\(days) days"
+        return String(localized: "~\(days) days")
     }
 
     /// Fold a sparse `visa_product_eligibility` override onto a base product.

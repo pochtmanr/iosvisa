@@ -31,14 +31,14 @@ struct AppleSignInButton: View {
                 let idToken = String(data: tokenData, encoding: .utf8),
                 let nonce = rawNonce
             else {
-                auth.errorMessage = "Apple sign-in returned no token. Please try again."
+                auth.errorMessage = String(localized: "Apple sign-in returned no token. Please try again.")
                 return
             }
             Task { _ = await auth.signInWithApple(idToken: idToken, nonce: nonce) }
         case .failure(let error):
             // Silent on user cancellation.
             if (error as? ASAuthorizationError)?.code == .canceled { return }
-            auth.errorMessage = "Apple sign-in failed. Please try again."
+            auth.errorMessage = String(localized: "Apple sign-in failed. Please try again.")
         }
     }
 }

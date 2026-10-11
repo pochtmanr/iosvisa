@@ -19,7 +19,7 @@ struct AuthSheet: View {
                 .frame(width: 36, height: 5)
                 .padding(.top, Spacing.sm)
 
-            Text("Check where your passport can take you, then apply for eVisas and ETAs in one place.")
+            Text("Check where your passport can take you, then track the documents for your visa.")
                 .typography(.body)
                 .foregroundStyle(Theme.textBody)
                 .multilineTextAlignment(.center)

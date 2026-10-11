@@ -18,12 +18,12 @@ enum VisaStatus: String, Codable, CaseIterable, Sendable {
     /// Human label used in chips and legends.
     var label: String {
         switch self {
-        case .visaFree: return "Visa-free"
-        case .visaOnArrival: return "Visa on arrival"
-        case .evisa: return "eVisa"
-        case .visaRequired: return "Visa required"
-        case .noAdmission: return "No admission"
-        case .unknown: return "No data"
+        case .visaFree: return String(localized: "Visa-free")
+        case .visaOnArrival: return String(localized: "Visa on arrival")
+        case .evisa: return String(localized: "eVisa")
+        case .visaRequired: return String(localized: "Visa required")
+        case .noAdmission: return String(localized: "No admission")
+        case .unknown: return String(localized: "No data")
         }
     }
 
@@ -83,10 +83,10 @@ enum VisaEligibility: String, Codable, Sendable {
 
     var label: String {
         switch self {
-        case .eligible: return "Eligible"
-        case .conditional: return "May be eligible"
-        case .notEligible: return "Not eligible"
-        case .unknown: return "Requires review"
+        case .eligible: return String(localized: "Eligible")
+        case .conditional: return String(localized: "May be eligible")
+        case .notEligible: return String(localized: "Not eligible")
+        case .unknown: return String(localized: "Requires review")
         }
     }
 }

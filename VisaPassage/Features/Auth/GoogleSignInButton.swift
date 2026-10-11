@@ -5,7 +5,7 @@ import GoogleSignIn
 /// flow, then hands the returned id-token (+ access token) to Supabase. Only
 /// shown when `AppConfig.hasGoogleSignIn` is true (a client ID is configured).
 struct GoogleSignInButton: View {
-    var title: String = "Continue with Google"
+    var title: String = String(localized: "Continue with Google")
     @Environment(AuthStore.self) private var auth
 
     var body: some View {
@@ -34,7 +34,7 @@ struct GoogleSignInButton: View {
 
     private func startSignIn() {
         guard let presenter = Self.topViewController() else {
-            auth.errorMessage = "Couldn't present Google sign-in."
+            auth.errorMessage = String(localized: "Couldn't present Google sign-in.")
             return
         }
         GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: AppConfig.googleIOSClientID)
@@ -42,7 +42,7 @@ struct GoogleSignInButton: View {
             do {
                 let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: presenter)
                 guard let idToken = result.user.idToken?.tokenString else {
-                    auth.errorMessage = "Google sign-in returned no token."
+                    auth.errorMessage = String(localized: "Google sign-in returned no token.")
                     return
                 }
                 _ = await auth.signInWithGoogle(
@@ -52,7 +52,7 @@ struct GoogleSignInButton: View {
             } catch {
                 // Silent on user cancellation.
                 if (error as? GIDSignInError)?.code == .canceled { return }
-                auth.errorMessage = "Google sign-in failed. Please try again."
+                auth.errorMessage = String(localized: "Google sign-in failed. Please try again.")
             }
         }
     }

@@ -36,7 +36,7 @@ struct DestinationsView: View {
                                 }
                             }
                         } header: {
-                            Text(group.region)
+                            Text(Self.regionLabel(group.region))
                                 .typeRole(.eyebrow).textCase(.uppercase)
                                 .foregroundStyle(Theme.textSoft)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -63,12 +63,27 @@ struct DestinationsView: View {
         let filtered = catalog.countries.filter { country in
             query.isEmpty
             || country.name.localizedCaseInsensitiveContains(query)
+            || country.displayName.localizedCaseInsensitiveContains(query)
             || country.iso2.localizedCaseInsensitiveContains(query)
         }
         let byRegion = Dictionary(grouping: filtered) { $0.region ?? "Other" }
         return byRegion
-            .map { RegionGroup(region: $0.key, countries: $0.value.sorted { $0.name < $1.name }) }
+            .map { RegionGroup(region: $0.key, countries: $0.value) }  // CountryStore already sorts by display name
             .sorted { $0.region < $1.region }
+    }
+
+    /// `countries.region` holds a fixed English set; show it in the app's language.
+    static func regionLabel(_ region: String) -> String {
+        switch region {
+        case "Africa": return String(localized: "Africa")
+        case "Americas": return String(localized: "Americas")
+        case "Antarctica": return String(localized: "Antarctica")
+        case "Asia": return String(localized: "Asia")
+        case "Europe": return String(localized: "Europe")
+        case "Oceania": return String(localized: "Oceania")
+        case "Other": return String(localized: "Other")
+        default: return region
+        }
     }
 
     private func loadStatuses() async {
@@ -91,7 +106,7 @@ private struct DestinationCell: View {
         Card(padding: Spacing.lg) {
             VStack(alignment: .leading, spacing: Spacing.sm) {
                 CountryFlag(iso2: country.iso2, size: 32)
-                Text(country.name)
+                Text(country.displayName)
                     .typography(.title)
                     .foregroundStyle(Theme.ink)
                     .lineLimit(2)

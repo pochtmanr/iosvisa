@@ -48,10 +48,10 @@ enum ChecklistItemStatus: String, Sendable, Hashable {
 
     var label: String {
         switch self {
-        case .missing: return "Missing"
-        case .uploaded: return "Uploaded"
-        case .accepted: return "Accepted"
-        case .rejected: return "Needs replacement"
+        case .missing: return String(localized: "Missing")
+        case .uploaded: return String(localized: "Uploaded")
+        case .accepted: return String(localized: "Accepted")
+        case .rejected: return String(localized: "Needs replacement")
         }
     }
 

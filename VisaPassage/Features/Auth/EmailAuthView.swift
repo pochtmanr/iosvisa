@@ -160,7 +160,7 @@ struct EmailAuthView: View {
             if isSignUp {
                 let outcome = await auth.signUpWithEmail(email: email, password: password)
                 if outcome == .confirmationSent {
-                    info = "Check your email to confirm your account, then sign in."
+                    info = String(localized: "Check your email to confirm your account, then sign in.")
                 }
                 // .signedIn transitions automatically via the auth observer.
             } else {
@@ -175,7 +175,7 @@ struct EmailAuthView: View {
         working = true
         Task {
             if await auth.sendMagicLink(email: email) {
-                info = "We've emailed a sign-in link to \(email). Open it on this device."
+                info = String(localized: "We've emailed a sign-in link to \(email). Open it on this device.")
             }
             working = false
         }
@@ -183,14 +183,14 @@ struct EmailAuthView: View {
 
     private func submitReset() {
         guard isValidEmail else {
-            auth.errorMessage = "Enter your email first, then tap Forgot password."
+            auth.errorMessage = String(localized: "Enter your email first, then tap Forgot password.")
             return
         }
         clearTransient()
         working = true
         Task {
             if await auth.sendPasswordReset(email: email) {
-                info = "If that address has an account, a reset link is on its way."
+                info = String(localized: "If that address has an account, a reset link is on its way.")
             }
             working = false
         }
