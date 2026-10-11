@@ -1,12 +1,16 @@
 import SwiftUI
 import GoogleSignIn
+import CoreSpotlight
 
 @main
 struct VisaPassageApp: App {
     @State private var auth = AuthStore()
     @State private var router = DeepLinkRouter()
     @State private var countries = CountryStore()
-    @State private var discovery = DiscoverySelection()
+    @State private var passports = PassportPreference()
+    @State private var explore = ExploreSelection()
+    @State private var requirements = RequirementsStore()
+    @State private var strength = PassportStrengthStore()
     @State private var tabs = TabRouter()
 
     var body: some Scene {
@@ -15,7 +19,10 @@ struct VisaPassageApp: App {
                 .environment(auth)
                 .environment(router)
                 .environment(countries)
-                .environment(discovery)
+                .environment(passports)
+                .environment(explore)
+                .environment(requirements)
+                .environment(strength)
                 .environment(tabs)
                 .tint(Theme.accent)
                 .task { auth.start() }
@@ -27,6 +34,11 @@ struct VisaPassageApp: App {
                 }
                 .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
                     if let url = activity.webpageURL { router.handle(url) }
+                }
+                .onContinueUserActivity(CSSearchableItemActionType) { activity in
+                    if let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+                        router.handleSpotlight(identifier: id)
+                    }
                 }
         }
     }

@@ -1,19 +1,18 @@
 import SwiftUI
 
-/// A country ready to render: its projected (plane-space) rings plus the
-/// resolved fill role for the current passport selection.
+/// A country ready to render: its ISO2 (nil when the catalog has no match) and
+/// its projected (plane-space) rings.
 private struct MapCountry: Sendable {
     let iso2: String?
     let name: String
     var planeRings: [[CGPoint]]
-    var status: VisaStatus
-    var isHome: Bool
     /// Rough plane-space area, used to hit-test smaller countries first.
     var area: Double
 }
 
-/// Loads + projects the world atlas once and recolors it as the passport
-/// selection changes. Decoding/projection happen off the main actor.
+/// Loads and projects the world atlas once. Colours are resolved at draw time,
+/// so a passport or filter change never re-projects. Decoding happens off the
+/// main actor.
 @MainActor
 @Observable
 final class WorldMapModel {
@@ -39,19 +38,13 @@ final class WorldMapModel {
         }
     }
 
-    /// Recompute fills for the given catalog + passports + best-status map.
-    func rebuild(catalog: [Country], passports: [String], statusByDest: [String: VisaStatus]) {
-        guard let atlas else { return }
-        if numericToCountry.isEmpty {
-            for c in catalog {
-                if let n = c.paddedNumeric { numericToCountry[n] = c }
-            }
+    /// Project every country once the atlas and the countries catalog are both
+    /// in. Later calls are no-ops.
+    func projectIfNeeded(catalog: [Country]) {
+        guard let atlas, !catalog.isEmpty, countries.isEmpty else { return }
+        for c in catalog {
+            if let n = c.paddedNumeric { numericToCountry[n] = c }
         }
-        let homeNumerics = Set(
-            passports.compactMap { iso in
-                catalog.first { $0.iso2.caseInsensitiveCompare(iso) == .orderedSame }?.paddedNumeric
-            }
-        )
 
         var result: [MapCountry] = []
         var bbox = PlaneBounds.empty
@@ -71,13 +64,10 @@ final class WorldMapModel {
                 area += abs(Self.signedArea(projected))
                 planeRings.append(projected)
             }
-            let status = iso2.flatMap { statusByDest[$0.uppercased()] } ?? .unknown
             result.append(MapCountry(
                 iso2: iso2,
                 name: geometry.name,
                 planeRings: planeRings,
-                status: status,
-                isHome: homeNumerics.contains(numeric),
                 area: area
             ))
         }
@@ -129,37 +119,43 @@ final class WorldMapModel {
 }
 
 /// The shaded vector world map. Fills each country by the best visa status for
-/// the selected passport(s); tapping a country opens its detail.
+/// the selected passports, in the web hero map's palette. A status filter fades
+/// non-matching countries to "no data". Tapping reports the country (or nil for
+/// the ocean) to the parent, which shows the bottom panel.
 struct WorldMapView: View {
-    let onSelect: (String) -> Void
+    var filter: ExploreFilter = .all
+    var focused: String?
+    let onTap: (String?) -> Void
 
-    @Environment(DiscoverySelection.self) private var selection
+    @Environment(PassportPreference.self) private var passports
+    @Environment(RequirementsStore.self) private var requirements
     @Environment(CountryStore.self) private var catalog
     @State private var model = WorldMapModel()
-    @State private var statusByDest: [String: VisaStatus] = [:]
-    @State private var loadingStatuses = false
-
-    private let visa = VisaRepository()
 
     var body: some View {
         Group {
             if model.failed {
                 MapMessage(text: "Couldn't load the map. Pull to retry.")
-            } else if model.loading || loadingStatuses {
+            } else if model.loading {
                 ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 mapCanvas
             }
         }
-        .task { await model.loadAtlasIfNeeded(); await refresh() }
-        .onChange(of: selection.selectedPassports) { Task { await refresh() } }
-        .onChange(of: catalog.countries.count) { Task { await refresh() } }
+        .task { await model.loadAtlasIfNeeded(); model.projectIfNeeded(catalog: catalog.countries) }
+        .onChange(of: catalog.countries.count) { model.projectIfNeeded(catalog: catalog.countries) }
     }
 
     private var mapCanvas: some View {
         GeometryReader { geo in
             let fit = ProjectionFit.fitting(bounds: model.bounds, into: geo.size, inset: 6)
+            // Read the observed state outside the Canvas closure so SwiftUI
+            // redraws when it changes.
+            let best = requirements.best
+            let focused = focused?.uppercased()
+            let home = Set(passports.passports)
             Canvas { context, _ in
+                var focusPath: Path?
                 for country in model.countries {
                     var path = Path()
                     for ring in country.planeRings where ring.count > 2 {
@@ -167,45 +163,33 @@ struct WorldMapView: View {
                         for p in ring.dropFirst() { path.addLine(to: fit.screen(p)) }
                         path.closeSubpath()
                     }
-                    let fill = color(for: country)
-                    context.fill(path, with: .color(fill), style: FillStyle(eoFill: true))
-                    context.stroke(path, with: .color(Theme.bg), lineWidth: 0.4)
+                    let status = country.iso2.flatMap { best[$0.uppercased()]?.status } ?? .unknown
+                    let isHome = country.iso2.map { home.contains($0.uppercased()) } ?? false
+                    context.fill(path, with: .color(fill(status, isHome: isHome)), style: FillStyle(eoFill: true))
+                    context.stroke(path, with: .color(MapPalette.border), lineWidth: 0.4)
+                    if let iso = country.iso2, iso.uppercased() == focused { focusPath = path }
+                }
+                if let focusPath {
+                    context.stroke(focusPath, with: .color(MapPalette.focus), lineWidth: 1.6)
                 }
             }
             .contentShape(Rectangle())
             .gesture(
                 SpatialTapGesture().onEnded { value in
-                    if let iso = model.country(at: value.location, fit: fit) {
-                        onSelect(iso)
-                    }
+                    onTap(model.country(at: value.location, fit: fit))
                 }
             )
+            .accessibilityElement()
+            .accessibilityLabel(Text("World map"))
+            .accessibilityHint(Text("Use the List view to browse destinations with VoiceOver."))
         }
         .background(Theme.surface)
     }
 
-    private func color(for country: MapCountry) -> Color {
-        if country.isHome { return Theme.ink }
-        switch country.status {
-        case .unknown: return Theme.surface2
-        default: return country.status.hue.solid
-        }
-    }
-
-    private func refresh() async {
-        guard !catalog.countries.isEmpty else { return }
-        loadingStatuses = true
-        defer { loadingStatuses = false }
-        if !selection.selectedPassports.isEmpty {
-            statusByDest = (try? await visa.bestStatuses(passports: selection.selectedPassports)) ?? [:]
-        } else {
-            statusByDest = [:]
-        }
-        model.rebuild(
-            catalog: catalog.countries,
-            passports: selection.selectedPassports,
-            statusByDest: statusByDest
-        )
+    private func fill(_ status: VisaStatus, isHome: Bool) -> Color {
+        if isHome { return MapPalette.home }
+        guard filter.matches(status) else { return MapPalette.unknown }
+        return status.mapFill
     }
 }
 

@@ -5,13 +5,23 @@ extension View {
     /// Presents `content` as a floating card: inset from the screen edges, with
     /// corners concentric with the display's, over a dimmed backdrop. Tap the
     /// backdrop or swipe the card down to dismiss. Content can close it with
-    /// `@Environment(\.dismissFloatingSheet)`.
+    /// `@Environment(\.dismissFloatingSheet)`. `surface: .glass` draws the card
+    /// as Liquid Glass (frosted material before iOS 26).
     func floatingSheet<Content: View>(
         isPresented: Binding<Bool>,
+        surface: FloatingSheetSurface = .solid,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
-        modifier(FloatingSheetModifier(isPresented: isPresented, sheet: content))
+        modifier(FloatingSheetModifier(isPresented: isPresented, surface: surface, sheet: content))
     }
+}
+
+/// The floating card's background.
+enum FloatingSheetSurface {
+    /// The page background with a hairline rim.
+    case solid
+    /// Liquid Glass on iOS 26, `.regularMaterial` before it.
+    case glass
 }
 
 extension EnvironmentValues {
@@ -24,13 +34,14 @@ extension EnvironmentValues {
 /// backdrop fade and card slide are animated here instead.
 private struct FloatingSheetModifier<Sheet: View>: ViewModifier {
     @Binding var isPresented: Bool
+    let surface: FloatingSheetSurface
     let sheet: () -> Sheet
     @State private var coverShown = false
 
     func body(content: Content) -> some View {
         content
             .fullScreenCover(isPresented: $coverShown) {
-                FloatingSheetHost(isPresented: $isPresented, onClosed: { setCover(false) }, content: sheet)
+                FloatingSheetHost(isPresented: $isPresented, surface: surface, onClosed: { setCover(false) }, content: sheet)
                     .presentationBackground(.clear)
             }
             .onChange(of: isPresented) { _, presented in
@@ -47,6 +58,7 @@ private struct FloatingSheetModifier<Sheet: View>: ViewModifier {
 
 private struct FloatingSheetHost<Content: View>: View {
     @Binding var isPresented: Bool
+    let surface: FloatingSheetSurface
     let onClosed: () -> Void
     @ViewBuilder let content: () -> Content
 
@@ -75,9 +87,7 @@ private struct FloatingSheetHost<Content: View>: View {
                 if cardShown {
                     content()
                         .frame(maxWidth: .infinity)
-                        .background(Theme.bg, in: shape)
-                        .overlay(shape.strokeBorder(Theme.border, lineWidth: Hairline.width))
-                        .clipShape(shape)
+                        .modifier(FloatingCardSurface(surface: surface, shape: shape))
                         .shadow(color: .black.opacity(0.06), radius: 1, y: 1)
                         .shadow(color: .black.opacity(0.18), radius: 22, y: 8)
                         .padding(.horizontal, inset)
@@ -122,6 +132,31 @@ private struct FloatingSheetHost<Content: View>: View {
         } completion: {
             drag = 0
             onClosed()
+        }
+    }
+}
+
+/// Paints the card: solid page background, or glass.
+private struct FloatingCardSurface: ViewModifier {
+    let surface: FloatingSheetSurface
+    let shape: RoundedRectangle
+
+    func body(content: Content) -> some View {
+        switch surface {
+        case .solid:
+            content
+                .background(Theme.bg, in: shape)
+                .overlay(shape.strokeBorder(Theme.border, lineWidth: Hairline.width))
+                .clipShape(shape)
+        case .glass:
+            if #available(iOS 26, *) {
+                content.glassEffect(.regular, in: shape)
+            } else {
+                content
+                    .background(.regularMaterial, in: shape)
+                    .overlay(shape.strokeBorder(Color.white.opacity(0.35), lineWidth: Hairline.width))
+                    .clipShape(shape)
+            }
         }
     }
 }

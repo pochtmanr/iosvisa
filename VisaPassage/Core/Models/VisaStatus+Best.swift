@@ -7,7 +7,7 @@ extension VisaStatus {
     /// Best-to-worst ordering. Lower index = stronger access (less friction).
     /// `.unknown` is treated as the weakest known regime.
     static let precedence: [VisaStatus] = [
-        .visaFree, .visaOnArrival, .evisa, .visaRequired, .noAdmission, .unknown,
+        .visaFree, .visaOnArrival, .evisa, .eta, .visaRequired, .noAdmission, .unknown,
     ]
 
     private var rank: Int {

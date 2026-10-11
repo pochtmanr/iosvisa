@@ -115,3 +115,23 @@ extension Color {
         #endif
     }
 }
+
+/// The world map's own palette, ported from the web hero checker (`--map-*`
+/// and `--status-unknown` in `web/src/app/globals.css`, light then dark). Read
+/// only by the map, its legend and the Explore filter chips; everything else
+/// uses `StatusHue`.
+enum MapPalette {
+    static let free = Color.dynamic(light: Color(hex: 0x4E82E5), dark: Color(hex: 0x4170CB))
+    static let arrival = Color.dynamic(light: Color(hex: 0x88AEF4), dark: Color(hex: 0x799BDA))
+    static let evisa = Color.dynamic(light: Color(hex: 0xBFD7FF), dark: Color(hex: 0xAFC3E7))
+    static let required = Color.dynamic(light: Color(hex: 0xF6D06A), dark: Color(hex: 0xD2AC4E))
+    static let banned = Color.dynamic(light: Color(hex: 0xE9A09D), dark: Color(hex: 0xC37C79))
+    /// No data.
+    static let unknown = Color.dynamic(light: Color(hex: 0xEEF1F6), dark: Color(hex: 0x1E293B))
+    /// Selected destination outline.
+    static let focus = Color(hex: 0x2967E5)
+    /// The passport holder's own country.
+    static let home = Color.dynamic(light: Color(hex: 0x1E3A8A), dark: Color(hex: 0x3B5BB5))
+    /// Country borders.
+    static let border = Color.dynamic(light: Color(hex: 0xFFFFFF), dark: Color(hex: 0x0A0A0A))
+}

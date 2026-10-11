@@ -1,8 +1,7 @@
 import SwiftUI
 
 /// Searchable country selector backed by the shared `CountryStore`. Binds an
-/// ISO-2 code (`""` = none). Used for every `*_iso2` field in the vault and
-/// onboarding.
+/// ISO-2 code (`""` = none) and shows as a form field that opens a sheet.
 struct CountryPicker: View {
     let label: String
     @Binding var iso2: String
@@ -10,7 +9,6 @@ struct CountryPicker: View {
 
     @Environment(CountryStore.self) private var countries
     @State private var showing = false
-    @State private var query = ""
 
     var body: some View {
         FormField(label: label) {
@@ -39,53 +37,111 @@ struct CountryPicker: View {
         return countries.name(forISO2: iso2)
     }
 
-    private var filtered: [Country] {
-        let all = countries.countries
-        guard !query.isEmpty else { return all }
-        return all.filter {
-            $0.name.localizedCaseInsensitiveContains(query)
-                || $0.iso2.localizedCaseInsensitiveContains(query)
-        }
-    }
-
     private var sheet: some View {
         NavigationStack {
-            List {
-                if !iso2.isEmpty {
-                    Button {
-                        iso2 = ""
-                        showing = false
-                    } label: {
-                        Text("Clear selection").foregroundStyle(Theme.textBody)
-                    }
-                }
-                ForEach(filtered) { country in
-                    Button {
-                        iso2 = country.iso2
-                        showing = false
-                    } label: {
-                        HStack(spacing: Spacing.md) {
-                            CountryFlag(iso2: country.iso2, size: 22)
-                            Text(country.displayName)
-                                .typography(.body)
-                                .foregroundStyle(Theme.ink)
-                            Spacer()
-                            if country.iso2.caseInsensitiveCompare(iso2) == .orderedSame {
-                                Image(systemName: "checkmark").foregroundStyle(Theme.accent)
-                            }
-                        }
-                    }
-                }
+            CountryListPicker(
+                countries: countries.countries,
+                selected: iso2.isEmpty ? [] : [iso2.uppercased()]
+            ) { country in
+                iso2 = country.iso2
+                showing = false
             }
-            .listStyle(.plain)
-            .searchable(text: $query, prompt: "Search countries")
             .navigationTitle(label)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") { showing = false }
                 }
+                if !iso2.isEmpty {
+                    ToolbarItem(placement: .destructiveAction) {
+                        Button("Clear selection") {
+                            iso2 = ""
+                            showing = false
+                        }
+                    }
+                }
             }
         }
+    }
+}
+
+/// The searchable country list behind every picker: flag and localized name,
+/// a checkmark on selected rows, an optional "Suggested" section on top, and an
+/// optional tag per row (e.g. "Primary"). Place it inside a `NavigationStack`.
+struct CountryListPicker: View {
+    let countries: [Country]
+    var selected: [String] = []
+    var suggested: [String] = []
+    /// Rows that can't be picked right now (e.g. the passport list is full).
+    var isDisabled: (Country) -> Bool = { _ in false }
+    var tag: (Country) -> String? = { _ in nil }
+    let onPick: (Country) -> Void
+
+    @State private var query = ""
+
+    var body: some View {
+        List {
+            if query.isEmpty, !suggestedCountries.isEmpty {
+                Section {
+                    ForEach(suggestedCountries) { row($0) }
+                } header: {
+                    Eyebrow(text: "Suggested")
+                }
+            }
+            Section {
+                ForEach(filtered) { row($0) }
+            } header: {
+                if query.isEmpty, !suggestedCountries.isEmpty {
+                    Eyebrow(text: "All countries")
+                }
+            }
+        }
+        .listStyle(.plain)
+        .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: Text("Search countries"))
+    }
+
+    private var suggestedCountries: [Country] {
+        suggested.compactMap { iso in
+            countries.first { $0.iso2.caseInsensitiveCompare(iso) == .orderedSame }
+        }
+    }
+
+    private var filtered: [Country] {
+        let needle = query.trimmingCharacters(in: .whitespaces)
+        guard !needle.isEmpty else { return countries }
+        return countries.filter {
+            $0.displayName.localizedCaseInsensitiveContains(needle)
+                || $0.name.localizedCaseInsensitiveContains(needle)
+                || $0.iso2.caseInsensitiveCompare(needle) == .orderedSame
+        }
+    }
+
+    private func row(_ country: Country) -> some View {
+        let isSelected = selected.contains(country.iso2.uppercased())
+        let disabled = !isSelected && isDisabled(country)
+        return Button { onPick(country) } label: {
+            HStack(spacing: Spacing.md) {
+                CountryFlag(iso2: country.iso2, size: 22)
+                Text(country.displayName)
+                    .typography(.body)
+                    .foregroundStyle(disabled ? Theme.textSoft : Theme.ink)
+                Spacer()
+                if let tag = tag(country) {
+                    Text(tag)
+                        .typeRole(.eyebrow)
+                        .textCase(.uppercase)
+                        .foregroundStyle(Theme.textSoft)
+                }
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(Theme.ink)
+                }
+            }
+            .contentShape(Rectangle())
+        }
+        .disabled(disabled)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }

@@ -12,4 +12,16 @@ enum MainTab: Hashable, Sendable { case home, explore, visas, settings }
 @Observable
 final class TabRouter {
     var selection: MainTab = .home
+
+    init() {
+        #if DEBUG
+        // Screenshots: `-debug.tab explore`.
+        switch UserDefaults.standard.string(forKey: "debug.tab") {
+        case "explore": selection = .explore
+        case "visas": selection = .visas
+        case "settings": selection = .settings
+        default: break
+        }
+        #endif
+    }
 }
