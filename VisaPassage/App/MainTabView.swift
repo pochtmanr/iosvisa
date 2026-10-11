@@ -65,9 +65,11 @@ struct MainTabView: View {
             explore.pendingRoute = .destination(to)
             tabs.selection = .explore
 
-        case .passport:
-            // TODO IOS-04: open the passport detail. Home shows its rank today.
-            tabs.selection = .home
+        case .passport(let slugOrISO):
+            // The ranking lives under Explore (4 tabs), so passport pages open there.
+            guard let iso = iso2(for: slugOrISO) else { return }
+            explore.pendingPassport = iso
+            tabs.selection = .explore
 
         case .tracker:
             // TODO IOS-05: open the tracker by id.

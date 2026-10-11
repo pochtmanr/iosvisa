@@ -45,6 +45,8 @@ struct HomeView: View {
             }
             .background(Theme.bg)
             .toolbar(.hidden, for: .navigationBar)
+            .catalogDestinations()
+            .passportDestinations()
             .refreshable { await changes.load(passport: passports.primary) }
             .sheet(isPresented: $showPassports) { PassportsSheet() }
             .task { await passports.seedFromAccountIfEmpty() }
@@ -105,13 +107,9 @@ private struct PassportStrengthCard: View {
         return passports.primary
     }
 
-    private var slugged: Set<String> {
-        Set(catalog.countries.filter { $0.slug != nil }.map { $0.iso2.uppercased() })
-    }
-
     @ViewBuilder
     private func content(_ iso: String) -> some View {
-        let rank = strength.rank(for: iso, slugged: slugged)
+        let rank = strength.rank(for: iso, countries: catalog.countries)
         VStack(alignment: .leading, spacing: Spacing.lg) {
             HStack {
                 Eyebrow(text: "Your passport")
@@ -153,29 +151,45 @@ private struct PassportStrengthCard: View {
                     .foregroundStyle(Theme.textSoft)
             }
 
-            Button {
-                explore.mode = .map
-                tabs.selection = .explore
-            } label: {
-                HStack(spacing: Spacing.sm) {
-                    Text("See where you can go").typography(.sm)
-                    Image(systemName: "arrow.right").font(.system(size: 13, weight: .medium))
-                }
-                .foregroundStyle(Theme.ink)
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: Spacing.xl) { links(iso) }
+                VStack(alignment: .leading, spacing: Spacing.md) { links(iso) }
             }
-            .buttonStyle(.plain)
         }
     }
 
     @ViewBuilder
+    private func links(_ iso: String) -> some View {
+        NavigationLink(value: PassportRoute.detail(iso)) {
+            linkLabel("Passport details")
+        }
+        .buttonStyle(.plain)
+        Button {
+            explore.mode = .map
+            tabs.selection = .explore
+        } label: {
+            linkLabel("See where you can go")
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func linkLabel(_ title: LocalizedStringKey) -> some View {
+        HStack(spacing: Spacing.sm) {
+            Text(title).typography(.sm).fixedSize()
+            Image(systemName: "arrow.right").font(.system(size: 13, weight: .medium))
+        }
+        .foregroundStyle(Theme.ink)
+    }
+
+    @ViewBuilder
     private func stats(_ rank: PassportRank?) -> some View {
-        Stat(label: "Rank",
+        PassportStat(label: "Rank",
              value: rank.map { "#\($0.rank)" } ?? "#00",
              sub: rank.map { String(localized: "of \($0.totalRanked)") })
-        Stat(label: "Visa-free",
+        PassportStat(label: "Visa-free",
              value: rank.map { "\($0.visaFree)" } ?? "000",
              sub: nil)
-        Stat(label: "Mobility",
+        PassportStat(label: "Mobility",
              value: rank.map { "\($0.mobilityScore)" } ?? "000",
              sub: rank.map { String(localized: "of \($0.known) destinations") })
     }
@@ -199,33 +213,6 @@ private struct PassportStrengthCard: View {
             }
             .buttonStyle(PressShrinkStyle())
         }
-    }
-}
-
-/// One figure in the passport card.
-private struct Stat: View {
-    let label: LocalizedStringKey
-    let value: String
-    let sub: String?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(label)
-                .typeRole(.eyebrow)
-                .textCase(.uppercase)
-                .foregroundStyle(Theme.textSoft)
-            Text(verbatim: value)
-                .typography(.h2)
-                .foregroundStyle(Theme.ink)
-                .monospacedDigit()
-            if let sub {
-                Text(verbatim: sub)
-                    .typography(.xs)
-                    .foregroundStyle(Theme.textBody)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .accessibilityElement(children: .combine)
     }
 }
 

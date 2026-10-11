@@ -3,10 +3,10 @@ import Observation
 import Supabase
 
 /// Cached reads of the public visa matrix for the Home passport card and the
-/// Explore map and list: one passport's `visa_requirements` slice, and the
-/// `passport_strength` view the ranking is built from. Both go through
-/// `CatalogCache`, so they show instantly, work offline after the first load,
-/// and refresh in the background after 24h.
+/// Explore map and list, and the passport page: one passport's
+/// `visa_requirements` slice, through `CatalogCache`, so it shows instantly,
+/// works offline after the first load, and refreshes in the background after
+/// 24h. The ranking itself is `PassportRankingRepository`.
 struct RequirementsRepository: Sendable {
     var client: SupabaseClient = SupabaseClientProvider.shared
     var cache: CatalogCache = .shared
@@ -14,9 +14,6 @@ struct RequirementsRepository: Sendable {
     static func requirementsKey(_ passport: String) -> String {
         "requirements:v1:\(passport.uppercased())"
     }
-
-    static let strengthKey =
-        "passport_strength:v1:passport_iso2,name,visa_free,visa_on_arrival,evisa,eta,visa_required,no_admission,known,mobility_score"
 
     /// Every `visa_requirements` row for one passport.
     func requirements(
@@ -31,98 +28,6 @@ struct RequirementsRepository: Sendable {
             fetch: { try await visa.requirements(passport: iso) },
             onRefresh: onRefresh
         ).value
-    }
-
-    /// The whole `passport_strength` view, in the web's order (`mobility_score`
-    /// desc, then name), ready for `PassportRanking.rank`.
-    func passportStrength(
-        onRefresh: @escaping @Sendable ([PassportStrengthRow]) async -> Void = { _ in }
-    ) async throws -> [PassportStrengthRow] {
-        let client = client
-        return try await cache.load(
-            [PassportStrengthRow].self,
-            key: Self.strengthKey,
-            fetch: {
-                try await client
-                    .from("passport_strength")
-                    .select("passport_iso2,name,visa_free,visa_on_arrival,evisa,eta,visa_required,no_admission,known,mobility_score")
-                    .order("mobility_score", ascending: false)
-                    .order("name", ascending: true)
-                    .execute()
-                    .value
-            },
-            onRefresh: onRefresh
-        ).value
-    }
-}
-
-// MARK: - Passport ranking
-
-/// One row of the `passport_strength` view (migration 0089). `mobility_score`
-/// is visa-free + visa on arrival; never recompute it from the buckets.
-struct PassportStrengthRow: Codable, Sendable, Hashable {
-    var passportIso2: String
-    var name: String
-    var visaFree: Int
-    var visaOnArrival: Int
-    var evisa: Int
-    var eta: Int
-    var visaRequired: Int
-    var noAdmission: Int
-    var known: Int
-    var mobilityScore: Int
-
-    enum CodingKeys: String, CodingKey {
-        case passportIso2 = "passport_iso2"
-        case name
-        case visaFree = "visa_free"
-        case visaOnArrival = "visa_on_arrival"
-        case evisa, eta
-        case visaRequired = "visa_required"
-        case noAdmission = "no_admission"
-        case known
-        case mobilityScore = "mobility_score"
-    }
-}
-
-/// A passport's place in the ranking, as the web `/passports/[slug]` shows it.
-struct PassportRank: Sendable, Equatable {
-    var iso2: String
-    var rank: Int
-    var totalRanked: Int
-    var mobilityScore: Int
-    var visaFree: Int
-    var known: Int
-}
-
-enum PassportRanking {
-    /// Port of `loadPassportIndex` in `web/src/lib/passports/load-passport-strength.ts`.
-    /// `rows` must already be ordered by `mobility_score` desc. Passports with no
-    /// `countries.slug` have no profile page and take no rank; ties share a rank
-    /// (dense ranking).
-    static func rank(_ rows: [PassportStrengthRow], slugged: Set<String>) -> [String: PassportRank] {
-        var ranks: [(row: PassportStrengthRow, rank: Int)] = []
-        var rank = 0
-        var previous: Int?
-        for row in rows where slugged.contains(row.passportIso2.uppercased()) {
-            if previous == nil || row.mobilityScore != previous {
-                rank += 1
-                previous = row.mobilityScore
-            }
-            ranks.append((row, rank))
-        }
-        var result: [String: PassportRank] = [:]
-        for (row, rank) in ranks {
-            result[row.passportIso2.uppercased()] = PassportRank(
-                iso2: row.passportIso2.uppercased(),
-                rank: rank,
-                totalRanked: ranks.count,
-                mobilityScore: row.mobilityScore,
-                visaFree: row.visaFree,
-                known: row.known
-            )
-        }
-        return result
     }
 }
 
@@ -202,39 +107,5 @@ final class RequirementsStore {
             }
         }
         return result
-    }
-}
-
-/// App-wide copy of the passport ranking (`passport_strength` + dense rank).
-@MainActor
-@Observable
-final class PassportStrengthStore {
-    private(set) var rows: [PassportStrengthRow] = []
-    private(set) var loadFailed = false
-    private let repo: RequirementsRepository
-    private var loaded = false
-
-    init(repo: RequirementsRepository = RequirementsRepository()) {
-        self.repo = repo
-    }
-
-    func loadIfNeeded() async {
-        guard !loaded else { return }
-        do {
-            rows = try await repo.passportStrength { [weak self] fresh in
-                await self?.setRows(fresh)
-            }
-            loaded = true
-            loadFailed = false
-        } catch {
-            loadFailed = true
-        }
-    }
-
-    private func setRows(_ fresh: [PassportStrengthRow]) { rows = fresh }
-
-    /// Rank for one passport; `slugged` is the set of ISO2 codes with a `countries.slug`.
-    func rank(for iso2: String, slugged: Set<String>) -> PassportRank? {
-        PassportRanking.rank(rows, slugged: slugged)[iso2.uppercased()]
     }
 }

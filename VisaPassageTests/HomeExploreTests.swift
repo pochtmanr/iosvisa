@@ -46,25 +46,7 @@ final class HomeExploreTests: XCTestCase {
         XCTAssertEqual(defaults.string(forKey: PassportPreference.key), "DE,FR")
     }
 
-    // MARK: Passport ranking
-
-    private func row(_ iso: String, _ score: Int, visaFree: Int = 0, known: Int = 200) -> PassportStrengthRow {
-        PassportStrengthRow(passportIso2: iso, name: iso, visaFree: visaFree, visaOnArrival: score - visaFree,
-                            evisa: 0, eta: 0, visaRequired: 0, noAdmission: 0, known: known, mobilityScore: score)
-    }
-
-    func testDenseRankSharesTiesAndSkipsSlugless() {
-        let rows = [row("SG", 190), row("JP", 190), row("XX", 180), row("DE", 180), row("UA", 143, visaFree: 128)]
-        let ranks = PassportRanking.rank(rows, slugged: ["SG", "JP", "DE", "UA"])
-        XCTAssertEqual(ranks["SG"]?.rank, 1)
-        XCTAssertEqual(ranks["JP"]?.rank, 1, "Ties share a rank")
-        XCTAssertNil(ranks["XX"], "No slug, no rank")
-        XCTAssertEqual(ranks["DE"]?.rank, 2, "Dense: no gap after a tie")
-        XCTAssertEqual(ranks["UA"]?.rank, 3)
-        XCTAssertEqual(ranks["UA"]?.totalRanked, 4)
-        XCTAssertEqual(ranks["UA"]?.visaFree, 128)
-        XCTAssertEqual(ranks["UA"]?.mobilityScore, 143)
-    }
+    // MARK: Passport ranking (dense rank: PassportsTests)
 
     func testPassportStrengthRowDecodes() throws {
         let json = #"[{"passport_iso2":"UA","name":"Ukraine","visa_free":128,"visa_on_arrival":15,"evisa":40,"eta":3,"visa_required":60,"no_admission":3,"known":249,"mobility_score":143}]"#

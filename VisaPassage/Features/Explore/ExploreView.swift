@@ -35,6 +35,15 @@ struct ExploreView: View {
             .navigationTitle("Explore")
             .navigationBarTitleDisplayMode(.inline)
             .catalogDestinations()
+            .passportDestinations()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(value: PassportRoute.ranking) {
+                        Label("Passport ranking", systemImage: "chart.bar")
+                    }
+                    .accessibilityIdentifier("explore.ranking")
+                }
+            }
             .sheet(isPresented: $showPassports) {
                 PassportsSheet()
             }
@@ -45,6 +54,8 @@ struct ExploreView: View {
             .onChange(of: explore.pendingDetail) { consumePendingDetail() }
             .onChange(of: explore.pendingRoute) { consumePendingRoute() }
             .onAppear { consumePendingRoute() }
+            .onChange(of: explore.pendingPassport) { consumePendingPassport() }
+            .onAppear { consumePendingPassport() }
         }
     }
 
@@ -140,7 +151,8 @@ struct ExploreView: View {
         } ?? held.first
     }
 
-    /// Screenshots: `-debug.corridor UA-DE` opens that corridor, `-debug.destination DE` the destination.
+    /// Screenshots: `-debug.corridor UA-DE` opens that corridor, `-debug.destination DE` the destination,
+    /// `-debug.passport UA` a passport page, `-debug.compare DE,UA` the compare, `-debug.ranking YES` the ranking.
     private func openDebugRoute() {
         #if DEBUG
         let defaults = UserDefaults.standard
@@ -148,6 +160,12 @@ struct ExploreView: View {
             path.append(CatalogRoute.corridor(from: String(pair[0]), to: String(pair[1])))
         } else if let iso = defaults.string(forKey: "debug.destination") {
             path.append(CatalogRoute.destination(iso))
+        } else if let iso = defaults.string(forKey: "debug.passport") {
+            path.append(PassportRoute.detail(iso))
+        } else if let codes = defaults.string(forKey: "debug.compare") {
+            path.append(PassportRoute.compare(codes.components(separatedBy: ",")))
+        } else if defaults.bool(forKey: "debug.ranking") {
+            path.append(PassportRoute.ranking)
         }
         #endif
     }
@@ -156,6 +174,12 @@ struct ExploreView: View {
         guard let route = explore.pendingRoute else { return }
         explore.pendingRoute = nil
         path.append(route)
+    }
+
+    private func consumePendingPassport() {
+        guard let iso = explore.pendingPassport else { return }
+        explore.pendingPassport = nil
+        path.append(PassportRoute.detail(iso))
     }
 
     private func consumePendingDetail() {

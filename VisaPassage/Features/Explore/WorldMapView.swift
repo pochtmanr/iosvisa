@@ -121,10 +121,15 @@ final class WorldMapModel {
 /// The shaded vector world map. Fills each country by the best visa status for
 /// the selected passports, in the web hero map's palette. A status filter fades
 /// non-matching countries to "no data". Tapping reports the country (or nil for
-/// the ocean) to the parent, which shows the bottom panel.
+/// the ocean) to the parent, which shows the bottom panel. The passport page
+/// passes its own `statuses` and `home` instead of the selected passports.
 struct WorldMapView: View {
     var filter: ExploreFilter = .all
     var focused: String?
+    /// Status per destination ISO2; nil reads the shared `RequirementsStore`.
+    var statuses: [String: VisaStatus]? = nil
+    /// Countries shaded as "your passport"; nil reads `PassportPreference`.
+    var home: Set<String>? = nil
     let onTap: (String?) -> Void
 
     @Environment(PassportPreference.self) private var passports
@@ -151,9 +156,10 @@ struct WorldMapView: View {
             let fit = ProjectionFit.fitting(bounds: model.bounds, into: geo.size, inset: 6)
             // Read the observed state outside the Canvas closure so SwiftUI
             // redraws when it changes.
-            let best = requirements.best
+            let overrides = statuses
+            let best = overrides == nil ? requirements.best : [:]
             let focused = focused?.uppercased()
-            let home = Set(passports.passports)
+            let home = self.home ?? Set(passports.passports)
             Canvas { context, _ in
                 var focusPath: Path?
                 for country in model.countries {
@@ -163,7 +169,9 @@ struct WorldMapView: View {
                         for p in ring.dropFirst() { path.addLine(to: fit.screen(p)) }
                         path.closeSubpath()
                     }
-                    let status = country.iso2.flatMap { best[$0.uppercased()]?.status } ?? .unknown
+                    let status = country.iso2.flatMap { iso in
+                        overrides?[iso.uppercased()] ?? best[iso.uppercased()]?.status
+                    } ?? .unknown
                     let isHome = country.iso2.map { home.contains($0.uppercased()) } ?? false
                     context.fill(path, with: .color(fill(status, isHome: isHome)), style: FillStyle(eoFill: true))
                     context.stroke(path, with: .color(MapPalette.border), lineWidth: 0.4)

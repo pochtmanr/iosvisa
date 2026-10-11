@@ -21,6 +21,8 @@ final class ExploreSelection {
     var pendingDetail: String?
     /// A catalog screen to push (deep links: corridor, destination), consumed once by `ExploreView`.
     var pendingRoute: CatalogRoute?
+    /// A passport page to push (`/passports/{slug}` deep links), consumed once by `ExploreView`.
+    var pendingPassport: String?
     /// Set by Home's "Where to?" field; consumed once by the list.
     var focusSearch = false
 

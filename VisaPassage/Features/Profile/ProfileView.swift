@@ -143,7 +143,7 @@ struct ProfileView: View {
 
     private func passportRow(_ iso: String) -> some View {
         let name = catalog.name(forISO2: iso) ?? iso
-        let rank = strength.rank(for: iso, slugged: slugged)
+        let rank = strength.rank(for: iso, countries: catalog.countries)
         let url = passportURL(iso)
         return HStack(spacing: Spacing.md) {
             CountryFlag(iso2: iso, size: 28)
@@ -172,10 +172,6 @@ struct ProfileView: View {
             }
         }
         .padding(.vertical, 2)
-    }
-
-    private var slugged: Set<String> {
-        Set(catalog.countries.filter { $0.slug != nil }.map { $0.iso2.uppercased() })
     }
 
     private func passportURL(_ iso: String) -> URL {
