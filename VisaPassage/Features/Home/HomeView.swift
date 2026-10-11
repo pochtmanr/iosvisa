@@ -1,86 +1,114 @@
 import SwiftUI
 
-/// The Home tab, guest/new state (web `dashboard-state.ts` "new"): your
-/// passport's strength, a "Where to?" search into Explore, popular routes,
-/// the latest rule changes and a "Track a visa" CTA. IOS-05 adds the active
-/// and done tracker states.
+/// The Home tab, guest/new state (web `dashboard-state.ts` "new"), laid out as
+/// the same inset grouped list as Account: the brand lockup, your passports, the trip purposes, the latest rule changes, and the web
+/// dashboard's "Guides and tools". IOS-05 adds the active and done tracker
+/// states.
 struct HomeView: View {
     @Environment(AuthStore.self) private var auth
     @Environment(TabRouter.self) private var tabs
     @Environment(ExploreSelection.self) private var explore
     @Environment(PassportPreference.self) private var passports
-    @Environment(RequirementsStore.self) private var requirements
 
     @State private var showPassports = false
     @State private var changes = RuleChangesModel()
+    @State private var webPage: WebPage?
+    /// The passport with the full row (nil: the primary).
+    @State private var shownPassport: String?
+    @State private var metricsFor: String?
+    @State private var passportDetail: String?
+
+    @Environment(PassportStrengthStore.self) private var strength
+    @Environment(CountryStore.self) private var catalog
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: Spacing.xl) {
-                    header
-                    PassportStrengthCard { showPassports = true }
-                    WhereToField {
-                        explore.startSearch()
-                        tabs.selection = .explore
-                    }
-                    if passports.primary != nil {
-                        PopularRoutes { iso in
-                            explore.show(destination: iso)
-                            tabs.selection = .explore
-                        }
-                    }
-                    RuleChangesSection(model: changes)
-                    EntryCard(
-                        icon: "checklist",
-                        title: "Track a visa application",
-                        subtitle: "Pick a destination, then tick documents off as you collect them."
-                    ) {
+            List {
+                Section {
+                    TabHeader(title: Text(verbatim: "VisaPassage"), logo: true)
+                        .tabHeaderRow()
+                }
+                PassportsSection(shown: $shownPassport,
+                                 onEdit: { showPassports = true },
+                                 onInfo: { metricsFor = $0 },
+                                 onDetail: { passportDetail = $0 })
+                purposes
+                RuleChangesSection(model: changes) { openWeb("/changes") }
+                GuidesSection { openWeb($0) }
+                Section {
+                    Button {
                         explore.mode = .map
                         tabs.selection = .explore
+                    } label: {
+                        RowLabel(icon: "checklist",
+                                 title: "Track a visa application",
+                                 hint: "Pick a destination, then tick documents off as you collect them.")
                     }
-                    AdvisoryDisclaimer()
+                    .foregroundStyle(Theme.ink)
+                } footer: {
+                    Text("Guidance only — eligibility is indicative. Official authority decisions always prevail.")
                 }
-                .padding(Spacing.xl)
             }
-            .background(Theme.bg)
+            .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .toolbar(.hidden, for: .navigationBar)
             .catalogDestinations()
             .passportDestinations()
+            .trackerDestinations()
             .refreshable { await changes.load(passport: passports.primary) }
-            .sheet(isPresented: $showPassports) { PassportsSheet() }
+            .navigationDestination(item: $passportDetail) { iso in PassportDetailView(iso2: iso) }
+            .passportsEditor(isPresented: $showPassports)
+            .centredDialog(item: $metricsFor, maxWidth: 360, surface: .glass) { iso, close in
+                PassportMetricsDialog(
+                    iso2: iso,
+                    name: catalog.name(forISO2: iso) ?? iso,
+                    rank: strength.rank(for: iso, countries: catalog.countries),
+                    onClose: close
+                )
+            }
+            .sheet(item: $webPage) { page in
+                SafariView(url: page.url).ignoresSafeArea()
+            }
             .task { await passports.seedFromAccountIfEmpty() }
-            .task(id: passports.passports) {
-                await requirements.load(passports.passports)
+            .task { await strength.loadIfNeeded() }
+            .task {
+                // Screenshots: `-debug.passportInfo YES` opens the metrics dialog.
+                #if DEBUG
+                if UserDefaults.standard.bool(forKey: "debug.passportInfo") { metricsFor = passports.primary }
+                #endif
             }
             .task(id: passports.primary) { await changes.load(passport: passports.primary) }
         }
     }
 
-    private var header: some View {
-        VStack(alignment: .leading, spacing: Spacing.sm) {
-            Eyebrow(verbatim: "VisaPassage")
-            Group {
-                if let name = auth.profile?.displayName {
-                    Text("Welcome back, \(name).")
-                } else if auth.isSignedIn {
-                    Text("Welcome back.")
-                } else {
-                    Text("Where to next?")
-                }
+    /// "What's the trip for?" (web `PurposeWidget`): one row per purpose, each
+    /// opening Explore's map with that purpose applied.
+    private var purposes: some View {
+        Section("What's the trip for?") {
+            PurposeList(suggested: Purpose.fromGoals(auth.profile?.goal)) { purpose in
+                explore.open(purpose: purpose)
+                tabs.selection = .explore
             }
-            .typography(.display)
-            .foregroundStyle(Theme.ink)
+            .listRowInsets(EdgeInsets())
         }
+    }
+
+    private func openWeb(_ path: String) {
+        webPage = WebPage(url: AppLocale.current.webURL(path: path))
     }
 }
 
-// MARK: - Passport card
+// MARK: - Your passports
 
-/// Rank #N, visa-free count and mobility score for one of your passports, the
-/// same numbers as the web `/passports/[slug]` stat cards.
-private struct PassportStrengthCard: View {
+/// "Your passports" with Edit in the header, like an Account section. The
+/// passport shown gets the full row (rank, visa-free, mobility and links); the
+/// rest are compact rows under it, and tapping one brings it up.
+private struct PassportsSection: View {
+    @Binding var shown: String?
     let onEdit: () -> Void
+    let onInfo: (String) -> Void
+    let onDetail: (String) -> Void
 
     @Environment(PassportPreference.self) private var passports
     @Environment(PassportStrengthStore.self) private var strength
@@ -88,18 +116,38 @@ private struct PassportStrengthCard: View {
     @Environment(ExploreSelection.self) private var explore
     @Environment(TabRouter.self) private var tabs
 
-    /// Which of your passports the card shows (defaults to the primary).
-    @State private var shown: String?
-
     var body: some View {
-        Card {
+        Section {
             if let iso = current {
-                content(iso)
+                // Rows keep their slots (full first, compact after) and every
+                // passport fills a slot at the same height, so a switch swaps
+                // the content in place, without a crossfade or a re-layout.
+                full(iso)
+                ForEach(Array(others.enumerated()), id: \.offset) { _, iso in
+                    Button {
+                        var instant = Transaction()
+                        instant.disablesAnimations = true
+                        withTransaction(instant) { shown = iso }
+                    } label: {
+                        compact(iso)
+                    }
+                    .foregroundStyle(Theme.ink)
+                    .accessibilityHint(Text("Shows this passport's rank and visa-free count"))
+                }
             } else {
                 empty
             }
+        } header: {
+            HStack {
+                if passports.passports.count > 1 { Text("Your passports") } else { Text("Your passport") }
+                Spacer()
+                if !passports.passports.isEmpty {
+                    Button("Edit", action: onEdit)
+                        .font(.subheadline)
+                        .textCase(nil)
+                }
+            }
         }
-        .task { await strength.loadIfNeeded() }
     }
 
     private var current: String? {
@@ -107,32 +155,25 @@ private struct PassportStrengthCard: View {
         return passports.primary
     }
 
-    @ViewBuilder
-    private func content(_ iso: String) -> some View {
+    /// Your other passports, in your order, under the full row.
+    private var others: [String] {
+        passports.passports.filter { $0 != current }
+    }
+
+    private func full(_ iso: String) -> some View {
         let rank = strength.rank(for: iso, countries: catalog.countries)
-        VStack(alignment: .leading, spacing: Spacing.lg) {
-            HStack {
-                Eyebrow(text: "Your passport")
-                Spacer()
-                Button("Edit", action: onEdit)
-                    .typography(.sm)
-                    .foregroundStyle(Theme.textBody)
-            }
-
-            if passports.passports.count > 1 {
-                Picker("Passport", selection: Binding(get: { iso }, set: { shown = $0 })) {
-                    ForEach(passports.passports, id: \.self) { code in
-                        Text(catalog.name(forISO2: code) ?? code).tag(code)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
-
+        return VStack(alignment: .leading, spacing: Spacing.lg) {
             HStack(spacing: Spacing.md) {
                 CountryFlag(iso2: iso, size: 36)
-                Text(catalog.name(forISO2: iso) ?? iso)
-                    .typography(.h3)
-                    .foregroundStyle(Theme.ink)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(catalog.name(forISO2: iso) ?? iso)
+                        .typography(.h3)
+                        .foregroundStyle(Theme.ink)
+                    if passports.passports.count > 1 { position(iso) }
+                }
+                Spacer(minLength: Spacing.sm)
+                MetricsInfoButton { onInfo(iso) }
+                    .buttonStyle(.borderless)
             }
 
             ViewThatFits(in: .horizontal) {
@@ -143,12 +184,8 @@ private struct PassportStrengthCard: View {
 
             if rank == nil && strength.loadFailed {
                 Text("Couldn't load the ranking. Pull to refresh later.")
-                    .typography(.xs)
-                    .foregroundStyle(Theme.textSoft)
-            } else {
-                Text("Mobility = visa-free + visa on arrival. Typical eligibility, not a promise of admission.")
-                    .typography(.xs)
-                    .foregroundStyle(Theme.textSoft)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             }
 
             ViewThatFits(in: .horizontal) {
@@ -156,21 +193,53 @@ private struct PassportStrengthCard: View {
                 VStack(alignment: .leading, spacing: Spacing.md) { links(iso) }
             }
         }
+        .padding(.vertical, Spacing.sm)
+    }
+
+    /// A passport that isn't shown: flag, name, rank and visa-free count.
+    private func compact(_ iso: String) -> some View {
+        let rank = strength.rank(for: iso, countries: catalog.countries)
+        return HStack(spacing: Spacing.md) {
+            CountryFlag(iso2: iso, size: 28)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(catalog.name(forISO2: iso) ?? iso)
+                    .lineLimit(1)
+                position(iso)
+            }
+            Spacer(minLength: Spacing.sm)
+            if let rank {
+                Text(verbatim: "#\(rank.rank) · ")
+                    .foregroundStyle(.secondary)
+                    .monospacedDigit()
+                + Text("\(rank.visaFree) visa-free")
+                    .foregroundStyle(.secondary)
+            }
+            Image(systemName: "chevron.up")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+        .contentShape(Rectangle())
+    }
+
+    /// "Primary", "Second", …: on every row, so all rows of a kind are the
+    /// same height.
+    private func position(_ iso: String) -> some View {
+        Text(verbatim: PassportPicking.tag(for: iso, in: passports.passports) ?? "")
+            .font(.footnote)
+            .foregroundStyle(.secondary)
     }
 
     @ViewBuilder
     private func links(_ iso: String) -> some View {
-        NavigationLink(value: PassportRoute.detail(iso)) {
-            linkLabel("Passport details")
-        }
-        .buttonStyle(.plain)
+        Button { onDetail(iso) } label: { linkLabel("Passport details") }
+            .buttonStyle(.borderless)
         Button {
             explore.mode = .map
             tabs.selection = .explore
         } label: {
             linkLabel("See where you can go")
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.borderless)
     }
 
     private func linkLabel(_ title: LocalizedStringKey) -> some View {
@@ -183,26 +252,20 @@ private struct PassportStrengthCard: View {
 
     @ViewBuilder
     private func stats(_ rank: PassportRank?) -> some View {
-        PassportStat(label: "Rank",
-             value: rank.map { "#\($0.rank)" } ?? "#00",
-             sub: rank.map { String(localized: "of \($0.totalRanked)") })
-        PassportStat(label: "Visa-free",
-             value: rank.map { "\($0.visaFree)" } ?? "000",
-             sub: nil)
-        PassportStat(label: "Mobility",
-             value: rank.map { "\($0.mobilityScore)" } ?? "000",
-             sub: rank.map { String(localized: "of \($0.known) destinations") })
+        // The numbers alone; what each one means is behind the ⓘ.
+        PassportStat(label: "Rank", value: rank.map { "#\($0.rank)" } ?? "#00")
+        PassportStat(label: "Visa-free", value: rank.map { "\($0.visaFree)" } ?? "000")
+        PassportStat(label: "Mobility", value: rank.map { "\($0.mobilityScore)" } ?? "000")
     }
 
     private var empty: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
-            Eyebrow(text: "Your passport")
             Text("Pick your passport")
                 .typography(.h3)
                 .foregroundStyle(Theme.ink)
             Text("See its rank, where you can go visa-free, and what each trip needs.")
-                .typography(.sm)
-                .foregroundStyle(Theme.textBody)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
             Button(action: onEdit) {
                 Text("Choose passport")
                     .typography(.sm)
@@ -211,91 +274,9 @@ private struct PassportStrengthCard: View {
                     .foregroundStyle(Theme.inkInverse)
                     .background(Theme.ink, in: Capsule())
             }
-            .buttonStyle(PressShrinkStyle())
+            .buttonStyle(.borderless)
         }
-    }
-}
-
-// MARK: - Where to?
-
-/// Looks like a search field; opens Explore's list with search focused.
-private struct WhereToField: View {
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: Spacing.sm) {
-                Image(systemName: "magnifyingglass")
-                    .font(.system(size: 15))
-                    .foregroundStyle(Theme.textSoft)
-                Text("Where to?")
-                    .typography(.body)
-                    .foregroundStyle(Theme.textSoft)
-                Spacer()
-            }
-            .padding(.horizontal, Spacing.lg)
-            .frame(minHeight: 48)
-            .background(Theme.surface, in: Capsule())
-            .overlay(Capsule().strokeBorder(Theme.border, lineWidth: Hairline.width))
-        }
-        .buttonStyle(PressShrinkStyle())
-        .accessibilityLabel(Text("Where to?"))
-        .accessibilityHint(Text("Search destinations"))
-    }
-}
-
-// MARK: - Popular routes
-
-/// A static, curated list of popular destinations with your status for each.
-// TODO: replace with real trending corridors once the web records searches.
-private struct PopularRoutes: View {
-    let onSelect: (String) -> Void
-
-    static let destinations = ["TR", "AE", "TH", "GE", "GB", "US", "JP", "DE", "FR", "IT", "ES", "EG"]
-
-    @Environment(PassportPreference.self) private var passports
-    @Environment(RequirementsStore.self) private var requirements
-    @Environment(CountryStore.self) private var catalog
-
-    var body: some View {
-        let picks = Array(Self.destinations.filter { !passports.contains($0) }.prefix(6))
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Eyebrow(text: "Popular routes")
-            Card(padding: 0) {
-                VStack(spacing: 0) {
-                    ForEach(Array(picks.enumerated()), id: \.element) { index, iso in
-                        if index > 0 { Divider().overlay(Theme.border).padding(.leading, 56) }
-                        Button { onSelect(iso) } label: { row(iso) }
-                            .buttonStyle(.plain)
-                    }
-                }
-            }
-        }
-    }
-
-    private func row(_ iso: String) -> some View {
-        let row = requirements.row(for: iso)
-        let status = row?.status ?? .unknown
-        return HStack(spacing: Spacing.md) {
-            CountryFlag(iso2: iso, size: 24)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(catalog.name(forISO2: iso) ?? iso)
-                    .typography(.body)
-                    .foregroundStyle(Theme.ink)
-                if let days = row?.daysAllowed, days > 0 {
-                    Text("Up to \(days) days").typography(.xs).foregroundStyle(Theme.textBody)
-                }
-            }
-            Spacer(minLength: Spacing.sm)
-            if status == .unknown {
-                Text(status.label).typography(.xs).foregroundStyle(Theme.textSoft)
-            } else {
-                StatusBadge(text: status.label, hue: status.hue)
-            }
-        }
-        .padding(.horizontal, Spacing.lg)
-        .padding(.vertical, Spacing.md)
-        .contentShape(Rectangle())
+        .padding(.vertical, Spacing.sm)
     }
 }
 
@@ -304,39 +285,33 @@ private struct PopularRoutes: View {
 /// The latest published rule changes for your passport (or all passports).
 private struct RuleChangesSection: View {
     let model: RuleChangesModel
+    let onOpen: () -> Void
 
     @Environment(CountryStore.self) private var catalog
-    @Environment(\.openURL) private var openURL
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            HStack {
-                Eyebrow(text: "Latest rule changes")
-                Spacer()
-                Button("See all") { openChanges() }
-                    .typography(.sm)
-                    .foregroundStyle(Theme.textBody)
-            }
-            Card(padding: 0) {
-                VStack(spacing: 0) {
-                    if model.loading {
-                        ProgressView().frame(maxWidth: .infinity).padding(Spacing.xl)
-                    } else if model.changes.isEmpty {
-                        Text(model.failed
-                             ? "Couldn't load rule changes."
-                             : "No published changes yet. New entries appear here as our team verifies them.")
-                            .typography(.sm)
-                            .foregroundStyle(Theme.textBody)
-                            .padding(Spacing.lg)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    } else {
-                        ForEach(Array(model.changes.enumerated()), id: \.element.id) { index, change in
-                            if index > 0 { Divider().overlay(Theme.border) }
-                            Button { openChanges() } label: { row(change) }
-                                .buttonStyle(.plain)
-                        }
-                    }
+        Section {
+            if model.loading {
+                ProgressView().frame(maxWidth: .infinity).padding(.vertical, Spacing.md)
+            } else if model.changes.isEmpty {
+                Text(model.failed
+                     ? "Couldn't load rule changes."
+                     : "No published changes yet. New entries appear here as our team verifies them.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(model.changes) { change in
+                    Button(action: onOpen) { row(change) }
+                        .foregroundStyle(Theme.ink)
                 }
+            }
+        } header: {
+            HStack {
+                Text("Latest rule changes")
+                Spacer()
+                Button("See all", action: onOpen)
+                    .font(.subheadline)
+                    .textCase(nil)
             }
         }
     }
@@ -355,53 +330,146 @@ private struct RuleChangesSection: View {
                 Spacer()
                 if let date = change.publishedDate {
                     Text(date, format: .dateTime.day().month(.abbreviated).year())
-                        .typography(.xs)
-                        .foregroundStyle(Theme.textSoft)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
             }
             Text(change.localizedTitle())
-                .typography(.body)
-                .foregroundStyle(Theme.ink)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
             HStack(spacing: Spacing.xs) {
                 CountryFlag(iso2: change.destinationIso2, size: 16)
                 Text(catalog.name(forISO2: change.destinationIso2) ?? change.destinationIso2)
-                    .typography(.xs)
-                    .foregroundStyle(Theme.textBody)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             }
         }
-        .padding(Spacing.lg)
+        .padding(.vertical, Spacing.xs)
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
     }
+}
 
-    private func openChanges() {
-        openURL(AppLocale.current.webURL(path: "/changes"))
+// MARK: - Guides and tools
+
+/// The web dashboard's "Guides and tools" (`GuidesGrid`), pointed at your own
+/// passports and visas: compare, the passport index, a destination guide,
+/// travel essentials, how we verify, and the blog. The passport screens open
+/// natively; the rest open the website.
+private struct GuidesSection: View {
+    let onWeb: (String) -> Void
+
+    @Environment(PassportPreference.self) private var passports
+    @Environment(CountryStore.self) private var catalog
+    @Environment(TrackerStore.self) private var trackers
+    @Environment(ExploreSelection.self) private var explore
+    @Environment(TabRouter.self) private var tabs
+
+    var body: some View {
+        let primary = passports.primary.flatMap { catalog.country($0) }
+        let primaryName = passports.primary.map { catalog.name(forISO2: $0) ?? $0 }
+        let secondName = passports.passports.dropFirst().first.map { catalog.name(forISO2: $0) ?? $0 }
+        Section("Guides and tools") {
+            NavigationLink(value: PassportRoute.compare(passports.passports)) {
+                if let primaryName, let secondName {
+                    RowLabel(icon: "rectangle.split.2x1", title: "Compare passports",
+                             hint: "\(primaryName) vs \(secondName)")
+                } else {
+                    RowLabel(icon: "rectangle.split.2x1", title: "Compare passports",
+                             hint: "Side by side, destination by destination")
+                }
+            }
+            NavigationLink(value: PassportRoute.ranking) {
+                RowLabel(icon: "globe", title: "Passport index",
+                         hint: "Where every passport travels visa-free")
+            }
+            if let tracked = trackedDestination {
+                NavigationLink(value: CatalogRoute.destination(tracked.iso2)) {
+                    RowLabel(flag: tracked.iso2, title: "\(tracked.name) guide",
+                             hint: "Visas, fees and official sources")
+                }
+            } else {
+                Button {
+                    explore.mode = .list
+                    tabs.selection = .explore
+                } label: {
+                    RowLabel(icon: "map", title: "Destination guides",
+                             hint: "Every country's visas and entry rules", chevron: true)
+                }
+                .foregroundStyle(Theme.ink)
+            }
+            Button {
+                onWeb(primary?.slug.map { "/travel/\($0)" } ?? "/travel")
+            } label: {
+                if let primaryName {
+                    RowLabel(icon: "suitcase", title: "Travel essentials",
+                             hint: "For travellers from \(primaryName)", chevron: true)
+                } else {
+                    RowLabel(icon: "suitcase", title: "Travel essentials",
+                             hint: "Insurance, eSIM and what to pack", chevron: true)
+                }
+            }
+            .foregroundStyle(Theme.ink)
+            Button { onWeb("/how-we-verify") } label: {
+                RowLabel(icon: "checkmark.shield", title: "How we verify",
+                         hint: "Our sources and how often we check them", chevron: true)
+            }
+            .foregroundStyle(Theme.ink)
+            Button { onWeb("/blog") } label: {
+                RowLabel(icon: "book.closed", title: "Blog",
+                         hint: "Visa news and practical guides", chevron: true)
+            }
+            .foregroundStyle(Theme.ink)
+        }
+    }
+
+    /// The most recent visa you're tracking (web: one guide card at most).
+    private var trackedDestination: (iso2: String, name: String)? {
+        guard let tracker = trackers.trackers.map(\.tracker).first(where: { !$0.isArchived }),
+              let country = catalog.country(tracker.destinationIso2), country.slug != nil
+        else { return nil }
+        let iso = country.iso2.uppercased()
+        return (iso, catalog.name(forISO2: iso) ?? country.name)
     }
 }
 
-/// A tappable hairline card with an icon, a title and one line of help.
-struct EntryCard: View {
-    let icon: String
+// MARK: - Row
+
+/// A settings-style row: icon (or flag), title, one line of help, and an
+/// optional chevron for buttons (navigation links draw their own).
+private struct RowLabel: View {
+    var icon: String? = nil
+    var flag: String? = nil
     let title: LocalizedStringKey
-    let subtitle: LocalizedStringKey
-    let action: () -> Void
+    let hint: LocalizedStringKey
+    var chevron = false
 
     var body: some View {
-        Button(action: action) {
-            Card {
-                HStack(spacing: Spacing.lg) {
-                    Image(systemName: icon).font(.system(size: 22)).foregroundStyle(Theme.inkSoft)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(title).typography(.title).foregroundStyle(Theme.ink)
-                        Text(subtitle).typography(.sm).foregroundStyle(Theme.textBody)
-                    }
-                    Spacer()
-                    Image(systemName: "arrow.right").font(.system(size: 14)).foregroundStyle(Theme.textSoft)
+        HStack(spacing: Spacing.md) {
+            Group {
+                if let flag {
+                    CountryFlag(iso2: flag, size: 24)
+                } else if let icon {
+                    Image(systemName: icon)
+                        .font(.system(size: 20))
+                        .foregroundStyle(Theme.inkSoft)
                 }
             }
+            .frame(width: 28)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                Text(hint)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
+            Spacer(minLength: 0)
+            if chevron {
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
         }
-        .buttonStyle(PressShrinkStyle())
+        .contentShape(Rectangle())
     }
 }

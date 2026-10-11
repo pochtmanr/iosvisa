@@ -134,4 +134,63 @@ enum MapPalette {
     static let home = Color.dynamic(light: Color(hex: 0x1E3A8A), dark: Color(hex: 0x3B5BB5))
     /// Country borders.
     static let border = Color.dynamic(light: Color(hex: 0xFFFFFF), dark: Color(hex: 0x0A0A0A))
+    /// The sea under the land (web `--map-ocean`).
+    static let ocean = Color.dynamic(light: Color(hex: 0xF7F9FC), dark: Color(hex: 0x0E1116))
+}
+
+/// Route-coverage ramps for the non-travel purposes (`--route-{purpose}-*` in
+/// `web/src/app/globals.css`, light then dark; the dark steps are the web's
+/// `color-mix(in oklab, …)` resolved to hex). One hue per purpose, so each
+/// reads as its own map. Depth = distinct visa types the destination publishes
+/// for the purpose: 1, 2, 3+. Never used for entry status.
+enum RoutePalette {
+    /// Ramp steps 1…3, then the focus (selected destination, accent).
+    private struct Ramp {
+        let light: [UInt32]
+        let dark: [UInt32]
+    }
+
+    private static func ramp(_ purpose: Purpose) -> Ramp? {
+        switch purpose {
+        case .travel: return nil
+        case .study: return Ramp(light: [0xD9CCFB, 0xB39AF5, 0x8B67EA, 0x6D3FE0],
+                                 dark: [0x332A51, 0x524087, 0x7659C6, 0xA087F1])
+        case .work: return Ramp(light: [0xB8E6DF, 0x7BCFC3, 0x3FB2A3, 0x14897B],
+                                dark: [0x213F3A, 0x2D685F, 0x39978B, 0x6FC2B5])
+        case .remote: return Ramp(light: [0xC5E4F7, 0x8CCBF0, 0x4FADE6, 0x1F86C7],
+                                  dark: [0x243E4F, 0x346584, 0x4693C3, 0x77BEEC])
+        case .immigrate: return Ramp(light: [0xC3EBD2, 0x86D3A5, 0x47B678, 0x1E8E50],
+                                     dark: [0x22402E, 0x316A48, 0x3F9B67, 0x73C592])
+        case .invest: return Ramp(light: [0xF6E3A8, 0xECC95F, 0xD9A82A, 0xB8860B],
+                                  dark: [0x4B3C1C, 0x7D6324, 0xB88F29, 0xE1BA63])
+        case .family: return Ramp(light: [0xF9D0C4, 0xF2A68F, 0xE67A5C, 0xD1532F],
+                                  dark: [0x502F26, 0x854A39, 0xC36950, 0xEE967D])
+        }
+    }
+
+    private static func step(_ purpose: Purpose, _ index: Int) -> Color {
+        guard let r = ramp(purpose) else { return MapPalette.free }
+        return .dynamic(light: Color(hex: r.light[index]), dark: Color(hex: r.dark[index]))
+    }
+
+    /// Ramp step 1…3 (`--route-{purpose}-{n}`).
+    static func depth(_ n: Int, _ purpose: Purpose) -> Color {
+        step(purpose, min(max(n, 1), 3) - 1)
+    }
+
+    /// `routeFillFor`: the fill for a destination with `typeCount` distinct visa types.
+    static func fill(typeCount: Int, purpose: Purpose) -> Color {
+        depth(typeCount, purpose)
+    }
+
+    /// `PURPOSE_ACCENT`: each purpose's map hue (glyphs, the focus outline).
+    /// Travel speaks the travel map's visa-free focus blue.
+    static func accent(_ purpose: Purpose) -> Color {
+        purpose == .travel ? MapPalette.focus : step(purpose, 3)
+    }
+
+    /// Land with no route for the purpose (`--route-empty`).
+    static let empty = Color.dynamic(light: Color(hex: 0xF2F2F2), dark: Color(hex: 0x171717))
+    /// Its outline/strong step (`--route-empty-strong`).
+    static let emptyStrong = Color.dynamic(light: Color(hex: 0xCACACA), dark: Color(hex: 0x303030))
 }

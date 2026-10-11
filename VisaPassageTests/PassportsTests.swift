@@ -180,4 +180,62 @@ final class PassportsTests: XCTestCase {
         let url = PassportRankingRepository.compareURL(base: URL(string: "https://visapassage.com")!, codes: ["ua", "de"])
         XCTAssertEqual(url.absoluteString, "https://visapassage.com/api/passports?codes=DE,UA")
     }
+
+    // MARK: Redesign (sort, scoreboard, regions, summary)
+
+    func testSortMostVisaFreeBreaksTiesByRankAndNameIsAlphabetical() throws {
+        let index = try realIndex()
+        let byVisaFree = PassportFilters.sort(index, by: .visaFree)
+        XCTAssertEqual(byVisaFree.count, index.count)
+        for (a, b) in zip(byVisaFree, byVisaFree.dropFirst()) {
+            XCTAssertGreaterThanOrEqual(a.visaFree, b.visaFree)
+            if a.visaFree == b.visaFree { XCTAssertLessThanOrEqual(a.rank, b.rank, "ties: rank order") }
+        }
+        let byName = PassportFilters.sort(index, by: .name).map(\.name)
+        XCTAssertEqual(byName, byName.sorted { $0.localizedStandardCompare($1) == .orderedAscending })
+        XCTAssertEqual(PassportFilters.sort(index, by: .rank), index, "rank keeps the server order")
+    }
+
+    func testScoreboardWinners() {
+        XCTAssertEqual(PassportComparison.winners([9, 31], lowerIsBetter: true), [0], "rank: lower wins")
+        XCTAssertEqual(PassportComparison.winners([170, 143], lowerIsBetter: false), [0])
+        XCTAssertEqual(PassportComparison.winners([13, 29], lowerIsBetter: true), [0], "visa required: fewer wins")
+        XCTAssertEqual(PassportComparison.winners([5, 5, 2], lowerIsBetter: false), [0, 1], "shared lead")
+        XCTAssertEqual(PassportComparison.winners([4, 4], lowerIsBetter: false), [], "a level row marks no one")
+    }
+
+    func testRegionTalliesAndEasierGroups() {
+        func p(_ iso: String, _ reqs: [(String, VisaStatus)]) -> ComparePassport {
+            ComparePassport(iso2: iso, name: iso, rank: 1, mobilityScore: 0, requirements: reqs.map {
+                .init(destinationIso2: $0.0, name: $0.0, status: $0.1, daysAllowed: 90)
+            })
+        }
+        let a = p("AA", [("X1", .visaFree), ("X2", .visaRequired), ("X3", .visaOnArrival), ("X5", .evisa)])
+        let b = p("BB", [("X1", .visaFree), ("X2", .visaOnArrival), ("X3", .visaRequired), ("X4", .visaFree), ("X5", .evisa)])
+        let c = PassportComparison([a, b])
+        let region = ["X1": "Europe", "X2": "Europe", "X3": "Asia", "X4": "Asia", "X5": "Asia"]
+        let tallies = Dictionary(uniqueKeysWithValues: c.regionTallies { region[$0] }.map { ($0.region, $0) })
+        XCTAssertEqual(tallies["Europe"]?.counts, [1, 2])
+        XCTAssertEqual(tallies["Europe"]?.total, 2)
+        XCTAssertEqual(tallies["Asia"]?.counts, [1, 0], "X4 lacks AA data, so it is left out")
+        XCTAssertEqual(tallies["Asia"]?.total, 2)
+        XCTAssertEqual(tallies["Africa"]?.total, 0)
+        XCTAssertEqual(c.easier(with: 0).map(\.iso2), ["X3"])
+        XCTAssertEqual(c.easier(with: 1).map(\.iso2), ["X2"])
+        XCTAssertEqual(c.differing.first?.days, [90, 90])
+    }
+
+    func testSummaryFixtureDecodes() throws {
+        let s = try JSONDecoder.visaPassage.decode(PassportSummary.self, from: fixture("summary-de"))
+        XCTAssertEqual(s.iso2, "DE")
+        XCTAssertEqual(s.rank, 9, "same rank as the ported dense rank")
+        XCTAssertEqual(s.totalRanked, 237)
+        XCTAssertEqual(s.mobilityScore, 170)
+        XCTAssertLessThanOrEqual(s.topVisaFree.count, PassportFilters.topVisaFreeLimit)
+        XCTAssertEqual(s.topVisaFree.first?.iso2, "GE")
+        XCTAssertLessThanOrEqual(s.combos.count, 5)
+        XCTAssertTrue(s.combos.allSatisfy { $0.uplift > 0 && $0.combinedMobility == 170 + $0.uplift })
+        let url = PassportRankingRepository.summaryURL(base: URL(string: "https://visapassage.com")!, slug: "germany", locale: .ru)
+        XCTAssertEqual(url.absoluteString, "https://visapassage.com/api/passports/germany/summary?locale=ru")
+    }
 }

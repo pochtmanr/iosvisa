@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The sign-in card, shown with `.floatingSheet` from the welcome flow, the My
 /// visas gate and Settings: the brand mark, a one-line value prop, Apple /
-/// Google, "Continue with Email" (opens the full email form) as three
+/// Google / Telegram (when enabled), "Continue with Email" (opens the full email form) as three
 /// identical glass capsules, and a Terms
 /// footer. Closes itself once a session exists. All auth logic lives in the
 /// button components and `AuthStore`.
@@ -19,6 +19,9 @@ struct AuthSheet: View {
                 AppleSignInButton()
                 if AppConfig.hasGoogleSignIn {
                     GoogleSignInButton()
+                }
+                if AppConfig.hasTelegramSignIn {
+                    TelegramSignInButton()
                 }
                 AuthProviderButton(title: "Continue with Email", systemImage: "envelope") {
                     showEmail = true

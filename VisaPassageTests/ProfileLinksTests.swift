@@ -67,8 +67,8 @@ final class ProfileLinksTests: XCTestCase {
     }
 
     func testSelectionPutsPrimaryFirstAndClamps() {
-        let rows = [row("DE"), row("UA", primary: true), row("PL")]
-        XCTAssertEqual(PassportSync.selection(from: rows), ["UA", "DE"])
+        let rows = [row("DE"), row("UA", primary: true), row("PL"), row("FR"), row("IT")]
+        XCTAssertEqual(PassportSync.selection(from: rows), ["UA", "DE", "PL", "FR"])
     }
 
     func testPlanInsertsMissingAndFixesPrimary() {

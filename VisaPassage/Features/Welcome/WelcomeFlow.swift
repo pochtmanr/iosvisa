@@ -1,19 +1,26 @@
 import SwiftUI
 
 /// First-launch welcome: three paged cards that retell the landing's "How it
-/// works" (passports → compare → track) over the landing photos. Ends in
-/// "Pick your passport" (also reached by Skip) or in the floating sign-in
-/// sheet. Either way it sets `welcome.completed`, so it never shows again.
+/// works" (passports → compare → track) over the landing photos. Then the
+/// landing checker's own order: "What brings you here?" (the purpose cards),
+/// then "Pick your passport" (both also reached by Skip), or the floating
+/// sign-in sheet. A chosen purpose opens Explore's map with it applied. Either
+/// way it sets `welcome.completed`, so it never shows again.
 struct WelcomeFlow: View {
     static let completedKey = "welcome.completed"
 
     @Environment(AuthStore.self) private var auth
+    @Environment(ExploreSelection.self) private var explore
+    @Environment(TabRouter.self) private var tabs
     @AppStorage(WelcomeFlow.completedKey) private var completed = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var page = WelcomeFlow.debugStartPage
     @State private var showSignIn = false
+    @State private var showPurpose = false
     @State private var showPicker = false
+    /// The purpose picked on the purpose step, applied when the welcome ends.
+    @State private var purpose: Purpose?
     @State private var folderOpen = false
 
     private let pageCount = 3
@@ -23,6 +30,15 @@ struct WelcomeFlow: View {
         if showPicker {
             PassportPickerStep(onFinish: finish)
                 .transition(.move(edge: .trailing))
+        } else if showPurpose {
+            PurposeStep(current: purpose) { chosen in
+                purpose = chosen
+                openPicker()
+            } onSkip: {
+                purpose = nil
+                openPicker()
+            }
+            .transition(.move(edge: .trailing))
         } else {
             cards
                 .transition(.move(edge: .leading))
@@ -62,6 +78,7 @@ struct WelcomeFlow: View {
         .onAppear {
             if UserDefaults.standard.bool(forKey: "welcome.debugSignIn") { showSignIn = true }
             if UserDefaults.standard.bool(forKey: "welcome.debugPicker") { showPicker = true }
+            if UserDefaults.standard.bool(forKey: "welcome.debugPurpose") { showPurpose = true }
         }
         #endif
     }
@@ -164,7 +181,7 @@ struct WelcomeFlow: View {
                 .foregroundStyle(.white)
             Spacer()
             if page < pageCount - 1 {
-                Button("Skip") { openPicker() }
+                Button("Skip") { openPurpose() }
                     .font(Typography.font(.sm))
                     .foregroundStyle(.white.opacity(0.85))
                     .padding(.horizontal, Spacing.md)
@@ -183,13 +200,13 @@ struct WelcomeFlow: View {
             let isLast = page == pageCount - 1
             Button {
                 if isLast {
-                    openPicker()
+                    openPurpose()
                 } else {
                     withAnimation(.easeInOut(duration: 0.35)) { page += 1 }
                 }
             } label: {
                 HStack(spacing: Spacing.sm) {
-                    Text(isLast ? "Pick your passport" : "Continue").typography(.sm)
+                    Text(isLast ? "Get started" : "Continue").typography(.sm)
                     Image(systemName: "arrow.right").font(.system(size: 14, weight: .medium))
                 }
                 .frame(maxWidth: .infinity)
@@ -219,11 +236,20 @@ struct WelcomeFlow: View {
         withAnimation(.spring(response: 0.6, dampingFraction: 0.72).delay(0.35)) { folderOpen = true }
     }
 
+    private func openPurpose() {
+        withAnimation(.easeInOut(duration: 0.3)) { showPurpose = true }
+    }
+
     private func openPicker() {
         withAnimation(.easeInOut(duration: 0.3)) { showPicker = true }
     }
 
     private func finish() {
+        // Like the landing: purpose, passport, then the map with both applied.
+        if let purpose {
+            explore.open(purpose: purpose)
+            tabs.selection = .explore
+        }
         withAnimation(.easeInOut(duration: 0.3)) { completed = true }
     }
 }
@@ -250,6 +276,8 @@ private struct PageDots: View {
 #Preview {
     WelcomeFlow()
         .environment(AuthStore())
+        .environment(ExploreSelection())
+        .environment(TabRouter())
         .environment(PassportPreference())
         .environment(CountryStore())
 }

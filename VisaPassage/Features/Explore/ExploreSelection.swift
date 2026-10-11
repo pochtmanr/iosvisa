@@ -15,6 +15,20 @@ final class ExploreSelection {
 
     var mode: Mode = .map
     var filter: ExploreFilter = .all
+    /// The checker's purpose (landing step 1, the Home cards). Travel paints
+    /// entry status; the others paint routes. Changing it clears the filters,
+    /// as the web checker does.
+    var purpose: Purpose = .travel {
+        didSet {
+            guard purpose != oldValue else { return }
+            filter = .all
+            typeFilter = nil
+        }
+    }
+    /// The visa-type chip on a route map (`typeFilter` on the web), or nil.
+    var typeFilter: String?
+    /// Optional age band on route maps: refines the working-holiday note only.
+    var ageBand: AgeBand?
     /// The destination whose bottom panel is open on the map.
     var focusedDestination: String?
     /// A destination to push into detail, consumed once by `ExploreView`.
@@ -32,6 +46,8 @@ final class ExploreSelection {
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "debug.exploreMode") == "list" { mode = .list }
         focusedDestination = defaults.string(forKey: "debug.exploreFocus")
+        // `-debug.explorePurpose study`.
+        if let raw = defaults.string(forKey: "debug.explorePurpose"), let p = Purpose(rawValue: raw) { purpose = p }
         #endif
     }
 
@@ -41,18 +57,27 @@ final class ExploreSelection {
         focusSearch = true
     }
 
+    /// Open the map with a purpose applied (a Home card, the welcome's purpose
+    /// step): the web's `/app/explore?purpose=…`.
+    func open(purpose: Purpose) {
+        self.purpose = purpose
+        mode = .map
+        focusedDestination = nil
+    }
+
     /// Open the map with one destination's panel showing.
     func show(destination iso2: String) {
+        purpose = .travel
         filter = .all
         mode = .map
         focusedDestination = iso2.uppercased()
     }
 }
 
-/// The Explore filter chips: visa-free / on arrival / eVisa / visa required.
-/// eVisa also covers eTA, as the web map shades them alike.
+/// The map key's status filter: visa-free / on arrival / eVisa / visa
+/// required / no admission. eVisa also covers eTA, as the web map shades them alike.
 enum ExploreFilter: String, CaseIterable, Identifiable, Sendable {
-    case all, visaFree, onArrival, evisa, visaRequired
+    case all, visaFree, onArrival, evisa, visaRequired, noAdmission
 
     var id: Self { self }
 
@@ -63,10 +88,11 @@ enum ExploreFilter: String, CaseIterable, Identifiable, Sendable {
         case .onArrival: return VisaStatus.visaOnArrival.label
         case .evisa: return VisaStatus.evisa.label
         case .visaRequired: return VisaStatus.visaRequired.label
+        case .noAdmission: return VisaStatus.noAdmission.label
         }
     }
 
-    /// The map colour shown on the chip (nil for All).
+    /// The status whose glyph keys this filter (nil for All).
     var swatch: VisaStatus? {
         switch self {
         case .all: return nil
@@ -74,6 +100,7 @@ enum ExploreFilter: String, CaseIterable, Identifiable, Sendable {
         case .onArrival: return .visaOnArrival
         case .evisa: return .evisa
         case .visaRequired: return .visaRequired
+        case .noAdmission: return .noAdmission
         }
     }
 
@@ -84,6 +111,7 @@ enum ExploreFilter: String, CaseIterable, Identifiable, Sendable {
         case .onArrival: return status == .visaOnArrival
         case .evisa: return status == .evisa || status == .eta
         case .visaRequired: return status == .visaRequired
+        case .noAdmission: return status == .noAdmission
         }
     }
 }

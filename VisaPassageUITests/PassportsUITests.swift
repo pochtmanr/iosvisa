@@ -53,4 +53,32 @@ final class PassportsUITests: XCTestCase {
             list.swipeDown(velocity: .fast)
         }
     }
+
+    /// Design review aid: walks the ranking, a passport page and compare,
+    /// scrolling each and attaching screenshots. Opt-in, so the normal suite
+    /// stays fast: `TEST_RUNNER_CAPTURE_SCREENS=1 xcodebuild … test
+    /// -only-testing:VisaPassageUITests/PassportsUITests/testCaptureScreens`,
+    /// then export the attachments from the .xcresult.
+    func testCaptureScreens() throws {
+        try XCTSkipUnless(ProcessInfo.processInfo.environment["CAPTURE_SCREENS"] == "1", "Set CAPTURE_SCREENS=1")
+        let screens: [(String, [String])] = [
+            ("ranking", ["-debug.ranking", "YES"]),
+            ("passport-DE", ["-debug.passport", "DE"]),
+            ("compare-DE-UA", ["-debug.compare", "DE,UA"]),
+            ("compare-4", ["-debug.compare", "DE,IN,NG,US"]),
+        ]
+        for (name, args) in screens {
+            let app = launch(args)
+            sleep(6)
+            for page in 0..<6 {
+                let shot = XCTAttachment(screenshot: app.screenshot())
+                shot.name = "\(name)-\(page)"
+                shot.lifetime = .keepAlways
+                add(shot)
+                app.swipeUp(velocity: .slow)
+                sleep(1)
+            }
+            app.terminate()
+        }
+    }
 }

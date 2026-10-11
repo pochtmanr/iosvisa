@@ -97,7 +97,7 @@ struct UnverifiedChip: View {
     }
 }
 
-/// A neutral hairline chip (corridor tags, rights).
+/// A neutral white chip on the grouped page (corridor tags, rights).
 struct TagChip: View {
     let text: String
     var icon: CatalogIcon? = nil
@@ -109,8 +109,7 @@ struct TagChip: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
-        .background(Theme.surface, in: Capsule())
-        .overlay(Capsule().strokeBorder(Theme.border, lineWidth: Hairline.width))
+        .background(Theme.groupedCard, in: Capsule())
         .fixedSize()
     }
 }
@@ -124,8 +123,8 @@ struct FactItem: Identifiable {
     let hint: String?
 }
 
-/// The signature hairline grid: two columns divided by exact 1pt lines inside
-/// a 24pt card.
+/// The signature fact grid: two columns divided by exact 1pt lines inside a
+/// borderless 24pt card.
 struct FactGrid: View {
     let items: [FactItem]
 
@@ -135,14 +134,13 @@ struct FactGrid: View {
             ForEach(rows.indices, id: \.self) { index in
                 HStack(spacing: Hairline.width) {
                     ForEach(rows[index]) { cell($0) }
-                    if rows[index].count == 1 { Theme.bg.frame(maxWidth: .infinity) }
+                    if rows[index].count == 1 { Theme.groupedCard.frame(maxWidth: .infinity) }
                 }
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
         .background(Theme.border)
         .clipShape(RoundedRectangle(cornerRadius: Radius.card, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: Radius.card, style: .continuous).strokeBorder(Theme.border, lineWidth: Hairline.width))
     }
 
     private func cell(_ item: FactItem) -> some View {
@@ -165,7 +163,7 @@ struct FactGrid: View {
         }
         .padding(Spacing.lg)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(Theme.bg)
+        .background(Theme.groupedCard)
         .accessibilityElement(children: .combine)
     }
 }

@@ -10,6 +10,8 @@ struct VisaPassageApp: App {
     @State private var passports = PassportPreference()
     @State private var explore = ExploreSelection()
     @State private var requirements = RequirementsStore()
+    @State private var purposeRoutes = PurposeRoutesStore()
+    @State private var trackers = TrackerStore()
     @State private var strength = PassportStrengthStore()
     @State private var tabs = TabRouter()
 
@@ -22,6 +24,8 @@ struct VisaPassageApp: App {
                 .environment(passports)
                 .environment(explore)
                 .environment(requirements)
+                .environment(purposeRoutes)
+                .environment(trackers)
                 .environment(strength)
                 .environment(tabs)
                 .tint(Theme.accent)

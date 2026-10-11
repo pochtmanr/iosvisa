@@ -15,7 +15,7 @@ final class SmokeUITests: XCTestCase {
 
         let tabBar = app.tabBars.firstMatch
         XCTAssertTrue(tabBar.waitForExistence(timeout: 15), "Tab bar should appear without signing in")
-        for label in ["Home", "Explore", "My visas", "Settings"] {
+        for label in ["Home", "Explore", "My visas", "Account"] {
             XCTAssertTrue(tabBar.buttons[label].exists, "Missing tab: \(label)")
         }
 
@@ -30,7 +30,7 @@ final class SmokeUITests: XCTestCase {
 
         let tabBar = app.tabBars.firstMatch
         XCTAssertTrue(tabBar.waitForExistence(timeout: 15))
-        for label in ["Главная", "Поиск", "Мои визы", "Настройки"] {
+        for label in ["Главная", "Поиск", "Мои визы", "Аккаунт"] {
             XCTAssertTrue(tabBar.buttons[label].exists, "Missing ru tab: \(label)")
         }
     }

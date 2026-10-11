@@ -37,6 +37,10 @@ enum Theme {
     static let surfaceRaised = surface
     static let surfaceSunken = surface2
 
+    /// Home's inset-grouped look: a grey page under white, borderless cards.
+    static let groupedBg = Color(.systemGroupedBackground)
+    static let groupedCard = Color(.secondarySystemGroupedBackground)
+
     static let accent = ink
     static let accentContrast = inkInverse
 }

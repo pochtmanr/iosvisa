@@ -15,7 +15,6 @@ struct ChecklistView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.xxl) {
                 VStack(alignment: .leading, spacing: Spacing.sm) {
-                    Eyebrow(text: "Document checklist")
                     Text(verbatim: context.product.name)
                         .typography(.h2)
                         .foregroundStyle(Theme.ink)
@@ -33,7 +32,8 @@ struct ChecklistView: View {
             }
             .padding(Spacing.xl)
         }
-        .background(Theme.bg)
+        .background(Theme.groupedBg)
+        .navigationTitle("Checklist")
         .navigationBarTitleDisplayMode(.inline)
         .task { await catalog.load(passport: context.passport) }
     }

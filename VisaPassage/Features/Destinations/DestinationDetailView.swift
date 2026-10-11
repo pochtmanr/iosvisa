@@ -42,7 +42,7 @@ struct DestinationDetailView: View {
                 .padding(Spacing.xl)
             }
         }
-        .background(Theme.bg)
+        .background(Theme.groupedBg)
         .navigationTitle(country?.displayName ?? iso2)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -69,7 +69,7 @@ struct DestinationDetailView: View {
                 Spacer()
             }
             Eyebrow(verbatim: country?.region ?? String(localized: "Destination"))
-            Text("Every way into \(name).")
+            Text(verbatim: name)
                 .typography(.h1)
                 .foregroundStyle(Theme.ink)
                 .fixedSize(horizontal: false, vertical: true)
@@ -148,8 +148,7 @@ struct DestinationDetailView: View {
                         .foregroundStyle(Theme.ink)
                         .padding(.horizontal, 12)
                         .frame(height: 34)
-                        .background(Theme.surface, in: Capsule())
-                        .overlay(Capsule().strokeBorder(Theme.border, lineWidth: Hairline.width))
+                        .background(Theme.groupedCard, in: Capsule())
                     }
                     .buttonStyle(PressShrinkStyle())
                 }

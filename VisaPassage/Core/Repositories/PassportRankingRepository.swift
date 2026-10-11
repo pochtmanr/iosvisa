@@ -78,6 +78,44 @@ struct PassportRankingRepository: Sendable {
         ).value
     }
 
+    static func summaryKey(slug: String, locale: AppLocale) -> String {
+        "passport-summary:v1:\(slug):\(locale.rawValue)"
+    }
+
+    /// The passport page's composed extras from `GET /api/passports/{slug}/summary`:
+    /// the best second passports (`loadComboUplift` needs every passport's
+    /// requirements, so it stays on the server) and the longest visa-free stays.
+    func summary(
+        slug: String,
+        locale: AppLocale = .current,
+        onRefresh: @escaping @Sendable (PassportSummary) async -> Void = { _ in }
+    ) async throws -> PassportSummary {
+        let url = Self.summaryURL(base: baseURL, slug: slug, locale: locale)
+        let session = session
+        return try await cache.load(
+            PassportSummary.self,
+            key: Self.summaryKey(slug: slug, locale: locale),
+            fetch: {
+                var request = URLRequest(url: url)
+                request.setValue("application/json", forHTTPHeaderField: "Accept")
+                let (data, response) = try await session.data(for: request)
+                let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+                guard (200..<300).contains(status) else { throw RepositoryError.http(status) }
+                return try JSONDecoder.visaPassage.decode(PassportSummary.self, from: data)
+            },
+            onRefresh: onRefresh
+        ).value
+    }
+
+    static func summaryURL(base: URL, slug: String, locale: AppLocale) -> URL {
+        var components = URLComponents(
+            url: base.appendingPathComponent("api/passports/\(slug)/summary"),
+            resolvingAgainstBaseURL: false
+        )!
+        components.queryItems = [URLQueryItem(name: "locale", value: locale.rawValue)]
+        return components.url!
+    }
+
     static func compareURL(base: URL, codes: [String]) -> URL {
         var components = URLComponents(url: base.appendingPathComponent("api/passports"), resolvingAgainstBaseURL: false)!
         components.queryItems = [URLQueryItem(name: "codes", value: normalize(codes).joined(separator: ","))]
@@ -141,6 +179,48 @@ struct ComparePassport: Codable, Sendable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case iso2, name, rank, requirements
+        case mobilityScore = "mobility_score"
+    }
+}
+
+/// `GET /api/passports/{slug}/summary` (web `PassportSummary`), minus the map
+/// payload: the app draws its map from the cached requirements slice.
+struct PassportSummary: Codable, Sendable, Hashable {
+    var iso2: String
+    var rank: Int
+    var totalRanked: Int
+    var mobilityScore: Int
+    var topVisaFree: [Stay]
+    var combos: [Combo]
+
+    struct Stay: Codable, Sendable, Hashable {
+        var iso2: String
+        var name: String
+        var daysAllowed: Int?
+
+        enum CodingKeys: String, CodingKey {
+            case iso2, name
+            case daysAllowed = "days_allowed"
+        }
+    }
+
+    /// A second passport and how many mobility destinations it adds (web `ComboUplift`).
+    struct Combo: Codable, Sendable, Hashable, Identifiable {
+        var iso2: String
+        var name: String
+        var uplift: Int
+        var combinedMobility: Int
+
+        var id: String { iso2 }
+
+        enum CodingKeys: String, CodingKey {
+            case iso2, name, uplift
+            case combinedMobility = "combined_mobility"
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case iso2, rank, totalRanked, topVisaFree, combos
         case mobilityScore = "mobility_score"
     }
 }

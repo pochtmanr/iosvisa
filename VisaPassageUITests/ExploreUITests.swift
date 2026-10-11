@@ -31,7 +31,8 @@ final class ExploreUITests: XCTestCase {
         XCTAssertTrue(germany.waitForExistence(timeout: 20), "Country catalog should list Germany")
     }
 
-    /// First launch: welcome → Skip → pick a passport → Home shows its card.
+    /// First launch: welcome → Skip → purpose → pick a passport → Explore opens
+    /// with the purpose, and Home shows the passport card.
     func testWelcomePickerLandsOnHomeWithPassport() {
         let app = XCUIApplication()
         app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US",
@@ -42,6 +43,11 @@ final class ExploreUITests: XCTestCase {
         let skip = app.buttons["Skip"]
         XCTAssertTrue(skip.waitForExistence(timeout: 15))
         skip.tap()
+
+        // The landing's step 1: the purpose cards.
+        let travel = app.buttons["purpose.travel"]
+        XCTAssertTrue(travel.waitForExistence(timeout: 5), "Welcome asks for the purpose first")
+        travel.tap()
 
         XCTAssertTrue(app.staticTexts["Pick your passport"].waitForExistence(timeout: 5))
         let search = app.searchFields.firstMatch
@@ -57,6 +63,10 @@ final class ExploreUITests: XCTestCase {
         app.buttons["Continue"].tap()
 
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 10), "Welcome finishes onto the tab shell")
+        XCTAssertTrue(app.buttons["explore.purpose"].waitForExistence(timeout: 10), "A chosen purpose lands on Explore")
+
+        app.tabBars.buttons["Home"].tap()
+        XCTAssertTrue(app.buttons["purpose.study"].waitForExistence(timeout: 10), "Home leads with the purpose cards")
         XCTAssertTrue(app.staticTexts["Ukraine"].waitForExistence(timeout: 10), "Home shows the picked passport")
         XCTAssertTrue(app.staticTexts["RANK"].exists || app.staticTexts["Rank"].exists)
     }

@@ -1,0 +1,211 @@
+{
+ "iso2": "DE",
+ "name": "Germany",
+ "flag_emoji": "🇩🇪",
+ "slug": "germany",
+ "rank": 9,
+ "totalRanked": 237,
+ "mobility_score": 170,
+ "known": 249,
+ "counts": {
+  "visa_free": 162,
+  "visa_on_arrival": 8,
+  "evisa": 55,
+  "eta": 11,
+  "visa_required": 13,
+  "no_admission": 0
+ },
+ "topVisaFree": [
+  {
+   "iso2": "GE",
+   "name": "Georgia",
+   "slug": "georgia",
+   "days_allowed": 365
+  },
+  {
+   "iso2": "AG",
+   "name": "Antigua and Barbuda",
+   "slug": "antigua-and-barbuda",
+   "days_allowed": 180
+  },
+  {
+   "iso2": "AM",
+   "name": "Armenia",
+   "slug": "armenia",
+   "days_allowed": 180
+  },
+  {
+   "iso2": "BB",
+   "name": "Barbados",
+   "slug": "barbados",
+   "days_allowed": 180
+  },
+  {
+   "iso2": "DM",
+   "name": "Dominica",
+   "slug": "dominica",
+   "days_allowed": 180
+  },
+  {
+   "iso2": "MX",
+   "name": "Mexico",
+   "slug": "mexico",
+   "days_allowed": 180
+  },
+  {
+   "iso2": "FJ",
+   "name": "Fiji",
+   "slug": "fiji",
+   "days_allowed": 120
+  },
+  {
+   "iso2": "AX",
+   "name": "Åland Islands",
+   "slug": "aland-islands",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "AL",
+   "name": "Albania",
+   "slug": "albania",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "AS",
+   "name": "American Samoa",
+   "slug": "american-samoa",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "AI",
+   "name": "Anguilla",
+   "slug": "anguilla",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "AR",
+   "name": "Argentina",
+   "slug": "argentina",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "AW",
+   "name": "Aruba",
+   "slug": "aruba",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BS",
+   "name": "Bahamas",
+   "slug": "bahamas",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BM",
+   "name": "Bermuda",
+   "slug": "bermuda",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BO",
+   "name": "Bolivia",
+   "slug": "bolivia",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BQ",
+   "name": "Bonaire, Sint Eustatius and Saba",
+   "slug": "bonaire-sint-eustatius-and-saba",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BA",
+   "name": "Bosnia and Herzegovina",
+   "slug": "bosnia-and-herzegovina",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BW",
+   "name": "Botswana",
+   "slug": "botswana",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BR",
+   "name": "Brazil",
+   "slug": "brazil",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "BN",
+   "name": "Brunei",
+   "slug": "brunei",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "KY",
+   "name": "Cayman Islands",
+   "slug": "cayman-islands",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "CL",
+   "name": "Chile",
+   "slug": "chile",
+   "days_allowed": 90
+  },
+  {
+   "iso2": "CX",
+   "name": "Christmas Island",
+   "slug": "christmas-island",
+   "days_allowed": 90
+  }
+ ],
+ "combos": [
+  {
+   "iso2": "AX",
+   "name": "Åland Islands",
+   "flag_emoji": "🇦🇽",
+   "slug": "aland-islands",
+   "uplift": 46,
+   "base_mobility": 170,
+   "combined_mobility": 216
+  },
+  {
+   "iso2": "AS",
+   "name": "American Samoa",
+   "flag_emoji": "🇦🇸",
+   "slug": "american-samoa",
+   "uplift": 46,
+   "base_mobility": 170,
+   "combined_mobility": 216
+  },
+  {
+   "iso2": "AI",
+   "name": "Anguilla",
+   "flag_emoji": "🇦🇮",
+   "slug": "anguilla",
+   "uplift": 46,
+   "base_mobility": 170,
+   "combined_mobility": 216
+  },
+  {
+   "iso2": "AW",
+   "name": "Aruba",
+   "flag_emoji": "🇦🇼",
+   "slug": "aruba",
+   "uplift": 46,
+   "base_mobility": 170,
+   "combined_mobility": 216
+  },
+  {
+   "iso2": "BM",
+   "name": "Bermuda",
+   "flag_emoji": "🇧🇲",
+   "slug": "bermuda",
+   "uplift": 46,
+   "base_mobility": 170,
+   "combined_mobility": 216
+  }
+ ]
+}

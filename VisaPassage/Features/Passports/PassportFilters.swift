@@ -45,6 +45,41 @@ enum PassportFilters {
         rows.filter { (region == nil || $0.region == region) && matches($0, query: query) }
     }
 
+    /// The ranking order, as the web leaderboard's sort control.
+    enum Sort: String, CaseIterable, Identifiable, Sendable {
+        /// Dense rank, then the view's English name (the server order).
+        case rank
+        /// Most visa-free destinations first, then rank.
+        case visaFree
+        /// A–Z in the app's language.
+        case name
+
+        var id: String { rawValue }
+
+        var title: String {
+            switch self {
+            case .rank: return String(localized: "Rank")
+            case .visaFree: return String(localized: "Most visa-free")
+            case .name: return String(localized: "A–Z")
+            }
+        }
+    }
+
+    /// Web `sorted`: `rows` must already be in rank order (stable for `.rank`).
+    static func sort(_ rows: [PassportIndexRow], by sort: Sort) -> [PassportIndexRow] {
+        switch sort {
+        case .rank:
+            return rows
+        case .visaFree:
+            return rows.sorted {
+                if $0.visaFree != $1.visaFree { return $0.visaFree > $1.visaFree }
+                return $0.rank < $1.rank
+            }
+        case .name:
+            return rows.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        }
+    }
+
     /// How many destinations the passport page lists.
     static let topVisaFreeLimit = 24
 

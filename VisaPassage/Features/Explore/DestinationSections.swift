@@ -1,71 +1,127 @@
 import SwiftUI
 
-/// Every destination for the selected passports, grouped by visa status in the
-/// web's precedence order and searchable. Same data and filter as the map.
-struct DestinationListView: View {
+/// Every destination for the selected passports as inset-grouped tables, one
+/// per visa status in the web's precedence order. Each shows its first
+/// `DestinationGrouping.rowLimit` rows, then "Show all"; a search or a status
+/// filter shows everything. Place it inside a `List`: it is sections only.
+struct DestinationSections: View {
+    let groups: [DestinationGrouping.Group]
+    /// A search or a filter is active: no row limit.
+    let unlimited: Bool
     let onSelect: (String) -> Void
 
-    @Environment(ExploreSelection.self) private var explore
-    @Environment(PassportPreference.self) private var passports
-    @Environment(RequirementsStore.self) private var requirements
-    @Environment(CountryStore.self) private var catalog
-
-    @State private var query = ""
-    @State private var searchPresented = false
+    @State private var expanded: Set<VisaStatus> = []
 
     var body: some View {
-        let groups = DestinationGrouping.groups(
-            countries: catalog.countries,
-            best: requirements.best,
-            filter: explore.filter,
-            query: query,
-            excluding: Set(passports.passports)
-        )
-        List {
-            if groups.isEmpty {
-                Text(query.isEmpty ? "No destinations match this filter." : "No destinations match your search.")
-                    .typography(.sm)
-                    .foregroundStyle(Theme.textBody)
-                    .listRowBackground(Theme.bg)
-            }
-            ForEach(groups, id: \.status) { group in
-                Section {
-                    ForEach(group.entries) { entry in
-                        Button { onSelect(entry.country.iso2) } label: {
-                            DestinationRow(entry: entry)
-                        }
-                        .listRowBackground(Theme.bg)
+        ForEach(groups, id: \.status) { group in
+            let open = unlimited || expanded.contains(group.status)
+            let shown = DestinationGrouping.visibleCount(total: group.entries.count, expanded: open)
+            Section {
+                ForEach(group.entries.prefix(shown)) { entry in
+                    Button { onSelect(entry.country.iso2) } label: {
+                        DestinationRow(entry: entry)
                     }
-                } header: {
-                    HStack(spacing: Spacing.sm) {
-                        MapSwatch(fill: group.status.mapFill)
-                        Text(group.status.label)
-                        Spacer()
-                        Text(verbatim: "\(group.entries.count)")
+                    .foregroundStyle(Theme.ink)
+                }
+                if !unlimited && group.entries.count > DestinationGrouping.rowLimit {
+                    ShowAllRow(expanded: open, hidden: group.entries.count - shown) {
+                        if open { expanded.remove(group.status) } else { expanded.insert(group.status) }
                     }
-                    .typography(.xs)
-                    .foregroundStyle(Theme.textBody)
+                }
+            } header: {
+                StatusSectionHeader(count: group.entries.count) {
+                    StatusKeyIcon(group.status, size: 16)
+                } title: {
+                    Text(group.status.label)
                 }
             }
         }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-        .background(Theme.bg)
-        .searchable(text: $query, isPresented: $searchPresented,
-                    placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: Text("Search destinations"))
-        .onAppear(perform: consumeFocusRequest)
-        .onChange(of: explore.focusSearch) { consumeFocusRequest() }
     }
+}
 
-    private func consumeFocusRequest() {
-        guard explore.focusSearch else { return }
-        explore.focusSearch = false
-        // Let the list settle into the navigation bar before focusing.
-        Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(350))
-            searchPresented = true
+/// A table's header: glyph, title, count.
+struct StatusSectionHeader<Icon: View, Title: View>: View {
+    let count: Int
+    @ViewBuilder var icon: Icon
+    @ViewBuilder var title: Title
+
+    var body: some View {
+        HStack(spacing: Spacing.sm) {
+            icon
+            title
+            Spacer()
+            Text(verbatim: "\(count)")
+                .font(.custom("GeistMono-Regular", size: 12))
+                .monospacedDigit()
         }
+    }
+}
+
+/// "Show all +N" / "Show fewer", at the foot of a limited table.
+struct ShowAllRow: View {
+    let expanded: Bool
+    let hidden: Int
+    let onToggle: () -> Void
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        Button {
+            withAnimation(reduceMotion ? nil : .snappy(duration: 0.3)) { onToggle() }
+        } label: {
+            HStack(spacing: Spacing.md) {
+                Text(expanded ? "Show fewer" : "Show all")
+                    .font(.custom("Geist-Medium", size: 15))
+                    .foregroundStyle(Theme.ink)
+                if !expanded && hidden > 0 {
+                    Text(verbatim: "+\(hidden)")
+                        .font(.custom("GeistMono-Regular", size: 12))
+                        .foregroundStyle(Theme.textSoft)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Theme.surface2, in: Capsule())
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Theme.textSoft)
+                    .rotationEffect(.degrees(expanded ? 180 : 0))
+            }
+            .contentShape(Rectangle())
+        }
+        .foregroundStyle(Theme.ink)
+        .accessibilityValue(Text(expanded ? "Expanded" : "Collapsed"))
+    }
+}
+
+/// The search field as its own card row (no navigation-bar drawer).
+struct DestinationSearchField: View {
+    @Binding var query: String
+    var focused: FocusState<Bool>.Binding
+
+    var body: some View {
+        HStack(spacing: Spacing.sm) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundStyle(Theme.textSoft)
+            TextField("Search destinations", text: $query)
+                .focused(focused)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .submitLabel(.search)
+                .font(.custom("Geist-Regular", size: 16))
+            if !query.isEmpty {
+                Button {
+                    query = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(Theme.textSoft)
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel(Text("Clear"))
+            }
+        }
+        .frame(minHeight: 28)
     }
 }
 
@@ -95,6 +151,24 @@ private struct DestinationRow: View {
 
 /// Pure grouping for the list (and its tests).
 enum DestinationGrouping {
+    /// Rows a table shows before "Show all".
+    static let rowLimit = 5
+
+    /// How many of a table's `total` rows show.
+    static func visibleCount(total: Int, expanded: Bool) -> Int {
+        expanded ? total : min(total, rowLimit)
+    }
+
+    /// Destinations per status (the map key's counts), without your own
+    /// passports' countries.
+    static func counts(countries: [Country], best: [String: VisaRequirement], excluding: Set<String>) -> [VisaStatus: Int] {
+        var counts: [VisaStatus: Int] = [:]
+        for group in groups(countries: countries, best: best, filter: .all, query: "", excluding: excluding) {
+            counts[group.status] = group.entries.count
+        }
+        return counts
+    }
+
     struct Entry: Identifiable, Equatable {
         let country: Country
         let requirement: VisaRequirement?

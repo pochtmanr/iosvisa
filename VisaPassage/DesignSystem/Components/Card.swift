@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Signature VisaPassage card: paper surface, 1px hairline border, 24px radius,
-/// no rest shadow. Compose content inside.
+/// Signature VisaPassage card in Home's grouped style: a white surface on the
+/// grey `Theme.groupedBg` page, no border, 24px radius, no rest shadow.
+/// Compose content inside.
 struct Card<Content: View>: View {
     var padding: CGFloat = Spacing.xl
     @ViewBuilder var content: Content
@@ -10,12 +11,8 @@ struct Card<Content: View>: View {
         content
             .padding(padding)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Theme.surfaceCard)
+            .background(Theme.groupedCard)
             .clipShape(RoundedRectangle(cornerRadius: Radius.card, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
-                    .strokeBorder(Theme.border, lineWidth: Hairline.width)
-            )
     }
 }
 
@@ -29,5 +26,5 @@ struct Card<Content: View>: View {
         }
     }
     .padding()
-    .background(Theme.bg)
+    .background(Theme.groupedBg)
 }

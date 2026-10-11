@@ -7,6 +7,9 @@ struct Profile: Codable, Identifiable, Sendable {
     let id: UUID
     var fullName: String?
     var avatarPath: String?
+    /// Onboarding goals (`profiles.goal`, migration 0036): marks the matching
+    /// purpose card "Your goal".
+    var goal: [String]?
 
     // Notifications
     var notifyEmail: Bool?
@@ -20,6 +23,7 @@ struct Profile: Codable, Identifiable, Sendable {
         case id
         case fullName = "full_name"
         case avatarPath = "avatar_path"
+        case goal
         case notifyEmail = "notify_email"
         case notifyMessages = "notify_messages"
         case notifyProduct = "notify_product"

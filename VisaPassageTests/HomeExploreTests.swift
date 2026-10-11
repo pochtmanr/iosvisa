@@ -15,35 +15,39 @@ final class HomeExploreTests: XCTestCase {
 
     // MARK: PassportPreference
 
-    func testPreferenceClampsToTwoPrimaryFirst() {
+    func testPreferenceClampsToFourPrimaryFirst() {
         let pref = PassportPreference(defaults: freshDefaults())
         XCTAssertTrue(pref.add("ua"))
         XCTAssertTrue(pref.add("PL"))
-        XCTAssertFalse(pref.add("DE"), "A third passport is refused")
-        XCTAssertEqual(pref.passports, ["UA", "PL"])
+        XCTAssertTrue(pref.add("DE"))
+        XCTAssertTrue(pref.add("IL"))
+        XCTAssertTrue(pref.isFull)
+        XCTAssertFalse(pref.add("FR"), "A fifth passport is refused")
+        XCTAssertEqual(pref.passports, ["UA", "PL", "DE", "IL"])
         XCTAssertEqual(pref.primary, "UA")
 
-        pref.makePrimary("PL")
-        XCTAssertEqual(pref.passports, ["PL", "UA"])
+        pref.makePrimary("DE")
+        XCTAssertEqual(pref.passports, ["DE", "UA", "PL", "IL"])
 
-        pref.toggle("PL")
-        XCTAssertEqual(pref.passports, ["UA"])
+        pref.toggle("DE")
+        XCTAssertEqual(pref.passports, ["UA", "PL", "IL"])
+        XCTAssertFalse(pref.isFull)
     }
 
     func testPreferencePersistsAndCleans() {
         let defaults = freshDefaults()
-        PassportPreference(defaults: defaults).set(["us", "US", "x", "CA", "GB"])
-        XCTAssertEqual(defaults.string(forKey: PassportPreference.key), "US,CA")
-        XCTAssertEqual(PassportPreference(defaults: defaults).passports, ["US", "CA"])
+        PassportPreference(defaults: defaults).set(["us", "US", "x", "CA", "GB", "AU", "NZ"])
+        XCTAssertEqual(defaults.string(forKey: PassportPreference.key), "US,CA,GB,AU")
+        XCTAssertEqual(PassportPreference(defaults: defaults).passports, ["US", "CA", "GB", "AU"])
     }
 
     func testPreferenceMigratesLegacyKey() {
         let defaults = freshDefaults()
-        defaults.set("de,fr,it", forKey: PassportPreference.legacyKey)
+        defaults.set("de,fr,it,es,pt", forKey: PassportPreference.legacyKey)
         let pref = PassportPreference(defaults: defaults)
-        XCTAssertEqual(pref.passports, ["DE", "FR"])
+        XCTAssertEqual(pref.passports, ["DE", "FR", "IT", "ES"])
         XCTAssertNil(defaults.string(forKey: PassportPreference.legacyKey))
-        XCTAssertEqual(defaults.string(forKey: PassportPreference.key), "DE,FR")
+        XCTAssertEqual(defaults.string(forKey: PassportPreference.key), "DE,FR,IT,ES")
     }
 
     // MARK: Passport ranking (dense rank: PassportsTests)
@@ -123,6 +127,26 @@ final class HomeExploreTests: XCTestCase {
         XCTAssertEqual(byName.flatMap(\.entries).map(\.country.iso2), ["GB"])
         let byCode = DestinationGrouping.groups(countries: countries, best: best, filter: .all, query: "tr", excluding: [])
         XCTAssertEqual(byCode.flatMap(\.entries).map(\.country.iso2), ["TR"])
+    }
+
+    func testMapKeyCountsExcludeOwnPassport() {
+        let counts = DestinationGrouping.counts(countries: countries, best: best, excluding: ["UA"])
+        XCTAssertEqual(counts[.visaFree], 2)
+        XCTAssertEqual(counts[.eta], 1)
+        XCTAssertEqual(counts[.evisa], 1)
+        XCTAssertEqual(counts[.unknown], 1, "Antarctica has no data; Ukraine is your passport")
+        XCTAssertNil(counts[.visaRequired])
+    }
+
+    func testTablesShowFiveRowsUntilExpanded() {
+        XCTAssertEqual(DestinationGrouping.visibleCount(total: 12, expanded: false), DestinationGrouping.rowLimit)
+        XCTAssertEqual(DestinationGrouping.visibleCount(total: 12, expanded: true), 12)
+        XCTAssertEqual(DestinationGrouping.visibleCount(total: 3, expanded: false), 3)
+    }
+
+    func testNoAdmissionFilter() {
+        XCTAssertTrue(ExploreFilter.noAdmission.matches(.noAdmission))
+        XCTAssertFalse(ExploreFilter.noAdmission.matches(.visaRequired))
     }
 
     // MARK: Rule changes

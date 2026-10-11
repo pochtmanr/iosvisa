@@ -27,7 +27,7 @@ enum EqualEarth {
 /// Maps projected plane coordinates into a target rect, preserving aspect ratio
 /// and flipping the y-axis to screen space. Built once for a given size from the
 /// plane bounding box of the rendered geometry.
-struct ProjectionFit: Sendable {
+struct ProjectionFit: Sendable, Equatable {
     let scale: Double
     let offsetX: Double
     let offsetY: Double
@@ -61,6 +61,22 @@ struct ProjectionFit: Sendable {
             x: offsetX + (Double(plane.x) - planeMinX) * scale,
             y: offsetY + (planeMaxY - Double(plane.y)) * scale
         )
+    }
+
+    /// Screen point → plane point (the inverse of `screen`).
+    func plane(_ screen: CGPoint) -> CGPoint {
+        CGPoint(
+            x: (Double(screen.x) - offsetX) / scale + planeMinX,
+            y: planeMaxY - (Double(screen.y) - offsetY) / scale
+        )
+    }
+
+    /// `screen` as an affine transform, so cached plane-space paths draw
+    /// without re-projecting a single point.
+    var planeToScreen: CGAffineTransform {
+        CGAffineTransform(a: scale, b: 0, c: 0, d: -scale,
+                          tx: offsetX - planeMinX * scale,
+                          ty: offsetY + planeMaxY * scale)
     }
 }
 

@@ -21,6 +21,11 @@ enum AppConfig {
     /// Whether native Google sign-in can be offered.
     static var hasGoogleSignIn: Bool { !googleIOSClientID.isEmpty }
 
+    /// Telegram sign-in (brokered by the web app). Off unless Info.plist has
+    /// `TelegramSignIn = YES` — flip it once the server side is live
+    /// (web `NEXT_PUBLIC_TELEGRAM_LOGIN_ENABLED`, see web/docs/TELEGRAM.md).
+    static var hasTelegramSignIn: Bool { optionalInfoString("TelegramSignIn") == "YES" }
+
     /// Custom URL scheme + universal-link host for deep links.
     static let urlScheme = "visapassage"
     static let universalLinkHost = "visapassage.com"

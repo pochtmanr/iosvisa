@@ -25,6 +25,12 @@ struct AuthService {
         )
     }
 
+    /// Redeem the one-time token the web app minted after verifying a Telegram
+    /// login (see `TelegramSignInButton`).
+    func signInWithTelegram(tokenHash: String) async throws {
+        _ = try await auth.verifyOTP(tokenHash: tokenHash, type: .magiclink)
+    }
+
     // MARK: Email
 
     /// Sign up with email + password. Returns `true` when a session was created

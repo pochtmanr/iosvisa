@@ -22,7 +22,8 @@ struct VisaProductView: View {
             }
             .padding(Spacing.xl)
         }
-        .background(Theme.bg)
+        .background(Theme.groupedBg)
+        .navigationTitle(context.visaTypeName ?? String(localized: "Visa"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if let url = context.webURL {

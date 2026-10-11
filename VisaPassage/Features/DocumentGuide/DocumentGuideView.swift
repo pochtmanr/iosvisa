@@ -35,7 +35,8 @@ struct DocumentGuideView: View {
             }
             .padding(Spacing.xl)
         }
-        .background(Theme.bg)
+        .background(Theme.groupedBg)
+        .navigationTitle("Document guide")
         .navigationBarTitleDisplayMode(.inline)
         .safariSheet($safari)
         .task {

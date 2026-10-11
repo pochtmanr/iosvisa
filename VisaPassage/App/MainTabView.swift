@@ -1,7 +1,8 @@
 import SwiftUI
 
 /// The tab shell. Same four places as the web phone tab bar, with SF Symbols
-/// standing in for its line icons (house, compass, stack, gear).
+/// standing in for its line icons (house, compass, stack), and the account's
+/// avatar on the Account tab once signed in.
 struct MainTabView: View {
     @Environment(PassportPreference.self) private var passports
     @Environment(ExploreSelection.self) private var explore
@@ -9,6 +10,7 @@ struct MainTabView: View {
     @Environment(TabRouter.self) private var tabs
     @Environment(CountryStore.self) private var catalog
     @Environment(AuthStore.self) private var auth
+    @Environment(TrackerStore.self) private var trackers
 
     var body: some View {
         @Bindable var tabs = tabs
@@ -25,9 +27,17 @@ struct MainTabView: View {
                 .tabItem { Label("My visas", systemImage: "square.stack") }
                 .tag(MainTab.visas)
 
-            ProfileView()
-                .tabItem { Label("Settings", systemImage: "gearshape") }
-                .tag(MainTab.settings)
+            AccountView()
+                .tabItem {
+                    // Signed in, the tab shows the account's own face (photo
+                    // or initials), like the App Store; signed out, a symbol.
+                    if let avatar = auth.tabAvatar {
+                        Label { Text("Account") } icon: { Image(uiImage: avatar) }
+                    } else {
+                        Label("Account", systemImage: "person.crop.circle")
+                    }
+                }
+                .tag(MainTab.account)
         }
         .onChange(of: router.pending) { _, newValue in handle(newValue) }
         .onChange(of: catalog.countries.count) { handle(router.pending) }
@@ -35,6 +45,10 @@ struct MainTabView: View {
         // push every local edit.
         .task(id: auth.isSignedIn) {
             if auth.isSignedIn { await PassportSync().pull(into: passports) }
+        }
+        // Trackers are the account's: load on sign-in, forget on sign-out.
+        .task(id: auth.isSignedIn) {
+            if auth.isSignedIn { await trackers.load() } else { trackers.clear() }
         }
         .onChange(of: passports.passports) { _, list in
             guard auth.isSignedIn else { return }
@@ -49,7 +63,7 @@ struct MainTabView: View {
         guard let route else { return }
         switch route {
         case .visaChecker(let codes, let destination):
-            // Take its passports (up to two), open Explore, and show the
+            // Take its passports (up to four), open Explore, and show the
             // destination's panel when it names one.
             if !codes.isEmpty { passports.set(codes) }
             if let destination { explore.show(destination: destination) }
@@ -71,8 +85,8 @@ struct MainTabView: View {
             explore.pendingPassport = iso
             tabs.selection = .explore
 
-        case .tracker:
-            // TODO IOS-05: open the tracker by id.
+        case .tracker(let id):
+            tabs.pendingTracker = id.flatMap(UUID.init(uuidString:))
             tabs.selection = .visas
 
         case .authCallback:

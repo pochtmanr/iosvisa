@@ -67,7 +67,7 @@ If `xcode-select -p` points at Command Line Tools, prefix the command with
 Tests:
 - `VisaPassageTests`: pure logic, safe to run headless. It covers the cache, `pickTranslation`, the visa
   status reducer and eligibility fold, TopoJSON decoding and projection, the nonce, the passport preference
-  (max two, legacy-key migration), the dense passport rank, Explore's status grouping and filters, and the
+  (max four, legacy-key migration), the dense passport rank, Explore's status grouping and filters, and the
   rule-changes decoding.
 - `VisaPassageUITests`: guest launch on the tab shell, ru tab labels, Explore's country catalog, and the
   first-launch welcome → passport picker → Home path.
@@ -91,7 +91,7 @@ ios/
       Map/                     # TopoJSON decoder + Equal Earth projection
       Models/                  # Codable structs mirroring DB rows + enums
       Networking/              # APIClient for the web /api/* JSON routes
-      Preferences/             # PassportPreference (up to two passports, on device)
+      Preferences/             # PassportPreference (up to four passports, on device)
       Repositories/            # PostgREST wrappers (countries, visas, cached requirements + ranking, profile)
       Supabase/                # shared SupabaseClient
     Features/                  # Welcome (+ passport picker), Home, Explore, Destinations, MyVisas, Settings, Auth
@@ -110,7 +110,7 @@ the release.
 First launch shows a three-card welcome (`Features/Welcome/`) built from the landing's "How it works": the
 landing photos, and SwiftUI ports of the passport folder, passport covers, stamps and status chips. It is
 shown once (`welcome.completed` in `UserDefaults`; pass `-welcome.completed YES` to skip it in UI tests).
-The welcome ends in "Pick your passport" (also reached by Skip): up to two passports, the first primary,
+The welcome ends in "Pick your passport" (also reached by Skip): up to four passports, the first primary,
 stored on the device under `passports.selected`. Home then shows that passport's rank, visa-free count and
 mobility score (the `passport_strength` view with the web's dense rank), popular routes, and the latest
 `policy_changes`. Explore colours the world map in the web hero map's palette, with status filter chips, a

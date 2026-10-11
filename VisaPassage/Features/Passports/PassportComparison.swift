@@ -20,8 +20,22 @@ struct PassportComparison: Sendable {
         var name: String
         /// One status per passport, in `passports` order.
         var statuses: [VisaStatus]
+        /// Days allowed per passport, in `passports` order.
+        var days: [Int?]
         var best: VisaStatus
         var id: String { iso2 }
+
+        /// Whether passport `i` holds the easiest status here.
+        func leads(_ i: Int) -> Bool { statuses.indices.contains(i) && statuses[i] == best }
+    }
+
+    /// Mobility destinations per passport in one region (web pair page
+    /// "by region"), out of the destinations with data for every passport.
+    struct RegionTally: Hashable, Sendable {
+        var region: String
+        /// One count per passport, in `passports` order.
+        var counts: [Int]
+        var total: Int
     }
 
     let passports: [ComparePassport]
@@ -39,6 +53,9 @@ struct PassportComparison: Sendable {
     let differing: [DiffRow]
     /// Destinations with data for every passport and the same status for all.
     let sameCount: Int
+    /// Every like-for-like destination (data for every passport): ISO2 and
+    /// one status per passport.
+    let shared: [(iso2: String, statuses: [VisaStatus])]
 
     static let mobility: Set<VisaStatus> = [.visaFree, .visaOnArrival]
 
@@ -65,6 +82,7 @@ struct PassportComparison: Sendable {
 
         // Like for like: only destinations every passport has a row for.
         var perDestination: [String: [VisaStatus?]] = [:]
+        var perDays: [String: [Int?]] = [:]
         var englishName: [String: String] = [:]
         var order: [String] = []
         for (i, passport) in passports.enumerated() {
@@ -72,17 +90,21 @@ struct PassportComparison: Sendable {
                 let iso = r.destinationIso2.uppercased()
                 if perDestination[iso] == nil {
                     perDestination[iso] = Array(repeating: nil, count: passports.count)
+                    perDays[iso] = Array(repeating: nil, count: passports.count)
                     englishName[iso] = r.name
                     order.append(iso)
                 }
                 perDestination[iso]?[i] = r.status
+                perDays[iso]?[i] = r.daysAllowed
             }
         }
         var differing: [DiffRow] = []
+        var shared: [(iso2: String, statuses: [VisaStatus])] = []
         var same = 0
         for iso in order {
             let statuses = (perDestination[iso] ?? []).compactMap { $0 }
             guard statuses.count == passports.count, !statuses.isEmpty else { continue }
+            shared.append((iso, statuses))
             if Set(statuses).count == 1 {
                 same += 1
                 continue
@@ -92,9 +114,11 @@ struct PassportComparison: Sendable {
                 iso2: iso,
                 name: name(iso) ?? englishName[iso] ?? iso,
                 statuses: statuses,
+                days: perDays[iso] ?? [],
                 best: best
             ))
         }
+        self.shared = shared
         let precedence = VisaStatus.precedence
         differing.sort {
             let a = precedence.firstIndex(of: $0.best) ?? precedence.count
@@ -104,6 +128,38 @@ struct PassportComparison: Sendable {
         }
         self.differing = differing
         sameCount = same
+    }
+
+    /// Destinations where passport `i` holds the easiest status (and at least
+    /// one other passport doesn't): the pair page's "Easier with {name}".
+    func easier(with i: Int) -> [DiffRow] {
+        differing.filter { $0.leads(i) }
+    }
+
+    /// Mobility destinations per region and passport (web `compare.ts`
+    /// `regions`), over like-for-like destinations, in the web's region order.
+    func regionTallies(region: (String) -> String?) -> [RegionTally] {
+        var tallies: [String: RegionTally] = [:]
+        for row in shared {
+            guard let r = region(row.iso2) else { continue }
+            var t = tallies[r] ?? RegionTally(region: r, counts: Array(repeating: 0, count: passports.count), total: 0)
+            t.total += 1
+            for (i, status) in row.statuses.enumerated() where Self.mobility.contains(status) {
+                t.counts[i] += 1
+            }
+            tallies[r] = t
+        }
+        return PassportFilters.regions.map {
+            tallies[$0] ?? RegionTally(region: $0, counts: Array(repeating: 0, count: passports.count), total: 0)
+        }
+    }
+
+    /// The scoreboard's leading cells: the indices holding the best value.
+    /// Empty when every value is the same, so a level row marks no one.
+    static func winners(_ values: [Int], lowerIsBetter: Bool) -> Set<Int> {
+        guard let best = lowerIsBetter ? values.min() : values.max(),
+              Set(values).count > 1 else { return [] }
+        return Set(values.indices.filter { values[$0] == best })
     }
 
     /// Port of `mergeRequirements`: one row per destination, the least-friction

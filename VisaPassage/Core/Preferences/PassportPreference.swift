@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 
-/// The passports a guest travels on: up to two ISO2 codes, primary first.
+/// The passports a guest travels on: up to four ISO2 codes, primary first.
 /// Stored on the device under `passports.selected` (comma-joined, readable with
 /// `@AppStorage`). Syncing to the `passports` table comes in IOS-06, and only
 /// when signed in.
@@ -11,7 +11,7 @@ final class PassportPreference {
     static let key = "passports.selected"
     /// IOS-01 stored an unbounded list here; migrated once on first read.
     static let legacyKey = "discovery.selectedPassports"
-    static let maxCount = 2
+    static let maxCount = 4
 
     /// Selected passports, primary first. Never more than `maxCount`.
     private(set) var passports: [String]

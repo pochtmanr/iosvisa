@@ -2,21 +2,26 @@ import StoreKit
 import SwiftUI
 
 /// The native `/travel/[from]/[to]`: everything about one route on one screen.
-/// A dark hero in the welcome flow's language (the permanently dark band, the
-/// glass answer card), then the landing's monochrome hairline sections.
+/// On Home's grouped ground with its white cards: the route in the bar, then
+/// the flags, the title, the short-stay answer card and the sections. "Track this visa" floats
+/// over the content, with no bar behind it.
 struct CorridorView: View {
     @Environment(CountryStore.self) private var countries
     @Environment(RequirementsStore.self) private var requirements
     @Environment(PassportPreference.self) private var passports
     @Environment(AuthStore.self) private var auth
+    @Environment(TrackerStore.self) private var trackers
     @Environment(\.requestReview) private var requestReview
 
     @State private var model: CorridorModel
     @State private var catalog = DocumentCatalog()
     @State private var safari: SafariLink?
     @State private var showSignIn = false
-    @State private var showComingSoon = false
     @State private var trackAfterSignIn = false
+    @State private var creating = false
+    @State private var trackError: String?
+    /// The tracker to open after "Track this visa" (created or already there).
+    @State private var openTracker: UUID?
 
     private let toISO2: String
 
@@ -35,12 +40,10 @@ struct CorridorView: View {
                     .padding(.bottom, Spacing.xxxl)
             }
         }
-        .background(Theme.bg)
+        .background(Theme.groupedBg)
         .scrollIndicators(.hidden)
+        .navigationTitle(routeTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Theme.footerBg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
             if let corridor = model.corridor, let url = corridor.webURL {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -64,36 +67,42 @@ struct CorridorView: View {
         }
         .safariSheet($safari)
         .floatingSheet(isPresented: $showSignIn) { AuthSheet() }
-        .floatingSheet(isPresented: $showComingSoon) {
-            TrackComingSoonCard(webURL: trackerWebURL) { url in safari = SafariLink(url: url) }
+        .navigationDestination(item: $openTracker) { TrackerDetailView(trackerID: $0) }
+        .alert(String(localized: "Couldn't save your changes. Please try again."),
+               isPresented: Binding(get: { trackError != nil }, set: { if !$0 { trackError = nil } })) {
+            Button(String(localized: "OK"), role: .cancel) {}
+        } message: {
+            Text(trackError ?? "")
         }
         .onChange(of: auth.isSignedIn) { _, signedIn in
             guard signedIn, trackAfterSignIn else { return }
             trackAfterSignIn = false
             Task {
                 try? await Task.sleep(for: .milliseconds(450))
-                showComingSoon = true
+                await createTracker()
             }
         }
     }
 
     // MARK: Hero
 
+    /// The bar's title: the route, "Ukraine → Germany".
+    private var routeTitle: String {
+        let from = countries.country(model.fromISO2)?.displayName ?? model.fromISO2
+        let to = countries.country(toISO2)?.displayName ?? toISO2
+        return "\(from) → \(to)"
+    }
+
     private var hero: some View {
-        let from = countries.country(model.fromISO2)
-        let to = countries.country(toISO2)
-        let fromName = from?.displayName ?? model.fromISO2
-        let toName = to?.displayName ?? toISO2
+        let toName = countries.country(toISO2)?.displayName ?? toISO2
         return VStack(alignment: .leading, spacing: Spacing.lg) {
             HStack {
-                Eyebrow(text: "Travel corridor").foregroundStyle(.white.opacity(0.55))
+                RouteLine(fromISO2: model.fromISO2, toISO2: toISO2)
                 Spacer()
                 passportSwitcher
             }
-            RouteLine(fromISO2: model.fromISO2, toISO2: toISO2)
-            (Text("\(toName) visa requirements").foregroundStyle(.white)
-             + Text(verbatim: " ")
-             + Text("for citizens of \(fromName).").foregroundStyle(.white.opacity(0.5)))
+            Text("\(toName) visa requirements")
+                .foregroundStyle(Theme.ink)
                 .typography(.h1)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
@@ -101,16 +110,7 @@ struct CorridorView: View {
         }
         .padding(.horizontal, Spacing.xl)
         .padding(.top, Spacing.lg)
-        .padding(.bottom, Spacing.xxl)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(alignment: .top) {
-            ZStack(alignment: .top) {
-                Theme.footerBg
-                // The landing hero's one radial wash, in the dark band.
-                RadialGradient(colors: [.white.opacity(0.09), .clear], center: .top, startRadius: 0, endRadius: 360)
-            }
-            .padding(.top, -600) // bleed under the navigation bar on overscroll
-        }
     }
 
     @ViewBuilder
@@ -130,10 +130,10 @@ struct CorridorView: View {
                     Text("Passport").font(.custom("Geist-Medium", size: 12))
                     Image(systemName: "chevron.down").font(.system(size: 9, weight: .bold))
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.ink)
                 .padding(.horizontal, 10)
                 .frame(height: 28)
-                .background(.white.opacity(0.14), in: Capsule())
+                .background(Theme.groupedCard, in: Capsule())
             }
             .accessibilityLabel(Text("Change passport"))
         }
@@ -209,34 +209,49 @@ struct CorridorView: View {
     @ViewBuilder
     private var trackBar: some View {
         if let corridor = model.corridor, corridor.verdict.status != .noAdmission {
-            VStack(spacing: 0) {
-                Rectangle().fill(Theme.border).frame(height: Hairline.width)
-                PrimaryButton(title: "Track this visa", icon: "plus") { track() }
-                    .accessibilityIdentifier("track")
-                    .padding(.horizontal, Spacing.xl)
-                    .padding(.top, Spacing.md)
-                    .padding(.bottom, Spacing.sm)
-            }
-            .background(Theme.bg.opacity(0.94))
-            .background(.ultraThinMaterial)
+            // Floating: no bar or hairline behind it, a soft lift only.
+            PrimaryButton(title: "Track this visa", icon: "plus", loading: creating) { track() }
+                .accessibilityIdentifier("track")
+                .shadow(color: .black.opacity(0.18), radius: 14, y: 6)
+                .padding(.horizontal, Spacing.xl)
+                .padding(.top, Spacing.sm)
+                .padding(.bottom, Spacing.sm)
         }
     }
 
     private func track() {
         if auth.isSignedIn {
-            showComingSoon = true
+            Task { await createTracker() }
         } else {
             trackAfterSignIn = true
             showSignIn = true
         }
     }
 
-    /// The web tracker's deep link, which creates the same tracker there.
-    private var trackerWebURL: URL? {
-        guard let corridor = model.corridor else { return nil }
-        var path = "/app/trackers/new?passport=\(corridor.from.iso2)&destination=\(corridor.to.iso2)"
-        if let best = corridor.best { path += "&product=\(best.id.uuidString.lowercased())" }
-        return AppLocale.current.webURL(path: path)
+    /// `/app/trackers/new`: reuse the open tracker for this destination and
+    /// visa, else create one with the visa's checklist, then open it.
+    private func createTracker() async {
+        guard let corridor = model.corridor, !creating else { return }
+        creating = true
+        defer { creating = false }
+        let productID = corridor.best?.id
+        do {
+            if let existing = try await trackers.repo.existing(destination: corridor.to.iso2, productID: productID) {
+                openTracker = existing
+                return
+            }
+            let title = productID == nil
+                ? String(localized: "Trip to \(countries.name(forISO2: corridor.to.iso2) ?? corridor.to.iso2)")
+                : nil
+            let id = try await trackers.repo.create(passport: corridor.from.iso2, destination: corridor.to.iso2,
+                                                    productID: productID, title: title)
+            await trackers.load()
+            openTracker = id
+        } catch let failure as TrackerRepository.Failure {
+            trackError = failure.message
+        } catch {
+            trackError = TrackerRepository.Failure.saveFailed.message
+        }
     }
 }
 
@@ -252,13 +267,13 @@ private struct RouteLine: View {
             CountryFlag(iso2: fromISO2, size: 40)
             ZStack {
                 Line()
-                    .stroke(.white.opacity(0.35), style: StrokeStyle(lineWidth: 1.2, lineCap: .round, dash: [3, 5]))
+                    .stroke(Theme.inkSoft.opacity(0.6), style: StrokeStyle(lineWidth: 1.2, lineCap: .round, dash: [3, 5]))
                     .frame(height: 1)
                 Image(systemName: "airplane")
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.85))
+                    .foregroundStyle(Theme.ink)
                     .padding(.horizontal, 6)
-                    .background(Theme.footerBg)
+                    .background(Theme.groupedBg)
             }
             CountryFlag(iso2: toISO2, size: 40)
         }
@@ -276,9 +291,8 @@ private struct RouteLine: View {
     }
 }
 
-/// The answer card in the welcome art's `StatusChip` style (paper on the dark
-/// band, mono label over a hairline), carrying the
-/// short-stay verdict. `nil` renders a placeholder for the redacted state.
+/// The answer card, a Home card (white on the grouped ground, no border or
+/// shadow) with a mono label over a hairline, carrying the short-stay verdict. `nil` renders a placeholder for the redacted state.
 private struct ShortStayAnswerCard: View {
     let corridor: Corridor?
 
@@ -325,9 +339,7 @@ private struct ShortStayAnswerCard: View {
             .padding(.top, 12)
         }
         .padding(Spacing.lg)
-        .background(Theme.bg, in: RoundedRectangle(cornerRadius: Radius.card, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: Radius.card, style: .continuous).strokeBorder(Theme.border, lineWidth: Hairline.width))
-        .shadow(color: .black.opacity(0.35), radius: 16, y: 12)
+        .background(Theme.groupedCard, in: RoundedRectangle(cornerRadius: Radius.card, style: .continuous))
         .accessibilityElement(children: .combine)
     }
 }
@@ -448,12 +460,11 @@ private struct CorridorSections: View {
                     Spacer(minLength: 0)
                 }
                 .padding(Spacing.lg)
-                .background(Theme.bg)
+                .background(Theme.groupedCard)
             }
         }
         .background(Theme.border)
         .clipShape(RoundedRectangle(cornerRadius: Radius.card, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: Radius.card, style: .continuous).strokeBorder(Theme.border, lineWidth: Hairline.width))
     }
 
     // MARK: Beyond short stays
@@ -720,34 +731,3 @@ private struct FAQRow: View {
     }
 }
 
-/// The track sheet until IOS-05 ships the native tracker.
-private struct TrackComingSoonCard: View {
-    let webURL: URL?
-    let open: (URL) -> Void
-    @Environment(\.dismissFloatingSheet) private var dismiss
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.lg) {
-            Eyebrow(text: "Visa tracker")
-            Text("Tracking is coming to the app").typography(.h3).foregroundStyle(Theme.ink)
-            Text("Keep your documents, appointment and decision dates in one place, with reminders before each deadline.")
-                .typography(.body).foregroundStyle(Theme.textBody)
-                .fixedSize(horizontal: false, vertical: true)
-            Text("Until then, you can track this visa on visapassage.com with the same account.")
-                .typography(.sm).foregroundStyle(Theme.textSoft)
-                .fixedSize(horizontal: false, vertical: true)
-            VStack(spacing: Spacing.md) {
-                if let webURL {
-                    PrimaryButton(title: "Track on the web", icon: "arrow.up.right") {
-                        dismiss()
-                        open(webURL)
-                    }
-                }
-                SecondaryButton(title: "Close") { dismiss() }
-            }
-            .padding(.top, Spacing.xs)
-        }
-        .padding(Spacing.xl)
-        .padding(.bottom, Spacing.md)
-    }
-}
