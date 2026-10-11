@@ -72,6 +72,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.visapassage.app.tests
+        GENERATE_INFOPLIST_FILE: YES
 
   VisaPassageUITests:
     type: bundle.ui-testing
@@ -83,6 +84,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.visapassage.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
 
 schemes:
   VisaPassage:
