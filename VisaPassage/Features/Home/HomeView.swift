@@ -29,17 +29,13 @@ struct HomeView: View {
                 .padding(Spacing.xl)
             }
             .background(Theme.bg)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text(verbatim: "VisaPassage").typography(.title).foregroundStyle(Theme.ink)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
         }
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
+            Eyebrow(verbatim: "VisaPassage")
             Group {
                 if let name = auth.profile?.displayName {
                     Text("Welcome back, \(name).")
