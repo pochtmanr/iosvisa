@@ -12,8 +12,17 @@ struct Country: Codable, Identifiable, Hashable, Sendable {
     var isoNumeric: String?
     var slug: String?
     var coverageTier: String?
+    /// Hand-written translations (`{ "ru": { "name": "Испания" } }`, migration 0128).
+    var translations: Translations?
 
     var id: String { iso2 }
+
+    /// The country name in the app's language, falling back to English.
+    var displayName: String { localizedName(in: .current) }
+
+    func localizedName(in locale: AppLocale) -> String {
+        pickTranslation(translations, field: "name", english: name, locale: locale)
+    }
 
     enum CodingKeys: String, CodingKey {
         case iso2
@@ -24,6 +33,35 @@ struct Country: Codable, Identifiable, Hashable, Sendable {
         case isoNumeric = "iso_numeric"
         case slug
         case coverageTier = "coverage_tier"
+        case translations
+    }
+
+    init(iso2: String, name: String, region: String? = nil, flagEmoji: String? = nil,
+         isPassport: Bool? = nil, isoNumeric: String? = nil, slug: String? = nil,
+         coverageTier: String? = nil, translations: Translations? = nil) {
+        self.iso2 = iso2
+        self.name = name
+        self.region = region
+        self.flagEmoji = flagEmoji
+        self.isPassport = isPassport
+        self.isoNumeric = isoNumeric
+        self.slug = slug
+        self.coverageTier = coverageTier
+        self.translations = translations
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        iso2 = try c.decode(String.self, forKey: .iso2)
+        name = try c.decode(String.self, forKey: .name)
+        region = try c.decodeIfPresent(String.self, forKey: .region)
+        flagEmoji = try c.decodeIfPresent(String.self, forKey: .flagEmoji)
+        isPassport = try c.decodeIfPresent(Bool.self, forKey: .isPassport)
+        isoNumeric = try c.decodeIfPresent(String.self, forKey: .isoNumeric)
+        slug = try c.decodeIfPresent(String.self, forKey: .slug)
+        coverageTier = try c.decodeIfPresent(String.self, forKey: .coverageTier)
+        // A malformed translations blob must never drop the whole catalog.
+        translations = try? c.decodeIfPresent(Translations.self, forKey: .translations)
     }
 
     /// Zero-padded 3-digit numeric code used to look up map geometry

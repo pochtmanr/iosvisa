@@ -4,7 +4,7 @@ import SwiftUI
 /// hover-lift / press-shrink motion). A `loading` state swaps the label for a
 /// spinner and disables interaction.
 struct PrimaryButton: View {
-    let title: String
+    let title: LocalizedStringKey
     var icon: String? = "arrow.right"
     var loading: Bool = false
     var enabled: Bool = true
@@ -34,7 +34,7 @@ struct PrimaryButton: View {
 
 /// Secondary action: hairline outline, ink text.
 struct SecondaryButton: View {
-    let title: String
+    let title: LocalizedStringKey
     var icon: String? = nil
     let action: () -> Void
 

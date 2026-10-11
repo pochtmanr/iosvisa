@@ -2,15 +2,14 @@ import Foundation
 import Observation
 
 /// Parses incoming universal links and custom-scheme URLs into typed routes the
-/// app can act on: OAuth/magic-link callbacks, Revolut checkout returns, and
-/// in-app navigation (e.g. opening a specific application).
+/// app can act on: OAuth/magic-link callbacks and in-app navigation (the
+/// visa checker). Universal-link routes for `/travel/*`, `/passports/*` and
+/// `/app/trackers/*` arrive in IOS-06.
 @MainActor
 @Observable
 final class DeepLinkRouter {
     enum Route: Equatable {
         case authCallback(URL)              // OAuth code / magic-link token
-        case checkoutReturn(orderID: String)
-        case application(id: String)
         case visaChecker(passports: [String], destination: String?)
         case unknown(URL)
     }
@@ -32,16 +31,6 @@ final class DeepLinkRouter {
         if let items = components?.queryItems,
            items.contains(where: { $0.name == "code" || $0.name == "token_hash" }) {
             return .authCallback(url)
-        }
-
-        if path.contains("/checkout/return") || path.contains("checkout") {
-            let order = components?.queryItems?.first(where: { $0.name == "order" })?.value
-            if let order { return .checkoutReturn(orderID: order) }
-        }
-
-        if let range = path.range(of: "/applications/") {
-            let id = String(path[range.upperBound...]).split(separator: "/").first.map(String.init)
-            if let id { return .application(id: id) }
         }
 
         // Discovery deep link: visapassage://visa-checker?passports=US,CA&to=DE

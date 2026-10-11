@@ -1,12 +1,13 @@
 import Foundation
 import Observation
 
-/// The signed-in shell's four tabs.
-enum MainTab: Hashable, Sendable { case home, discover, applications, profile }
+/// The four tabs. They mirror the web phone tab bar (`AppTabBar.tsx`):
+/// Home, Explore, My visas, Settings.
+enum MainTab: Hashable, Sendable { case home, explore, visas, settings }
 
 /// Shared, observable tab selection so any screen can switch tabs (e.g. the
-/// dashboard's "Explore destinations" CTA jumps to Discover). Injected at the
-/// app root and bound by `MainTabView`.
+/// Home "Explore destinations" card jumps to Explore). Injected at the app root
+/// and bound by `MainTabView`.
 @MainActor
 @Observable
 final class TabRouter {

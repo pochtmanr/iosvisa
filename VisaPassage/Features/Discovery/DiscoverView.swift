@@ -30,16 +30,10 @@ struct DiscoverView: View {
             .navigationDestination(for: String.self) { iso in
                 DestinationDetailView(destinationISO2: iso)
             }
-            .navigationDestination(for: NewApplicationRequest.self) { request in
-                NewApplicationFlow(request: request) { app in path.append(app) }
-            }
-            .navigationDestination(for: VisaApplication.self) { app in
-                ApplicationWorkspaceView(application: app)
-            }
             .sheet(isPresented: $showPassportPicker) {
                 PassportPickerSheet()
             }
-            .task { await selection.seedFromVaultIfEmpty() }
+            .task { await selection.seedFromAccountIfEmpty() }
             .onAppear { consumePendingDestination() }
             .onChange(of: selection.pendingDestination) { consumePendingDestination() }
         }

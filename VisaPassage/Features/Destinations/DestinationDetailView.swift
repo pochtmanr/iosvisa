@@ -3,8 +3,7 @@ import SwiftUI
 /// Routes a traveller can take into one destination, resolved against their
 /// primary selected passport. Mirrors the web destination detail: a baseline
 /// regime chip, then resolved products grouped by purpose, each with eligibility,
-/// fees, processing, and an online-vs-consular indicator + a "Start application"
-/// hand-off into the (M3) wizard.
+/// fees, processing, and an online-vs-consular indicator.
 struct DestinationDetailView: View {
     let destinationISO2: String
 
@@ -72,9 +71,9 @@ struct DestinationDetailView: View {
         } else {
             ForEach(groups, id: \.category) { group in
                 VStack(alignment: .leading, spacing: Spacing.md) {
-                    Eyebrow(text: group.category.groupLabel)
+                    Eyebrow(verbatim: group.category.groupLabel)
                     ForEach(group.products) { resolved in
-                        RouteCard(resolved: resolved, context: context(for: resolved))
+                        RouteCard(resolved: resolved)
                     }
                 }
             }
@@ -91,16 +90,6 @@ struct DestinationDetailView: View {
         return byCategory
             .map { RouteGroup(category: $0.key, products: $0.value.sorted { $0.product.sortOrder < $1.product.sortOrder }) }
             .sorted { $0.category.sortRank < $1.category.sortRank }
-    }
-
-    private func context(for resolved: ResolvedVisaProduct) -> StartApplicationContext {
-        StartApplicationContext(
-            passportISO2: passport,
-            destinationISO2: destinationISO2,
-            productID: resolved.product.id,
-            productName: resolved.product.name,
-            entryType: resolved.product.entryType
-        )
     }
 
     private func load() async {
@@ -120,10 +109,9 @@ struct DestinationDetailView: View {
 }
 
 /// One resolved route. Shows entry type, eligibility, fee, processing, the
-/// online/consular channel, and the start-application hand-off.
+/// online/consular channel.
 private struct RouteCard: View {
     let resolved: ResolvedVisaProduct
-    let context: StartApplicationContext
 
     private var product: VisaProduct { resolved.product }
 
@@ -152,18 +140,6 @@ private struct RouteCard: View {
                     Text(resolved.channelLabel).typography(.xs).foregroundStyle(Theme.textBody)
                 }
 
-                NavigationLink(value: NewApplicationRequest(context: context)) {
-                    HStack(spacing: Spacing.sm) {
-                        Text("Start application").typography(.sm)
-                        Image(systemName: "arrow.right").font(.system(size: 13, weight: .semibold))
-                    }
-                    .foregroundStyle(Theme.inkInverse)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 48)
-                    .background(Theme.ink)
-                    .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
-                }
-                .buttonStyle(PressShrinkStyle())
             }
         }
     }

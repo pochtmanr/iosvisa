@@ -17,22 +17,6 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(status, .unknown)
     }
 
-    func testApplicationStatusMapsLegacyValues() throws {
-        func decode(_ raw: String) throws -> ApplicationStatus {
-            try JSONDecoder().decode(ApplicationStatus.self, from: Data("\"\(raw)\"".utf8))
-        }
-        XCTAssertEqual(try decode("lead"), .draft)
-        XCTAssertEqual(try decode("submitted"), .submittedToAuthority)
-        XCTAssertEqual(try decode("rejected"), .refused)
-        XCTAssertEqual(try decode("in_review"), .decisionPending)
-    }
-
-    func testApplicationStatusBuckets() {
-        XCTAssertEqual(ApplicationStatus.ready.bucket, .needsAction)
-        XCTAssertEqual(ApplicationStatus.inProgress.bucket, .inProgress)
-        XCTAssertEqual(ApplicationStatus.approved.bucket, .complete)
-    }
-
     func testVisaStatusHueMapping() {
         XCTAssertEqual(VisaStatus.visaFree.hue, .green)
         XCTAssertEqual(VisaStatus.noAdmission.hue, .red)

@@ -1,27 +1,22 @@
 import SwiftUI
 
-/// Top-level gate. Switches between launch, sign-in, onboarding, and the main
-/// tab shell based on `AuthStore.phase`.
+/// Top-level gate. Guest-first: after a brief launch screen while the stored
+/// session resolves, everyone lands on the tab shell. Sign-in is offered from
+/// Settings and the My visas tab, never forced at launch.
 struct RootView: View {
     @Environment(AuthStore.self) private var auth
     @Environment(DeepLinkRouter.self) private var router
 
     var body: some View {
         Group {
-            switch auth.phase {
-            case .loading:
+            if auth.phase == .loading {
                 LaunchView()
-            case .signedOut:
-                WelcomeView()
-            case .onboarding:
-                OnboardingFlow()
-            case .ready:
+            } else {
                 MainTabView()
             }
         }
-        .animation(.easeInOut(duration: 0.25), value: auth.phase)
-        // Complete a returning magic-link / OAuth deep link from anywhere in the
-        // auth lifecycle (signed out, or refreshing an expired session).
+        .animation(.easeInOut(duration: 0.25), value: auth.phase == .loading)
+        // Complete a returning magic-link / OAuth deep link from anywhere.
         .onChange(of: router.pending) { _, newValue in
             if case .authCallback(let url)? = newValue {
                 Task {
@@ -39,7 +34,7 @@ private struct LaunchView: View {
         ZStack {
             Theme.bg.ignoresSafeArea()
             VStack(spacing: Spacing.lg) {
-                Text("VisaPassage").typography(.h2).foregroundStyle(Theme.ink)
+                Text(verbatim: "VisaPassage").typography(.h2).foregroundStyle(Theme.ink)
                 ProgressView().tint(Theme.inkSoft)
             }
         }

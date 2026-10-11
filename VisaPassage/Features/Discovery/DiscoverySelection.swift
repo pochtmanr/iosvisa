@@ -30,9 +30,10 @@ final class DiscoverySelection {
     /// The passport whose routes drive the destination detail (first selected).
     var primaryPassport: String? { selectedPassports.first }
 
-    /// Seed the default selection from the user's vault (primary preselected)
-    /// the first time, if nothing is selected yet.
-    func seedFromVaultIfEmpty(using repo: ProfileRepository = ProfileRepository()) async {
+    /// Seed the default selection from a signed-in user's saved passports
+    /// (primary first) the first time, if nothing is selected yet. Guests have
+    /// no session, so the fetch fails quietly and the selection stays empty.
+    func seedFromAccountIfEmpty(using repo: ProfileRepository = ProfileRepository()) async {
         guard !didSeed else { return }
         didSeed = true
         guard selectedPassports.isEmpty else { return }

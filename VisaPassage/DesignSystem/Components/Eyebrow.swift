@@ -2,9 +2,16 @@ import SwiftUI
 
 /// Uppercase, wide-tracked eyebrow label that sits above headings.
 struct Eyebrow: View {
-    let text: String
+    private let label: Text
+
+    /// A catalog string, localized.
+    init(text: LocalizedStringKey) { label = Text(text) }
+
+    /// An already-resolved string (data, or a label localized upstream).
+    init(verbatim: String) { label = Text(verbatim: verbatim) }
+
     var body: some View {
-        Text(text)
+        label
             .typeRole(.eyebrow)
             .textCase(.uppercase)
             .foregroundStyle(Theme.textSoft)
@@ -14,7 +21,7 @@ struct Eyebrow: View {
 /// The "official decisions prevail" honesty disclaimer, shown wherever the app
 /// gives eligibility advice. Copy must never promise approval.
 struct AdvisoryDisclaimer: View {
-    var text: String = "Guidance only — eligibility is indicative. Official authority decisions always prevail."
+    var text: LocalizedStringKey = "Guidance only — eligibility is indicative. Official authority decisions always prevail."
     var body: some View {
         HStack(alignment: .top, spacing: Spacing.sm) {
             Image(systemName: "info.circle").font(.system(size: 13))

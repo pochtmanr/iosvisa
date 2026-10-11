@@ -1,7 +1,7 @@
 import XCTest
 @testable import VisaPassage
 
-/// Pure-logic M1 tests: nonce hashing, the onboarding gate, and date round-trips.
+/// Pure-logic M1 tests: nonce hashing and date round-trips.
 /// Headless-safe — the OAuth/RLS/network paths are verified on a device per the
 /// plan.
 final class AuthM1Tests: XCTestCase {
@@ -35,18 +35,6 @@ final class AuthM1Tests: XCTestCase {
         XCTAssertNotEqual(Nonce.random(), Nonce.random())
     }
 
-    // MARK: Onboarding gate
-
-    func testOnboardingGate() {
-        let stamped = Date(timeIntervalSince1970: 1_700_000_000)
-        // Finished the wizard → onboarded regardless of passports.
-        XCTAssertTrue(OnboardingGate.isOnboarded(onboardingCompletedAt: stamped, passportCount: 0))
-        // Never finished but holds a passport → onboarded (web parity backfill).
-        XCTAssertTrue(OnboardingGate.isOnboarded(onboardingCompletedAt: nil, passportCount: 1))
-        // Brand-new user → needs onboarding.
-        XCTAssertFalse(OnboardingGate.isOnboarded(onboardingCompletedAt: nil, passportCount: 0))
-    }
-
     // MARK: DateOnly
 
     func testDateOnlyRoundTrip() {
@@ -68,14 +56,5 @@ final class AuthM1Tests: XCTestCase {
         XCTAssertNil(DateOnly.parse(""))
         XCTAssertNil(DateOnly.string(nil))
         XCTAssertNil(DateOnly.displayString(nil))
-    }
-
-    // MARK: Travel goals vocab
-
-    func testTravelGoalRawValuesMatchWeb() {
-        XCTAssertEqual(
-            TravelGoal.allCases.map(\.rawValue),
-            ["travel", "work_abroad", "immigrate", "study", "invest"]
-        )
     }
 }
