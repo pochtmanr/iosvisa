@@ -1,28 +1,39 @@
-# VisaPilot iOS
+# VisaPassage iOS
 
-Native SwiftUI client for VisaPilot. Mirrors the Next.js web app (`../web`) and
-reuses the **same Supabase backend** (project `eujmomonscnlmwcbkbfy`): auth, the
-passport-strength map / visa checker, the full eVisa/ETA application workflow,
-document vault, messaging, billing, and the PDF package.
+A free native SwiftUI client for [VisaPassage](https://visapassage.com). It covers visa requirements by
+passport, routes and checklists, the passport ranking, and the Visa Tracker. It reads the **same Supabase
+backend** as the website (`../web`, project `eujmomonscnlmwcbkbfy`), under the same Row Level Security.
 
-- **UI:** SwiftUI, iOS 17+, MVVM with `@Observable`, `async/await`.
-- **Backend:** [`supabase-swift`](https://github.com/supabase/supabase-swift)
-  (Auth, PostgREST, Storage, Realtime) directly against the existing project,
-  gated by the same Row Level Security as the web client. A handful of
-  server-only Next.js routes (PDF package, checklist, document download, order
-  creation) are reached via a bearer-authenticated `APIClient`.
-- **Auth (v1):** Sign in with Apple, Google, and email (password + magic link).
-  Passkeys are deferred to v2 (Supabase needs a custom WebAuthn edge function).
-- **Payments:** Revolut hosted checkout in `ASWebAuthenticationSession`
-  (real-world service — no Apple IAP).
+- Product plan and screens: [`../web/docs/product/IOS-APP.md`](../web/docs/product/IOS-APP.md)
+- Session prompts and status: [`../web/prompts/IOS/ROADMAP.md`](../web/prompts/IOS/ROADMAP.md)
+- Auth configuration: [`docs/AUTH-SETUP.md`](docs/AUTH-SETUP.md)
 
-The project is generated from `project.yml` with **XcodeGen** — the
-`.xcodeproj` is **not** committed (regenerate it instead).
+## Principles (locked 2026-10-11)
+
+- **Free.** No subscriptions, paywall or StoreKit in v1.
+- **Guest-first.** Every catalog screen works without an account. Only **My visas** asks you to sign in.
+- **Feels like the web `/app`.** The same four tabs as the web phone tab bar (Home · Explore · My visas ·
+  Settings), the same wording, and the same data rules (tracker stages, dense passport ranking).
+- **en + ru.** UI strings live in `VisaPassage/Resources/Localizable.xcstrings`. Russian is written by
+  hand, never by a script or a translation API, and copies `web/src/messages/ru/*.json` wherever the same
+  string exists. Database prose goes through the `translations` jsonb via
+  `Core/Localization/PickTranslation.swift`, a port of the web's `pick-translation.ts`.
+- **Honest copy.** Never promise approval. Official decisions prevail.
+
+## Stack
+
+- SwiftUI, iOS 17+, MVVM with `@Observable`, `async/await`, Swift 6.
+- [`supabase-swift`](https://github.com/supabase/supabase-swift) 2.x: Auth, plus PostgREST reads of the
+  public catalog and the user's own rows.
+- Auth: Sign in with Apple, Google, and email (password + magic link). The session lives in the Keychain.
+- `Core/Cache/CatalogCache`: file-based JSON in Caches, keyed by query, with a 24h TTL and
+  stale-while-revalidate. The app shows cached catalog data instantly, works offline, and refreshes in
+  the background.
+- XcodeGen. The `.xcodeproj` is **not** committed, so regenerate it from `project.yml`.
 
 ## Prerequisites
 
-- macOS with **Xcode 16+** installed (the build needs the iOS SDK; Command Line
-  Tools alone are not enough).
+- macOS with **Xcode** installed. The build needs the iOS SDK; Command Line Tools alone are not enough.
 - [XcodeGen](https://github.com/yonomi/XcodeGen): `brew install xcodegen`
 
 ## First-time setup
@@ -30,140 +41,80 @@ The project is generated from `project.yml` with **XcodeGen** — the
 ```bash
 cd ios
 cp Config/Secrets.xcconfig.example Config/Secrets.xcconfig
-# Edit Config/Secrets.xcconfig and fill in:
-#   SUPABASE_ANON_KEY       (public anon key — same one the web bundle ships)
-#   GOOGLE_IOS_CLIENT_ID    (iOS OAuth client from Google Cloud)
-# SUPABASE_HOST is already set to the project host.
-
-xcodegen generate          # creates VisaPilot.xcodeproj
-open VisaPilot.xcodeproj    # Xcode resolves the SPM packages on first open
+# Fill in SUPABASE_ANON_KEY (public anon key, the same one the web bundle ships),
+# GOOGLE_IOS_CLIENT_ID / GOOGLE_REVERSED_CLIENT_ID and DEVELOPMENT_TEAM.
+xcodegen generate            # creates VisaPassage.xcodeproj
+open VisaPassage.xcodeproj
 ```
 
-`Config/Secrets.xcconfig` is git-ignored. Only the public anon key belongs here
-— **never** the service-role key.
+`Config/Secrets.xcconfig` is git-ignored. Only the public anon key belongs there, **never** the
+service-role key.
 
-## Build & test from the command line
-
-If `xcode-select -p` points at Command Line Tools, target the full Xcode app
-directly with `DEVELOPER_DIR` (no `sudo xcode-select` needed):
+## Build and test
 
 ```bash
-export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
-
-# Build for the simulator
-xcodebuild -project VisaPilot.xcodeproj -scheme VisaPilot \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-
-# Run tests (unit + UI launch smoke)
-xcodebuild -project VisaPilot.xcodeproj -scheme VisaPilot \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-  -derivedDataPath build CODE_SIGNING_ALLOWED=NO test
+cd ios
+xcodegen generate
+xcodebuild -scheme VisaPassage -destination 'platform=iOS Simulator,name=iPhone 16' build test
 ```
 
-> **Editor note:** opening individual `.swift` files in a plain text editor (or
-> a CLI SourceKit) before generating the project shows "No such module
-> 'Supabase'" / "Cannot find 'Theme' in scope" errors. These are false
-> positives — there is no module/SDK context without the generated project.
-> The real `xcodebuild` compile (above) passes. Always validate via `xcodebuild`.
+If `xcode-select -p` points at Command Line Tools, prefix the command with
+`DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`. Without signing set up, add
+`CODE_SIGNING_ALLOWED=NO`. If the simulator doesn't exist yet, create it with:
+`xcrun simctl create "iPhone 16" com.apple.CoreSimulator.SimDeviceType.iPhone-16 <runtime-id>`
+(get the runtime id from `xcrun simctl list runtimes`).
+
+Tests:
+- `VisaPassageTests`: pure logic, safe to run headless. It covers the cache, `pickTranslation`, the visa
+  status reducer and eligibility fold, TopoJSON decoding and projection, and the nonce.
+- `VisaPassageUITests`: guest launch on the tab shell, ru tab labels, and Explore's country catalog.
+
+Opening single `.swift` files outside the generated project shows false "No such module 'Supabase'"
+errors. Always validate with `xcodebuild`.
 
 ## Project layout
 
 ```
 ios/
-  project.yml                  # XcodeGen spec — source of truth for the project
+  project.yml                  # XcodeGen spec, the source of truth for the project
   Config/                      # Base.xcconfig + Secrets.xcconfig(.example)
-  VisaPilot/
-    App/                       # @main, RootView gate, AuthStore, deep-link router
+  VisaPassage/
+    App/                       # @main, RootView, AuthStore, TabRouter, MainTabView, DeepLinkRouter
     DesignSystem/              # Palette/Theme/Typography/Layout + Components
     Core/
+      Cache/                   # CatalogCache (file JSON, TTL, stale-while-revalidate)
       Config/                  # AppConfig (reads Info.plist)
-      Supabase/                # shared SupabaseClient
-      Networking/              # APIClient (bearer auth to Next.js routes)
+      Localization/            # AppLocale + pickTranslation port
+      Map/                     # TopoJSON decoder + Equal Earth projection
       Models/                  # Codable structs mirroring DB rows + enums
-      Repositories/            # PostgREST/RPC wrappers per domain
-    Features/                  # one folder per screen area
-    Resources/                 # Geist fonts, asset catalog
-  VisaPilotTests/              # pure-logic unit tests (headless-safe)
-  VisaPilotUITests/            # launch smoke test
+      Networking/              # APIClient for the anonymous /api/* JSON routes
+      Repositories/            # PostgREST wrappers (countries, visas, profile)
+      Supabase/                # shared SupabaseClient
+    Features/                  # Home, Discovery (Explore), Destinations, MyVisas, Settings, Auth
+    Resources/                 # Geist fonts, asset catalog, world atlas, Localizable.xcstrings
+  VisaPassageTests/
+  VisaPassageUITests/
 ```
 
-## Milestones
+## Status
 
-> **Status: FROZEN (since 2026-10-04).** The web platform has moved to the data-platform
-> direction (see `../web/docs/HISTORY.md`). Keep the app building; don't develop features
-> without explicit owner instruction.
-
-Implemented incrementally:
-
-- **M0 — Foundation** ✅ design system, Supabase client, session wiring, app
-  shell, deep-link router, build + tests green.
-- **M1 — Auth + profile vault** ✅ Apple/Google/email/magic-link sign-in,
-  session-driven routing (`/auth/resolve` parity as a non-blocking notice),
-  three-step onboarding wizard, and full vault CRUD (Personal, Contact,
-  Passports, Residencies, Family, Employment, Education, Travel history) via a
-  reusable `VaultSectionView` + `DateField`/`CountryPicker`. *(Backend still
-  needed for the social paths: enable the Apple provider, add
-  `visapilot://auth/callback` to the Supabase redirect allowlist, and set
-  `GOOGLE_IOS_CLIENT_ID` + its reversed-client-ID URL scheme. Email + magic
-  link work with no extra config.)*
-- **M2 — Discovery** ✅ a unified **Discover** tab with a Map / Browse toggle
-  and shared passport selection: a real vector **passport-strength world map**
-  (bundled `world-atlas-50m.json` TopoJSON, decoded + Equal-Earth-projected in
-  pure Swift, shaded by best visa status across the selected passports, tap a
-  country → detail), a searchable **destinations** gallery grouped by region,
-  and a **destination detail** that resolves visa products for the primary
-  passport (zone expansion + sparse eligibility-fold, mirroring web
-  `loadDestinationVisaOptions`), grouped by purpose with eligibility/fees/
-  processing, an online-vs-consular indicator, and a "Start application" hand-off
-  to a stub M3 entry. Deep link `visapilot://visa-checker?passports=US,CA&to=DE`
-  hydrates the selection and opens the destination. *(No backend change: all
-  reads are public-catalog PostgREST + RLS. New unit tests cover the
-  multi-passport status reducer, the eligibility fold, the TopoJSON decoder, and
-  the projection.)*
-- **M3 — Applications** ✅ the end-to-end pre-payment workflow: an
-  **applications list** grouped by status bucket (Needs action / In progress /
-  Complete) with pull-to-refresh and an empty-state CTA; a **new-application
-  wizard** (from a discovery route, or cold: destination → passport → product)
-  that seeds `applicant_details` from the profile vault and inserts a `draft`; a
-  **step workspace** (Details → Documents → Review → Payment → Tracking) driven
-  by a pure, unit-tested `ApplicationReadiness` gate — Details prefilled and
-  confirmable, a document checklist (read straight from
-  `visa_document_requirements`) with a ready/total bar + acknowledgment gate,
-  the owner-allowed `draft`→`ready` transition unlocking payment (checkout is
-  M5), and a Tracking timeline composed from `application_status_events` +
-  honest future placeholders. The **dashboard** now shows featured active
-  applications, a profile-completeness ring, a documents tile, and an explore
-  CTA. *(No backend change: the checklist reads `visa_document_requirements`
-  directly instead of the `/api/applications/{id}/checklist` route; all
-  reads/writes stay within existing RLS — owner insert/update on
-  `visa_applications`, read-only on `application_status_events`. New unit tests
-  cover readiness + steps, the vault→`applicant_details` prefill, completeness,
-  status→bucket grouping, and `applicant_details` round-trip.)*
-- **M4 — Documents** — Storage upload/attach.
-- **M5 — Payments** — Revolut hand-off + billing.
-- **M6 — Messaging + PDF** — Realtime thread + PDFKit viewer.
-- **M7 — Polish + ship** — states, a11y, TestFlight.
-
-### Backend work still open for M3–M7 (none of it has landed in `../web` yet)
-
-1. **Bearer-token auth.** Add `getUserFromRequest(req)` to `web/src/lib/auth/` so it accepts
-   `Authorization: Bearer <jwt>` before falling back to cookies. Wire it into
-   `api/applications/[id]/package`, `api/applications/[id]/checklist` and `api/documents/[id]`.
-2. **`POST /api/orders`** returns `{ checkout_url, order_id }`, reusing the existing
-   Revolut order logic in `web/src/lib/payments/`, with redirect
-   `visapilot://checkout/return?order={id}`.
-3. **Supabase Auth config.** Enable Apple (bundle ID `com.visapilot.app`). Add the iOS
-   Google client ID. Allow-list the redirects `visapilot://auth/callback` and the universal link.
-
-The original milestone prompts (M1–M7 + backend) are in git history (`git log -- prompts`).
+The session-by-session status lives in [`../web/prompts/IOS/ROADMAP.md`](../web/prompts/IOS/ROADMAP.md).
+IOS-01 (foundation) delivered the rebrand, removed the marketplace-era features, and added the guest-first
+tab shell, the catalog cache and the String Catalog. IOS-02 to IOS-07 build the screens, the tracker and
+the release.
 
 ## Design system
 
-Ported 1:1 from the web `visapilot-design` skill: monochrome ink-on-paper
-neutrals, the seven status hues (saturated color reserved for visa-status
-semantics only), Geist + Geist Mono (bundled from the repo's PDF font assets),
-hairline structure (1px borders, 24px cards, no rest shadow), SF Symbols as the
-line-icon substitute, and the "official decisions prevail" honesty disclaimer
-wherever advice is shown.
-```
+Ported from the web `visapilot-design` skill:
+- monochrome ink-on-paper neutrals, with saturated colour reserved for visa status;
+- Geist and Geist Mono;
+- hairline structure (1px borders, 24px cards, no resting shadow);
+- SF Symbols as the line icons;
+- the "official decisions prevail" disclaimer wherever advice is shown.
+
+## History
+
+This app started in 2026 as **VisaPilot** (bundle `com.visapilot.app`), the native client of the
+agency-marketplace product. Its applications workflow, document vault and payments were removed in IOS-01,
+when the app was rebuilt as the free VisaPassage catalog and tracker client. The old milestone prompts
+(M0–M7) are in git history.
