@@ -53,6 +53,16 @@
         }
       }
     },
+    "14 Nov": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14 нояб."
+          }
+        }
+      }
+    },
     "Accepted": {
       "localizations": {
         "ru": {
@@ -79,6 +89,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте паспорт, чтобы начать"
+          }
+        }
+      }
+    },
+    "Add every passport you hold.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте все свои паспорта."
           }
         }
       }
@@ -133,12 +153,32 @@
         }
       }
     },
+    "Appointment": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запись на приём"
+          }
+        }
+      }
+    },
     "Asia": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Азия"
+          }
+        }
+      }
+    },
+    "Bank statements": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выписки из банка"
           }
         }
       }
@@ -213,6 +253,16 @@
         }
       }
     },
+    "Citizenships and residence permits in one place. No account needed to start.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гражданства и виды на жительство в одном месте. Чтобы начать, аккаунт не нужен."
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "ru": {
@@ -243,12 +293,32 @@
         }
       }
     },
+    "Compare what each of your passports needs for any destination: visa-free days, visa type, fees and processing time.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сравните, что требуется по каждому вашему паспорту для любого направления: сколько дней без визы, какой тип визы, сборы и сроки рассмотрения."
+          }
+        }
+      }
+    },
     "Consular visa": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Консульская виза"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить"
           }
         }
       }
@@ -403,6 +473,16 @@
         }
       }
     },
+    "Example": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пример"
+          }
+        }
+      }
+    },
     "Explore": {
       "localizations": {
         "ru": {
@@ -473,6 +553,26 @@
         }
       }
     },
+    "Get started": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать"
+          }
+        }
+      }
+    },
+    "Get your document checklist, mark each one ready, and log every date from appointment to decision.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Получите список документов, отмечайте готовые и записывайте все даты — от записи на приём до решения."
+          }
+        }
+      }
+    },
     "Google sign-in failed. Please try again.": {
       "localizations": {
         "ru": {
@@ -533,6 +633,16 @@
         }
       }
     },
+    "I already have an account": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У меня уже есть аккаунт"
+          }
+        }
+      }
+    },
     "If that address has an account, a reset link is on its way.": {
       "localizations": {
         "ru": {
@@ -543,12 +653,32 @@
         }
       }
     },
+    "In progress": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В работе"
+          }
+        }
+      }
+    },
     "Invalid email or password.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Неверный email или пароль."
+          }
+        }
+      }
+    },
+    "Italian passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Паспорт Италии"
           }
         }
       }
@@ -783,6 +913,26 @@
         }
       }
     },
+    "Page %lld of %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Страница %1$lld из %2$lld"
+          }
+        }
+      }
+    },
+    "Passport copy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копия паспорта"
+          }
+        }
+      }
+    },
     "Passports": {
       "localizations": {
         "ru": {
@@ -853,12 +1003,42 @@
         }
       }
     },
+    "Ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово"
+          }
+        }
+      }
+    },
     "Requires review": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Требует проверки"
+          }
+        }
+      }
+    },
+    "Russian passport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Паспорт России"
+          }
+        }
+      }
+    },
+    "Schengen · Tourism": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шенген · Туризм"
           }
         }
       }
@@ -879,6 +1059,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поиск направлений"
+          }
+        }
+      }
+    },
+    "See every route, side by side.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все маршруты рядом."
           }
         }
       }
@@ -973,6 +1163,16 @@
         }
       }
     },
+    "Skip": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пропустить"
+          }
+        }
+      }
+    },
     "Start tracking": {
       "localizations": {
         "ru": {
@@ -1043,12 +1243,32 @@
         }
       }
     },
+    "Track your application in one place.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ведите заявку в одном месте."
+          }
+        }
+      }
+    },
     "Track your visas and keep your passports in sync with the website.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Отслеживайте визы, а ваши паспорта будут совпадать с сайтом."
+          }
+        }
+      }
+    },
+    "Tracker": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Трекер"
           }
         }
       }
@@ -1069,6 +1289,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Путешествуйте"
+          }
+        }
+      }
+    },
+    "United States · Tourism": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "США · Туризм"
           }
         }
       }
@@ -1211,6 +1441,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Без визы"
+          }
+        }
+      }
+    },
+    "Visa-free · 90 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без визы · 90 дней"
           }
         }
       }

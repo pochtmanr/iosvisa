@@ -9,7 +9,7 @@ final class SmokeUITests: XCTestCase {
 
     func testLaunchesAsGuestOnTabShell() {
         let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-welcome.completed", "YES"]
         app.launch()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
 
@@ -25,7 +25,7 @@ final class SmokeUITests: XCTestCase {
 
     func testRussianTabLabels() {
         let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(ru)", "-AppleLocale", "ru_RU"]
+        app.launchArguments += ["-AppleLanguages", "(ru)", "-AppleLocale", "ru_RU", "-welcome.completed", "YES"]
         app.launch()
 
         let tabBar = app.tabBars.firstMatch

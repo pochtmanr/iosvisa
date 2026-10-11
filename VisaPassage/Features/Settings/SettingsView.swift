@@ -38,7 +38,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
-        .fullScreenCover(isPresented: $showSignIn) { SignInView() }
+        .floatingSheet(isPresented: $showSignIn) { AuthSheet() }
     }
 
     @ViewBuilder

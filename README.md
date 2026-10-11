@@ -90,7 +90,7 @@ ios/
       Networking/              # APIClient for the anonymous /api/* JSON routes
       Repositories/            # PostgREST wrappers (countries, visas, profile)
       Supabase/                # shared SupabaseClient
-    Features/                  # Home, Discovery (Explore), Destinations, MyVisas, Settings, Auth
+    Features/                  # Welcome, Home, Discovery (Explore), Destinations, MyVisas, Settings, Auth
     Resources/                 # Geist fonts, asset catalog, world atlas, Localizable.xcstrings
   VisaPassageTests/
   VisaPassageUITests/
@@ -102,6 +102,12 @@ The session-by-session status lives in [`../web/prompts/IOS/ROADMAP.md`](../web/
 IOS-01 (foundation) delivered the rebrand, removed the marketplace-era features, and added the guest-first
 tab shell, the catalog cache and the String Catalog. IOS-02 to IOS-07 build the screens, the tracker and
 the release.
+
+First launch shows a three-card welcome (`Features/Welcome/`) built from the landing's "How it works": the
+landing photos, and SwiftUI ports of the passport folder, passport covers, stamps and status chips. It is
+shown once (`welcome.completed` in `UserDefaults`; pass `-welcome.completed YES` to skip it in UI tests).
+Sign-in everywhere is one floating card (`AuthSheet` via `.floatingSheet`, `DesignSystem/Components/FloatingSheet.swift`),
+inset from the screen edges with corners concentric to the display's.
 
 ## Design system
 

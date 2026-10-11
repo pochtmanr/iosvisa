@@ -26,7 +26,7 @@ struct MyVisasView: View {
             .background(Theme.bg)
             .navigationBarTitleDisplayMode(.inline)
         }
-        .fullScreenCover(isPresented: $showSignIn) { SignInView() }
+        .floatingSheet(isPresented: $showSignIn) { AuthSheet() }
     }
 
     private var signInGate: some View {
