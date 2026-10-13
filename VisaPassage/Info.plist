@@ -33,6 +33,10 @@
 	<string>$(SUPABASE_ANON_KEY)</string>
 	<key>GoogleIOSClientID</key>
 	<string>$(GOOGLE_IOS_CLIENT_ID)</string>
+	<!-- Telegram sign-in, brokered by visapassage.com/auth/telegram/start?client=ios
+	     (web NEXT_PUBLIC_TELEGRAM_LOGIN_ENABLED is on in production since 2026-10-13). -->
+	<key>TelegramSignIn</key>
+	<string>YES</string>
 
 	<!-- URL schemes. First: the app's own scheme (Supabase auth-callback deep
 	     link, magic links, password reset, universal-link fallbacks). Second: the
